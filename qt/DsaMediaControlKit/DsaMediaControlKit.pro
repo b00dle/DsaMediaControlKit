@@ -23,7 +23,8 @@ SOURCES += main.cpp \
         db/sqlite_wrapper.cpp \
         db/api.cpp \
         db/tables.cpp \
-    ui/sound_file_importer.cpp
+    ui/sound_file_importer.cpp \
+    db/sound_file.cpp
 
 HEADERS  += main_window.h \
     dsa_media_control_kit.h \
@@ -34,4 +35,5 @@ HEADERS  += main_window.h \
     db/sqlite_wrapper.h \
     db/api.h \
     db/tables.h \
-    ui/sound_file_importer.h
+    ui/sound_file_importer.h \
+    db/sound_file.h

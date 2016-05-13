@@ -5,7 +5,6 @@
 #include <QDebug>
 #include <QDirIterator>
 #include <QDir>
-#include <QFileInfo>
 
 namespace UI {
 
@@ -19,19 +18,15 @@ SoundFileImporter::SoundFileImporter(QWidget *parent)
 
 void SoundFileImporter::parseFolder(const QUrl &url)
 {
+    QList<DB::SoundFile> files;
     if(url.isValid() && url.isLocalFile())
     {
         QString base_dir = url.toLocalFile();
         QDirIterator it(base_dir, QStringList() << "*.mp3", QDir::Files, QDirIterator::Subdirectories);
-        QString rel_to_base_dir;
         while (it.hasNext()) {
-            QFileInfo info(it.next());
-            rel_to_base_dir = info.filePath();
-            qDebug() << "====================";
-            qDebug() << "file name" << info.fileName();
-            qDebug() << "absolute path" << rel_to_base_dir;
-            rel_to_base_dir.replace(base_dir, "");
-            qDebug() << "path from base" << rel_to_base_dir;
+            files.append(DB::SoundFile(QFileInfo(it.next())));
+            files.back().computeCategoryPath(base_dir);
+            emit folderImported(files);
         }
     }
 }
