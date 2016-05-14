@@ -6,6 +6,10 @@
 
 namespace DB {
 
+/*
+ * Class that Provides interface to DB::SqliteWrapper,
+ * based on structure of application database.
+*/
 class Api : public QObject
 {
     Q_OBJECT

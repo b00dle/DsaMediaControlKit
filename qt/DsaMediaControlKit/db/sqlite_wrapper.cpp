@@ -1,6 +1,10 @@
 #include "sqlite_wrapper.h"
 
 #include <QDebug>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QElapsedTimer>
+#include <QCoreApplication>
 
 namespace DB {
 
@@ -17,12 +21,33 @@ QSqlTableModel* SqliteWrapper::getTable(TableIndex index)
         qDebug() << "FAILURE: database not open";
         return 0;
     }
-    else {
-        QSqlTableModel* model = new QSqlTableModel(this);
-        model->setTable(toString(index));
-        model->select();
-        return model;
+
+    QSqlTableModel* model = new QSqlTableModel(this);
+    model->setTable(toString(index));
+    model->select();
+    return model;
+}
+
+const QList<QSqlRecord> SqliteWrapper::selectQuery(const QString &SELECT, const QString &FROM, const QString &WHERE)
+{
+    if(SELECT.size() == 0 || FROM.size() == 0) {
+        qDebug() << "FAILURE: parameter in selectQuery() missing";
+        qDebug() << " > SELECT:" << SELECT;
+        qDebug() << " > FROM:" << FROM;
+        qDebug() << " > WHERE:" << WHERE;
+        return QList<QSqlRecord>();
     }
+
+    QString qry_str = "SELECT " + SELECT + " FROM " + FROM;
+    if(WHERE.size() > 0)
+        qry_str += " WHERE " + WHERE;
+
+    return executeQuery(qry_str);
+}
+
+const QList<QSqlRecord> SqliteWrapper::selectQuery(const QString &SELECT, TableIndex FROM, const QString &WHERE)
+{
+    return selectQuery(SELECT, toString(FROM), WHERE);
 }
 
 void SqliteWrapper::open()
@@ -56,6 +81,43 @@ void SqliteWrapper::initDB(QString const& db_path)
     db_.setDatabaseName(db_path);
 
     open();
+}
+
+const QList<QSqlRecord> SqliteWrapper::executeQuery(const QString & qry_str)
+{
+    QList<QSqlRecord> results;
+    if(!db_.isOpen()) {
+        qDebug() << "FAILURE: Database not open";
+        return results;
+    }
+
+    QSqlQuery qry;
+    qry.prepare(qry_str);
+    qry.setForwardOnly(true);
+    if(qry.exec()) {
+        QElapsedTimer timer;
+        timer.start();
+        int i = 0;
+        while(qry.next()) {
+            results.append(qry.record());
+            ++i;
+            if(timer.elapsed() > 50) {
+                QCoreApplication::processEvents();
+                timer.start();
+                float progress = i / (float)qry.size();
+                qDebug() << "SELECTING " +
+                            QString::number(i) + "/" + QString::number(qry.size()) +
+                            " (" + QString::number( (int) (progress * 100) ) + "%)";
+            }
+        }
+    }
+    else {
+        qDebug() << "FAILURE: SQL Query failed to execute.";
+        qDebug() << " > Query:" << qry_str;
+        qDebug() << " > Error:" << qry.lastError().text();
+    }
+
+    return results;
 }
 
 }

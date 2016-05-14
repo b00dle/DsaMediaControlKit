@@ -4,24 +4,36 @@
 #include <QObject>
 #include <QSqlDatabase>
 #include <QSqlTableModel>
+#include <QSqlRecord>
 
 #include "tables.h"
 
 namespace DB {
 
+/*
+ * Class that can establish and manage connection to a Sqlite database.
+ * Provides low-level access to data contained in db.
+*/
 class SqliteWrapper : public QObject
 {
     Q_OBJECT
 public:
     SqliteWrapper(QString const& db_path, QObject* parent = 0);
 
+    /* Get a QSqlTableModel of a databse table identified by given TableIndex */
     QSqlTableModel* getTable(TableIndex index);
+
+    /* Perform Select query with */
+    QList<QSqlRecord> const selectQuery(QString const& SELECT, QString const& FROM, QString const& WHERE = "");
+    QList<QSqlRecord> const selectQuery(QString const& SELECT, TableIndex FROM, QString const& WHERE = "");
 
     void open();
     void close();
 
 private:
     void initDB(QString const&);
+
+    QList<QSqlRecord> const executeQuery(QString const&);
 
     QSqlDatabase db_;
 };

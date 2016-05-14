@@ -22,7 +22,7 @@ void SoundFileImporter::parseFolder(const QUrl &url)
     if(url.isValid() && url.isLocalFile())
     {
         QString base_dir = url.toLocalFile();
-        QDirIterator it(base_dir, QStringList() << "*.mp3", QDir::Files, QDirIterator::Subdirectories);
+        QDirIterator it(base_dir, QStringList() << "*.mp3" << "*.wma" << "*.wav", QDir::Files, QDirIterator::Subdirectories);
         while (it.hasNext()) {
             files.append(DB::SoundFile(QFileInfo(it.next())));
             files.back().computeCategoryPath(base_dir);

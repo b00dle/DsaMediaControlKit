@@ -12,6 +12,7 @@
 #include "ui/multi_track_media_player.h"
 #include "ui/sound_file_importer.h"
 #include "db/api.h"
+#include "db/handler.h"
 
 class DsaMediaControlKit : public QWidget
 {
@@ -32,7 +33,7 @@ private:
     void initDB();
 
     UI::MultiTrackMediaPlayer* multi_track_player_;
-    DB::Api* db_api_;
+    DB::Handler* db_handler_;
     QGroupBox* player_group_;
     QPushButton* add_button_;
     UI::SoundFileImporter* sound_file_importer_;
