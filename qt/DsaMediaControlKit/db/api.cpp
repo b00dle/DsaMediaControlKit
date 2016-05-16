@@ -9,19 +9,32 @@ Api::Api(QString const& db_path, QObject *parent)
     initDB(db_path);
 }
 
-QSqlTableModel *Api::getSoundFileTable()
+QSqlRelationalTableModel *Api::getSoundFileTable()
 {
     return db_wrapper_->getTable(SOUND_FILE);
 }
 
-QSqlTableModel *Api::getCategoryTable()
+QSqlRelationalTableModel *Api::getCategoryTable()
 {
     return db_wrapper_->getTable(CATEGORY);
 }
 
-QSqlTableModel *Api::getSoundFileCategoryTable()
+QSqlRelationalTableModel *Api::getSoundFileCategoryTable()
 {
     return db_wrapper_->getTable(SOUND_FILE_CATEGORY);
+}
+
+void Api::insertCategory(const QString &name, int parent_id)
+{
+    QString value_block  = "";
+    if(parent_id != -1) {
+        value_block = "(name, parent_id) VALUES (";
+        value_block += "'" + name + "'," + QString::number(parent_id) + ")";
+    }
+    else {
+        value_block = "(name) VALUES ('" + name + "')";
+    }
+    db_wrapper_->insertQuery(CATEGORY, value_block);
 }
 
 void Api::initDB(const QString& db_path)

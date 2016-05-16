@@ -5,6 +5,7 @@
 
 #include "api.h"
 #include "sound_file.h"
+#include "model/category_tree_model.h"
 
 namespace DB {
 
@@ -21,6 +22,10 @@ public:
     void setApi(DB::Api* api);
     DB::Api* getApi() const;
 
+    Model::CategoryTreeModel* getCategoryTreeModel();
+
+    void addCategory(QString name, CategoryRecord* parent = 0);
+
 signals:
 
 public slots:
@@ -32,7 +37,11 @@ public slots:
     void insertSoundFiles(QList<DB::SoundFile> const&);
 
 private:
+    void addCategory(QStringList const& path);
+
     Api* api_;
+
+    Model::CategoryTreeModel* category_tree_model_;
 };
 
 } // namespace DB

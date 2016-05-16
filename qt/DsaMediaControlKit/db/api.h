@@ -16,9 +16,11 @@ class Api : public QObject
 public:
     Api(QString const& db_path, QObject *parent = 0);
 
-    QSqlTableModel* getSoundFileTable();
-    QSqlTableModel* getCategoryTable();
-    QSqlTableModel* getSoundFileCategoryTable();
+    QSqlRelationalTableModel* getSoundFileTable();
+    QSqlRelationalTableModel* getCategoryTable();
+    QSqlRelationalTableModel* getSoundFileCategoryTable();
+
+    void insertCategory(QString const& name, int parent_id = -1);
 
 signals:
 

@@ -15,16 +15,29 @@ SqliteWrapper::SqliteWrapper(QString const& db_path, QObject* parent):
     initDB(db_path);
 }
 
-QSqlTableModel* SqliteWrapper::getTable(TableIndex index)
+QSqlRelationalTableModel* SqliteWrapper::getTable(TableIndex index)
 {
     if(!db_.isOpen() || index == NONE) {
         qDebug() << "FAILURE: database not open";
         return 0;
     }
 
-    QSqlTableModel* model = new QSqlTableModel(this);
+    QSqlRelationalTableModel* model = new QSqlRelationalTableModel(this);
     model->setTable(toString(index));
     model->select();
+
+    QElapsedTimer timer;
+    timer.start();
+    while(model->canFetchMore()) {
+        model->fetchMore();
+        if(timer.elapsed() > 50) {
+            QCoreApplication::processEvents();
+            timer.start();
+            qDebug() << "NOTIFICATION: fetching more rows";
+            qDebug() << " > table name:" << model->tableName();
+        }
+    }
+
     return model;
 }
 
@@ -48,6 +61,16 @@ const QList<QSqlRecord> SqliteWrapper::selectQuery(const QString &SELECT, const 
 const QList<QSqlRecord> SqliteWrapper::selectQuery(const QString &SELECT, TableIndex FROM, const QString &WHERE)
 {
     return selectQuery(SELECT, toString(FROM), WHERE);
+}
+
+void SqliteWrapper::insertQuery(TableIndex index, const QString &value_block)
+{
+    if(index == NONE)
+        return;
+
+    QString qry_str = "INSERT INTO " + toString(index) + " ";
+    qry_str += value_block;
+    executeQuery(qry_str);
 }
 
 void SqliteWrapper::open()

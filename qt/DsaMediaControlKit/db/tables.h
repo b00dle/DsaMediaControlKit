@@ -2,6 +2,7 @@
 #define DB_TABLES_H
 
 #include <QString>
+#include <QList>
 
 namespace DB {
 
@@ -11,6 +12,59 @@ enum TableIndex {
     SOUND_FILE,
     CATEGORY,
     SOUND_FILE_CATEGORY
+};
+
+/* data transfer object encapsulating one row in a db table **/
+struct TableRecord {
+    TableIndex index;
+    int id;
+    QString name;
+
+    TableRecord(TableIndex idx, int i, QString const& n)
+        : index(idx)
+        , id(i)
+        , name(n)
+    {}
+
+    TableRecord(TableIndex idx)
+        : TableRecord(idx, -1, "")
+    {}
+
+    TableRecord()
+        : TableRecord(NONE, -1, "")
+    {}
+};
+
+/* Row in Category table **/
+struct CategoryRecord : TableRecord {
+    int parent_id;
+    CategoryRecord* parent;
+    QList<CategoryRecord*> children;
+
+    CategoryRecord(int i, QString const& n, int p_id = -1, CategoryRecord* p = 0)
+        : TableRecord(CATEGORY, i, n)
+        , parent_id(p_id)
+        , parent(p)
+        , children()
+    {}
+
+    CategoryRecord()
+        : CategoryRecord(-1, "")
+    {}
+};
+
+/* Row in SoundFile table **/
+struct SoundFileRecord : TableRecord {
+    QString path;
+
+    SoundFileRecord(int i, QString const& n, QString const& p = "")
+        : TableRecord(SOUND_FILE, i, n)
+        , path(p)
+    {}
+
+    SoundFileRecord()
+        : SoundFileRecord(-1, "", "")
+    {}
 };
 
 /*

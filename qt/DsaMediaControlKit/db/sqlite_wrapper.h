@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QSqlDatabase>
-#include <QSqlTableModel>
+#include <QSqlRelationalTableModel>
 #include <QSqlRecord>
 
 #include "tables.h"
@@ -21,11 +21,13 @@ public:
     SqliteWrapper(QString const& db_path, QObject* parent = 0);
 
     /* Get a QSqlTableModel of a databse table identified by given TableIndex */
-    QSqlTableModel* getTable(TableIndex index);
+    QSqlRelationalTableModel* getTable(TableIndex index);
 
     /* Perform Select query with */
     QList<QSqlRecord> const selectQuery(QString const& SELECT, QString const& FROM, QString const& WHERE = "");
     QList<QSqlRecord> const selectQuery(QString const& SELECT, TableIndex FROM, QString const& WHERE = "");
+
+    void insertQuery(TableIndex index, QString const& value_block);
 
     void open();
     void close();
