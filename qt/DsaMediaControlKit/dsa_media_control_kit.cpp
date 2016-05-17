@@ -5,6 +5,7 @@
 
 DsaMediaControlKit::DsaMediaControlKit(QWidget *parent)
     : QWidget(parent)
+    , category_view_(0)
     , multi_track_player_(0)
     , db_handler_(0)
     , player_group_(0)
@@ -31,6 +32,9 @@ void DsaMediaControlKit::initWidgets()
     player_group_->setLayout(multi_track_player_->layout());
     sound_file_importer_ = new UI::SoundFileImporter(this);
 
+    category_view_ = new QTreeView(this);
+    category_view_->setModel(db_handler_->getCategoryTreeModel());
+
     connect(add_button_, SIGNAL(clicked(bool)),
             this, SLOT(addButtonClicked(bool)));
     connect(sound_file_importer_, SIGNAL(folderImported(QList<DB::SoundFile> const&)),
@@ -39,11 +43,18 @@ void DsaMediaControlKit::initWidgets()
 
 void DsaMediaControlKit::initLayout()
 {
-    QVBoxLayout* layout = new QVBoxLayout;
+    QHBoxLayout* layout = new QHBoxLayout;
 
-    layout->addWidget(sound_file_importer_, -1);
-    layout->addWidget(add_button_, -1);
-    layout->addWidget(player_group_, 10000);
+    QVBoxLayout* l_layout = new QVBoxLayout;
+    l_layout->addWidget(category_view_);
+
+    QVBoxLayout* r_layout = new QVBoxLayout;
+    r_layout->addWidget(sound_file_importer_, -1);
+    r_layout->addWidget(add_button_, -1);
+    r_layout->addWidget(player_group_, 10000);
+
+    layout->addLayout(l_layout, 1);
+    layout->addLayout(r_layout, 1);
 
     setLayout(layout);
 }

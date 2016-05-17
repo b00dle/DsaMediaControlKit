@@ -7,6 +7,7 @@
 #include <QHBoxLayout>
 #include <QGroupBox>
 #include <QPushButton>
+#include <QTreeView>
 
 #include "ui/audio_widget.h"
 #include "ui/multi_track_media_player.h"
@@ -32,6 +33,7 @@ private:
     void initLayout();
     void initDB();
 
+    QTreeView* category_view_;
     UI::MultiTrackMediaPlayer* multi_track_player_;
     DB::Handler* db_handler_;
     QGroupBox* player_group_;

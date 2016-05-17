@@ -9,19 +9,8 @@ Handler::Handler(DB::Api* api, QObject *parent)
     , api_(api)
     , category_tree_model_(0)
 {
-    if(api_ != 0) {
-        QSqlTableModel* model = api_->getCategoryTable();
-
-        for(int r = 0; r < model->rowCount(); ++r) {
-            QString data_str = "";
-            for(int c = 0; c < model->columnCount(); ++c) {
-                if(c != 0)
-                    data_str += " | ";
-                data_str += model->data(model->index(r, c)).toString();
-            }
-            qDebug() << data_str;
-        }
-    }
+    if(api_ != 0)
+        category_tree_model_ = new Model::CategoryTreeModel(this, api_->getCategoryTable());
 }
 
 void Handler::setApi(Api *api)
