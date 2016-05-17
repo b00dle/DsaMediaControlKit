@@ -48,6 +48,7 @@ void Handler::addCategory(QString name, CategoryRecord *parent)
     if(parent != 0)
         p_id = parent->id;
     api_->insertCategory(name, p_id);
+    category_tree_model_->update();
 }
 
 void Handler::insertSoundFiles(const QList<DB::SoundFile>& sound_files)
@@ -72,14 +73,15 @@ void Handler::addCategory(const QStringList &path)
     int j = 0;
     for(int i = 0; i < path.size(); ++i) {
         CategoryRecord* cat = category_tree_model_->getCategoryByPath(path.mid(0,i+1));
-        if(cat != 0)
+        if(cat == 0) {
+            j = i;
             break;
+        }
         parent = cat;
     }
 
     while(j < path.size()) {
         addCategory(path[j], parent);
-        category_tree_model_->update();
         parent = category_tree_model_->getCategoryByPath(path.mid(0,j+1));
         ++j;
     }
