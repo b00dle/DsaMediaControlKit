@@ -14,7 +14,9 @@ public:
     ~MainWindow();
 
 private:
+    QVBoxLayout widget_layout_;
     DsaMediaControlKit* kit_;
+    DsaMediaControlKit* kit2_;
 };
 
 #endif // MAIN_WINDOW_H

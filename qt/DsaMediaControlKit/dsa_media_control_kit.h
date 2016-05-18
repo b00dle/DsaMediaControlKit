@@ -15,7 +15,7 @@ class DsaMediaControlKit : public QWidget
 {
     Q_OBJECT
 public:
-    explicit DsaMediaControlKit(QWidget *parent = 0);
+    explicit DsaMediaControlKit(QString const& name, QWidget *parent = 0);
 
 signals:
 
@@ -28,6 +28,7 @@ private:
     void initWidgets();
     void initLayout();
 
+    QString control_name_;
     UI::MultiTrackMediaPlayer* multi_track_player_;
     QGroupBox* player_group_;
     QPushButton* add_button_;
