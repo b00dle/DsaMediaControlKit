@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include <QSqlRelationalTableModel>
+
 #include "api.h"
 #include "sound_file.h"
 #include "model/category_tree_model.h"
@@ -24,23 +26,32 @@ public:
 
     Model::CategoryTreeModel* getCategoryTreeModel();
 
-    void addCategory(QString name, CategoryRecord* parent = 0);
-
 signals:
 
 public slots:
+    /*
+     * Add SoundFile to DB
+    */
+    void addSoundFile(QFileInfo const&);
+
+    /*
+     * Add Category to DB
+    */
+    void addCategory(QString name, CategoryRecord* parent = 0);
+
     /*
      * Inserts new SoundFiles based on list given.
      * Will also insert new Categories in case any SoundFile
      * describes a new Category tree.
     */
-    void insertSoundFiles(QList<DB::SoundFile> const&);
+    void insertSoundFilesAndCategories(QList<DB::SoundFile> const&);
 
 private:
     void addCategory(QStringList const& path);
 
     Api* api_;
 
+    QSqlRelationalTableModel* sound_file_model_;
     Model::CategoryTreeModel* category_tree_model_;
 };
 

@@ -7,11 +7,11 @@ DsaMediaControlKit::DsaMediaControlKit(QWidget *parent)
     : QWidget(parent)
     , category_view_(0)
     , multi_track_player_(0)
-    , db_handler_(0)
     , player_group_(0)
     , add_button_(0)
     , sound_file_importer_(0)
     , id_iterator_(0)
+    , db_handler_(0)
 {
     initDB();
     initWidgets();
@@ -38,7 +38,7 @@ void DsaMediaControlKit::initWidgets()
     connect(add_button_, SIGNAL(clicked(bool)),
             this, SLOT(addButtonClicked(bool)));
     connect(sound_file_importer_, SIGNAL(folderImported(QList<DB::SoundFile> const&)),
-            db_handler_, SLOT(insertSoundFiles(QList<DB::SoundFile> const&)));
+            db_handler_, SLOT(insertSoundFilesAndCategories(QList<DB::SoundFile> const&)));
 }
 
 void DsaMediaControlKit::initLayout()

@@ -2,6 +2,9 @@
 #define DB_API_H
 
 #include <QObject>
+
+#include <QFileInfo>
+
 #include "sqlite_wrapper.h"
 
 namespace DB {
@@ -20,6 +23,7 @@ public:
     QSqlRelationalTableModel* getCategoryTable();
     QSqlRelationalTableModel* getSoundFileCategoryTable();
 
+    void insertSoundFile(QFileInfo const& info);
     void insertCategory(QString const& name, int parent_id = -1);
 
 signals:

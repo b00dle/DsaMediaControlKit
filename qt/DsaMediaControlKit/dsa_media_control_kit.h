@@ -33,13 +33,16 @@ private:
     void initLayout();
     void initDB();
 
+    // WIDGETS
     QTreeView* category_view_;
     UI::MultiTrackMediaPlayer* multi_track_player_;
-    DB::Handler* db_handler_;
     QGroupBox* player_group_;
     QPushButton* add_button_;
     UI::SoundFileImporter* sound_file_importer_;
     int id_iterator_;
+
+    // DB handler
+    DB::Handler* db_handler_;
 };
 
 #endif // DSAMEDIACONTROLKIT_H

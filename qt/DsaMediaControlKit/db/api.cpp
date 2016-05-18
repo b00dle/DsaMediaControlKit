@@ -24,6 +24,15 @@ QSqlRelationalTableModel *Api::getSoundFileCategoryTable()
     return db_wrapper_->getTable(SOUND_FILE_CATEGORY);
 }
 
+void Api::insertSoundFile(const QFileInfo &info)
+{
+    QString value_block  = "";
+    value_block = "(name, path) VALUES (";
+    value_block += "'" + info.fileName() + "','" + info.filePath() + "')";
+
+    db_wrapper_->insertQuery(SOUND_FILE, value_block);
+}
+
 void Api::insertCategory(const QString &name, int parent_id)
 {
     QString value_block  = "";
