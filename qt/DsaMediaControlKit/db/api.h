@@ -26,6 +26,8 @@ public:
     void insertSoundFile(QFileInfo const& info);
     void insertCategory(QString const& name, int parent_id = -1);
 
+    bool soundFileExists(QString const& path, QString const& name);
+
 signals:
 
 public slots:

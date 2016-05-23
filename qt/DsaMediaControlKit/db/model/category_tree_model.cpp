@@ -13,7 +13,7 @@ CategoryTreeModel::CategoryTreeModel(QObject* parent, QSqlRelationalTableModel* 
     , category_to_item_()
     , editable_(true)
 {
-    if(category_table) {
+    if(category_table != 0) {
         setCategoryTableModel(category_table);
         connect(table_model_, SIGNAL(rowsInserted(QModelIndex,int,int)),
                 this, SLOT(dbRowsInserted(QModelIndex,int,int)));

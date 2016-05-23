@@ -27,11 +27,15 @@ struct TableRecord {
     {}
 
     TableRecord(TableIndex idx)
-        : TableRecord(idx, -1, "")
+        : index(idx)
+        , id(-1)
+        , name("")
     {}
 
     TableRecord()
-        : TableRecord(NONE, -1, "")
+        : index(NONE)
+        , id(-1)
+        , name("")
     {}
 };
 
@@ -49,7 +53,9 @@ struct CategoryRecord : TableRecord {
     {}
 
     CategoryRecord()
-        : CategoryRecord(-1, "")
+        : TableRecord(CATEGORY, -1, "")
+        , parent_id(-1)
+        , parent(0)
     {}
 };
 
@@ -63,7 +69,8 @@ struct SoundFileRecord : TableRecord {
     {}
 
     SoundFileRecord()
-        : SoundFileRecord(-1, "", "")
+        : TableRecord(SOUND_FILE, -1, "")
+        , path("")
     {}
 };
 

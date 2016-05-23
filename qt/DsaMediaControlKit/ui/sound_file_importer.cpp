@@ -26,9 +26,9 @@ void SoundFileImporter::parseFolder(const QUrl &url)
         while (it.hasNext()) {
             files.append(DB::SoundFile(QFileInfo(it.next())));
             files.back().computeCategoryPath(base_dir);
-            emit folderImported(files);
         }
     }
+    emit folderImported(files);
 }
 
 void SoundFileImporter::onBrowseButtonClicked(bool)

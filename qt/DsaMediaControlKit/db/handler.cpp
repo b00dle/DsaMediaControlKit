@@ -36,8 +36,7 @@ Model::CategoryTreeModel *Handler::getCategoryTreeModel()
 
 void Handler::addSoundFile(const QFileInfo& info)
 {
-    qDebug() << "add soundfile" << info.fileName();
-    //api_->insertSoundFile(info);
+    api_->insertSoundFile(info);
 }
 
 void Handler::addCategory(QString name, CategoryRecord *parent)
@@ -56,12 +55,13 @@ void Handler::insertSoundFilesAndCategories(const QList<DB::SoundFile>& sound_fi
 
     CategoryRecord* cat = 0;
     foreach(SoundFile sf, sound_files) {
-        qDebug() << "==================";
+        if(api_->soundFileExists(sf.getFileInfo().filePath(), sf.getFileInfo().fileName()))
+            continue;
+
+        qDebug() << "=========IMPORTING=========";
         qDebug() << "info" << sf.getFileInfo().filePath();
         qDebug() << "category tree" << sf.getCategoryPath();
 
-        // TODO: verify SoundFile does not exist
-        // SoundFileModel!!!
         addSoundFile(sf.getFileInfo());
         cat = category_tree_model_->getCategoryByPath(sf.getCategoryPath());
         if(cat == 0) {
@@ -69,7 +69,10 @@ void Handler::insertSoundFilesAndCategories(const QList<DB::SoundFile>& sound_fi
             cat = category_tree_model_->getCategoryByPath(sf.getCategoryPath());
         }
         qDebug() << cat->name << cat->id;
+
+        // TODO insert sound_file category
     }
+    qDebug() << "DONE.";
 }
 
 void Handler::addCategory(const QStringList &path)

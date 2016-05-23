@@ -46,6 +46,14 @@ void Api::insertCategory(const QString &name, int parent_id)
     db_wrapper_->insertQuery(CATEGORY, value_block);
 }
 
+bool Api::soundFileExists(const QString &path, const QString &name)
+{
+    QString where = "path = '" + path + "' and ";
+    where += "name = '" + name + "'";
+
+    return db_wrapper_->selectQuery("Count(*)", SOUND_FILE, where)[0].value(0).toInt() > 0;
+}
+
 void Api::initDB(const QString& db_path)
 {
     db_wrapper_ = new SqliteWrapper(db_path, this);
