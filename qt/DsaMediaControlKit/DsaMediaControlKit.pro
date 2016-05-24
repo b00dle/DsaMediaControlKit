@@ -6,6 +6,7 @@
 TARGET = DsaMediaControlKit
 TEMPLATE = app
 
+QMAKE_CXXFLAGS += -std=c++0x
 QT       += core \
             gui \
             multimedia \
@@ -28,9 +29,11 @@ SOURCES += main.cpp \
         db/handler.cpp \
         db/model/category_tree_model.cpp \
         presets/preset.cpp \
-        ui/preset_widget.cpp \
         ui/audio_settings_widget.cpp \
-    presets/component.cpp
+    presets/component.cpp \
+    ui/preset_widget.cpp \
+    ui/multi_preset_controller.cpp \
+    ui/preset_creator.cpp
 
 
 HEADERS  += main_window.h \
@@ -51,5 +54,7 @@ HEADERS  += main_window.h \
     presets/component.h \
     ui/preset_widget.h \
     ui/audio_settings_widget.h \
-    presets/ui_settings.h
+    presets/ui_settings.h \
+    ui/multi_preset_controller.h \
+    ui/preset_creator.h
 

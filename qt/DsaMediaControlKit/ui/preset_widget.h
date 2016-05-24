@@ -3,9 +3,6 @@
 
 #include <QWidget>
 
-namespace UI {
-
-
 class PresetWidget : public QWidget
 {
     Q_OBJECT
@@ -16,6 +13,5 @@ signals:
 
 public slots:
 };
-} //namespace UI
 
 #endif // PRESETWIDGET_H
