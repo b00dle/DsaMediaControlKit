@@ -1,13 +1,19 @@
 #include "dsa_media_control_kit.h"
+#include <QDebug>
+#include <QDir>
 
 DsaMediaControlKit::DsaMediaControlKit(QString const& name, QWidget *parent)
     : QWidget(parent)
     , control_name_(name)
+    , category_view_(0)
     , multi_track_player_(0)
     , player_group_(0)
     , add_button_(0)
+    , sound_file_importer_(0)
     , id_iterator_(0)
+    , db_handler_(0)
 {
+    initDB();
     initWidgets();
     initLayout();
 }
@@ -25,17 +31,38 @@ void DsaMediaControlKit::initWidgets()
     player_group_ = new QGroupBox(this);
     player_group_->setTitle(control_name_);
     player_group_->setLayout(multi_track_player_->layout());
+    sound_file_importer_ = new UI::SoundFileImporter(this);
+
+    category_view_ = new QTreeView(this);
+    category_view_->setModel(db_handler_->getCategoryTreeModel());
 
     connect(add_button_, SIGNAL(clicked(bool)),
             this, SLOT(addButtonClicked(bool)));
+    connect(sound_file_importer_, SIGNAL(folderImported(QList<DB::SoundFile> const&)),
+            db_handler_, SLOT(insertSoundFilesAndCategories(QList<DB::SoundFile> const&)));
 }
 
 void DsaMediaControlKit::initLayout()
 {
-    QVBoxLayout* layout = new QVBoxLayout;
+    QHBoxLayout* layout = new QHBoxLayout;
 
-    layout->addWidget(add_button_, -1);
-    layout->addWidget(player_group_, 10000);
+    QVBoxLayout* l_layout = new QVBoxLayout;
+    l_layout->addWidget(category_view_);
+
+    QVBoxLayout* r_layout = new QVBoxLayout;
+    r_layout->addWidget(sound_file_importer_, -1);
+    r_layout->addWidget(add_button_, -1);
+    r_layout->addWidget(player_group_, 10000);
+
+    layout->addLayout(l_layout, 1);
+    layout->addLayout(r_layout, 1);
 
     setLayout(layout);
+}
+
+void DsaMediaControlKit::initDB()
+{
+    QString db_path = QDir::currentPath() + "/../../db/dsamediacontrolkit.db";
+    DB::Api* db_api = new DB::Api(db_path, this);
+    db_handler_ = new DB::Handler(db_api, this);
 }
