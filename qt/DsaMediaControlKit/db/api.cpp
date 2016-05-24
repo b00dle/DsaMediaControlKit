@@ -28,7 +28,8 @@ void Api::insertSoundFile(const QFileInfo &info)
 {
     QString value_block  = "";
     value_block = "(name, path) VALUES (";
-    value_block += "'" + info.fileName() + "','" + info.filePath() + "')";
+    value_block += "'" + SqliteWrapper::escape(info.fileName()) + "','";
+    value_block += SqliteWrapper::escape(info.filePath()) + "')";
 
     db_wrapper_->insertQuery(SOUND_FILE, value_block);
 }
@@ -38,18 +39,18 @@ void Api::insertCategory(const QString &name, int parent_id)
     QString value_block  = "";
     if(parent_id != -1) {
         value_block = "(name, parent_id) VALUES (";
-        value_block += "'" + name + "'," + QString::number(parent_id) + ")";
+        value_block += "'" + SqliteWrapper::escape(name) + "'," + QString::number(parent_id) + ")";
     }
     else {
-        value_block = "(name) VALUES ('" + name + "')";
+        value_block = "(name) VALUES ('" + SqliteWrapper::escape(name) + "')";
     }
     db_wrapper_->insertQuery(CATEGORY, value_block);
 }
 
 bool Api::soundFileExists(const QString &path, const QString &name)
 {
-    QString where = "path = '" + path + "' and ";
-    where += "name = '" + name + "'";
+    QString where = "path = '" + SqliteWrapper::escape(path) + "' and ";
+    where += "name = '" + SqliteWrapper::escape(name) + "'";
 
     return db_wrapper_->selectQuery("Count(*)", SOUND_FILE, where)[0].value(0).toInt() > 0;
 }
