@@ -1,6 +1,6 @@
 #include "preset.h"
 
-namespace PRE {
+namespace Preset {
 
 Preset::Preset(QObject *parent)
     : QObject(parent)
@@ -13,6 +13,11 @@ Preset::Preset(QObject *parent)
 Preset::~Preset()
 {
 
+}
+
+void Preset::startPreset(bool)
+{
+    emit presetStart();
 }
 
 } //namespace Preset

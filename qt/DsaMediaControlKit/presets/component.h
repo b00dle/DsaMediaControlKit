@@ -2,26 +2,47 @@
 #define PRESETCOMPONENT_H
 
 #include <QUrl>
-#include "preset/audio_settings.h"
+#include <QMediaPlayer>
+#include "presets/audio_settings.h"
+#include "presets/ui_settings.h"
+#include "db/tables.h"
 
 namespace Preset {
 
-struct Component{
-    //Qurl going to be replaced by AudioSoundFile*
-    QUrl audio_url;
-    AudioSettings* audio_settings;
+/*
+ * A component is part of a preset, which holds 1 - n sounds,
+ * 1 media player, 1 audio setting file, 1 weight table and
+ * 1 UI setting file.
+*/
+class Component : public QObject
+{
+    Q_OBJECT
+public:
+    explicit Component(QObject *parent = 0);
+    ~Component();
 
-    Component()
-        : audio_url()
-        , audio_settings(0)
-    {}
-    Component(QUrl const& url, AudioSettings* audio_settings = 0)
-        : audio_url(url)
-        , audio_settings(audio_settings)
-    {}
+signals:
+
+public slots:
+    /*  */
+    //void onPresetStart();
+    //void onButtonClick();
+
+private slots:
+
+
+private:
+
+
+    QMediaPlayer* audio_player_;
+    AudioSettings* audio_settings_;
+    UISettings* ui_settings_;
+    QMap<DB::SoundFileRecord*, int> weighted_map_;
+    QList<DB::SoundFileRecord*> sound_file_list_;
+
 
 };
 
-} //namespace
+} //namespace PRESET
 
 #endif // PRESETCOMPONENT_H

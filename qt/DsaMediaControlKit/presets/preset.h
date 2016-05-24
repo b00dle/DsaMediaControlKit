@@ -6,7 +6,9 @@
 #include <QMediaContent>
 #include "presets/audio_settings.h"
 #include "presets/component.h"
-namespace PRE {
+
+
+namespace Preset {
 
 class Preset : public QObject
 {
@@ -16,15 +18,18 @@ public:
     ~Preset();
 
 signals:
+    void presetStart();
 
 public slots:
+    void startPreset(bool);
 
 private:
-    QString name_;
-    QMap<int, Component*> audio_settings_;
+    void initComponents();
 
     int id_iterator_;
-    QMap<int, QMediaPlayer*> audio_player;
+    QString name_;
+    QMap<int, Component*> components;
+
 };
 
 } // namespace PRESET
