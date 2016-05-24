@@ -11,6 +11,7 @@
 
 #include "ui/audio_widget.h"
 #include "ui/multi_track_media_player.h"
+#include "ui/multi_preset_controller.h"
 #include "ui/sound_file_importer.h"
 #include "db/api.h"
 #include "db/handler.h"
@@ -27,6 +28,7 @@ public slots:
 
 private slots:
     void addButtonClicked(bool);
+    void createPresetButtonClicked(bool);
 
 private:
     void initWidgets();
@@ -37,8 +39,11 @@ private:
     // WIDGETS
     QTreeView* category_view_;
     UI::MultiTrackMediaPlayer* multi_track_player_;
+    UI::MultiPresetController* multi_preset_controller_;
     QGroupBox* player_group_;
+    QGroupBox* preset_group_;
     QPushButton* add_button_;
+    QPushButton* create_preset_button_;
     UI::SoundFileImporter* sound_file_importer_;
     int id_iterator_;
 

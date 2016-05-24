@@ -7,8 +7,11 @@ DsaMediaControlKit::DsaMediaControlKit(QString const& name, QWidget *parent)
     , control_name_(name)
     , category_view_(0)
     , multi_track_player_(0)
+    , multi_preset_controller_()
     , player_group_(0)
+    , preset_group_(0)
     , add_button_(0)
+    , create_preset_button_(0)
     , sound_file_importer_(0)
     , id_iterator_(0)
     , db_handler_(0)
@@ -24,13 +27,28 @@ void DsaMediaControlKit::addButtonClicked(bool)
     ++id_iterator_;
 }
 
+void DsaMediaControlKit::createPresetButtonClicked(bool)
+{
+    qDebug() << "create Preset Button clicked";
+    multi_preset_controller_->addCreator();
+
+}
+
 void DsaMediaControlKit::initWidgets()
 {
     add_button_ = new QPushButton("Add Track", this);
+    create_preset_button_ = new QPushButton("Create Preset", this);
     multi_track_player_ = new UI::MultiTrackMediaPlayer(this);
+    multi_preset_controller_ = new UI::MultiPresetController(this);
+
     player_group_ = new QGroupBox(this);
     player_group_->setTitle(control_name_);
     player_group_->setLayout(multi_track_player_->layout());
+
+    preset_group_ = new QGroupBox(this);
+    preset_group_->setTitle("Presets:");
+    preset_group_->setLayout(multi_preset_controller_->layout());
+
     sound_file_importer_ = new UI::SoundFileImporter(this);
 
     category_view_ = new QTreeView(this);
@@ -38,6 +56,8 @@ void DsaMediaControlKit::initWidgets()
 
     connect(add_button_, SIGNAL(clicked(bool)),
             this, SLOT(addButtonClicked(bool)));
+    connect(create_preset_button_, SIGNAL(clicked(bool)),
+            this, SLOT(createPresetButtonClicked(bool)));
     connect(sound_file_importer_, SIGNAL(folderImported(QList<DB::SoundFile> const&)),
             db_handler_, SLOT(insertSoundFilesAndCategories(QList<DB::SoundFile> const&)));
 }
@@ -52,7 +72,9 @@ void DsaMediaControlKit::initLayout()
     QVBoxLayout* r_layout = new QVBoxLayout;
     r_layout->addWidget(sound_file_importer_, -1);
     r_layout->addWidget(add_button_, -1);
-    r_layout->addWidget(player_group_, 10000);
+    r_layout->addWidget(create_preset_button_, -1);
+    r_layout->addWidget(player_group_, 1);
+    r_layout->addWidget(preset_group_, 1);
 
     layout->addLayout(l_layout, 1);
     layout->addLayout(r_layout, 1);
