@@ -150,7 +150,7 @@ void MultiTrackMediaPlayer::removeAll()
 {
     while(active_players_.size() > 0)
         removePlayer(active_players_.begin().key());
-    while(active_players_.size() > 0)
+    while(active_widgets_.size() > 0)
         removeWidget(active_widgets_.begin().key());
 }
 
