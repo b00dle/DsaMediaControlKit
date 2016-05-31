@@ -26,7 +26,8 @@ SOURCES += main.cpp \
     ui/sound_file_importer.cpp \
     db/sound_file.cpp \
     db/handler.cpp \
-    db/model/category_tree_model.cpp
+    db/model/category_tree_model.cpp \
+    db/model/sound_file_table_model.cpp
 
 HEADERS  += main_window.h \
     dsa_media_control_kit.h \
@@ -40,4 +41,5 @@ HEADERS  += main_window.h \
     ui/sound_file_importer.h \
     db/sound_file.h \
     db/handler.h \
-    db/model/category_tree_model.h
+    db/model/category_tree_model.h \
+    db/model/sound_file_table_model.h

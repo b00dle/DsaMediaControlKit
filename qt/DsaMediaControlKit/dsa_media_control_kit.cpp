@@ -6,6 +6,7 @@
 DsaMediaControlKit::DsaMediaControlKit(QWidget *parent)
     : QWidget(parent)
     , category_view_(0)
+    , sound_file_view_(0)
     , multi_track_player_(0)
     , player_group_(0)
     , add_button_(0)
@@ -35,6 +36,9 @@ void DsaMediaControlKit::initWidgets()
     category_view_ = new QTreeView(this);
     category_view_->setModel(db_handler_->getCategoryTreeModel());
 
+    sound_file_view_ = new QTableView(this);
+    sound_file_view_->setModel(db_handler_->getSoundFileTableModel());
+
     connect(add_button_, SIGNAL(clicked(bool)),
             this, SLOT(addButtonClicked(bool)));
     connect(sound_file_importer_, SIGNAL(folderImported(QList<DB::SoundFile> const&)),
@@ -47,6 +51,7 @@ void DsaMediaControlKit::initLayout()
 
     QVBoxLayout* l_layout = new QVBoxLayout;
     l_layout->addWidget(category_view_);
+    l_layout->addWidget(sound_file_view_);
 
     QVBoxLayout* r_layout = new QVBoxLayout;
     r_layout->addWidget(sound_file_importer_, -1);

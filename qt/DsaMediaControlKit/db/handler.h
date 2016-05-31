@@ -8,6 +8,7 @@
 #include "api.h"
 #include "sound_file.h"
 #include "model/category_tree_model.h"
+#include "model/sound_file_table_model.h"
 
 namespace DB {
 
@@ -25,6 +26,7 @@ public:
     DB::Api* getApi() const;
 
     Model::CategoryTreeModel* getCategoryTreeModel();
+    Model::SoundFileTableModel* getSoundFileTableModel();
 
 signals:
 
@@ -40,6 +42,11 @@ public slots:
     void addCategory(QString name, CategoryRecord* parent = 0);
 
     /*
+     * Add SoundFileCategory relation to DB
+    */
+    void addSoundFileCategory(int sound_file_id, int category_id);
+
+    /*
      * Inserts new SoundFiles based on list given.
      * Will also insert new Categories in case any SoundFile
      * describes a new Category tree.
@@ -53,6 +60,7 @@ private:
 
     QSqlRelationalTableModel* sound_file_model_;
     Model::CategoryTreeModel* category_tree_model_;
+    Model::SoundFileTableModel* sound_file_table_model_;
 };
 
 } // namespace DB
