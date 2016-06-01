@@ -14,7 +14,7 @@ class PresetCreator : public QWidget
 public:
     explicit PresetCreator(QWidget *parent = 0);
     ~PresetCreator();
-
+    
     QString const getText();
 
 signals:
