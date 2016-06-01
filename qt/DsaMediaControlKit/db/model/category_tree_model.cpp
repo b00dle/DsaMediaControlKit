@@ -6,31 +6,23 @@
 namespace DB {
 namespace Model {
 
-CategoryTreeModel::CategoryTreeModel(QObject* parent, QSqlRelationalTableModel* category_table)
+CategoryTreeModel::CategoryTreeModel(Api* api, QObject* parent)
     : QStandardItemModel(parent)
     , table_model_(0)
+    , api_(api)
     , categories_()
     , category_to_item_()
     , editable_(true)
-{
-    if(category_table != 0) {
-        setCategoryTableModel(category_table);
-        connect(table_model_, SIGNAL(rowsInserted(QModelIndex,int,int)),
-                this, SLOT(dbRowsInserted(QModelIndex,int,int)));
-        connect(this, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)),
-                this, SLOT(onDataChanged(QModelIndex,QModelIndex,QVector<int>)));
-    }
-}
+{}
 
-void CategoryTreeModel::setCategoryTableModel(QSqlRelationalTableModel* category_table)
+void CategoryTreeModel::select()
 {
-    if(category_table->tableName().compare(toString(CATEGORY)) != 0) {
-        qDebug() << "FAILURE: Not a category table.";
-        qDebug() << " > " << category_table->tableName();
-        return;
-    }
+    table_model_ = api_->getCategoryTable();
+    connect(table_model_, SIGNAL(rowsInserted(QModelIndex,int,int)),
+            this, SLOT(dbRowsInserted(QModelIndex,int,int)));
+    connect(this, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)),
+            this, SLOT(onDataChanged(QModelIndex,QModelIndex,QVector<int>)));
 
-    table_model_ = category_table;
     if(table_model_)
         createModel();
 }
@@ -54,7 +46,7 @@ CategoryRecord* CategoryTreeModel::getCategoryByItem(QStandardItem* item)
         return 0;
 
     int rid = item->data(Qt::UserRole).toInt();
-    return getCategoryByRid(rid);
+    return getCategoryById(rid);
 }
 
 CategoryRecord* CategoryTreeModel::getCategoryByPath(const QStringList& path)
@@ -62,7 +54,7 @@ CategoryRecord* CategoryTreeModel::getCategoryByPath(const QStringList& path)
     return getCategoryByItem(getItemByPath(path));
 }
 
-CategoryRecord* CategoryTreeModel::getCategoryByRid(int rid)
+CategoryRecord* CategoryTreeModel::getCategoryById(int rid)
 {
     if(categories_.contains(rid))
         return categories_[rid];

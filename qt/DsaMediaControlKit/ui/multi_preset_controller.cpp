@@ -44,12 +44,12 @@ void MultiPresetController::removePreset(int)
 
 }
 
-void MultiPresetController::addPresetWidget(int id)
+void MultiPresetController::addPresetWidget(int)
 {
 
 }
 
-void MultiPresetController::removePresetWidget(int id)
+void MultiPresetController::removePresetWidget(int)
 {
 
 }

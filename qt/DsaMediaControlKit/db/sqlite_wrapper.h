@@ -32,6 +32,9 @@ public:
     void open();
     void close();
 
+    /* returns a safe version of given string as string value for sql query */
+    static QString const escape(QString const& str);
+
 private:
     void initDB(QString const&);
 

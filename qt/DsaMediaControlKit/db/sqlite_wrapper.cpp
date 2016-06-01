@@ -98,6 +98,13 @@ void SqliteWrapper::close()
     }
 }
 
+const QString SqliteWrapper::escape(const QString &str)
+{
+    QString temp(str);
+    temp.replace("'", "''");
+    return temp;
+}
+
 void SqliteWrapper::initDB(QString const& db_path)
 {
     db_ = QSqlDatabase::addDatabase("QSQLITE");
