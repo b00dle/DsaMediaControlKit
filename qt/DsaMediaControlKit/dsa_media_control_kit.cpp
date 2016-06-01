@@ -5,6 +5,8 @@
 DsaMediaControlKit::DsaMediaControlKit(QString const& name, QWidget *parent)
     : QWidget(parent)
     , control_name_(name)
+    , list_view1_(0)
+    , list_view2_(0)
     , category_view_(0)
     , sound_file_view_(0)
     , multi_track_player_(0)
@@ -37,6 +39,18 @@ void DsaMediaControlKit::createPresetButtonClicked(bool)
 
 void DsaMediaControlKit::initWidgets()
 {
+    QList<DB::SoundFileRecord*> temp;
+    list_view2_ = new UI::SoundFileListView(temp,this);
+
+    temp.append(db_handler_->getSoundFileTableModel()->getSoundFileByRow(0));
+    temp.append(db_handler_->getSoundFileTableModel()->getSoundFileByRow(1));
+    temp.append(db_handler_->getSoundFileTableModel()->getSoundFileByRow(2));
+    temp.append(db_handler_->getSoundFileTableModel()->getSoundFileByRow(3));
+    temp.append(db_handler_->getSoundFileTableModel()->getSoundFileByRow(4));
+
+    list_view1_ = new UI::SoundFileListView(temp, this);
+
+
     add_button_ = new QPushButton("Add Track", this);
     create_preset_button_ = new QPushButton("Create Preset", this);
     multi_track_player_ = new UI::MultiTrackMediaPlayer(this);
@@ -70,9 +84,14 @@ void DsaMediaControlKit::initLayout()
 {
     QHBoxLayout* layout = new QHBoxLayout;
 
+    QHBoxLayout* list_view_layout = new QHBoxLayout;
+    list_view_layout->addWidget(list_view1_);
+    list_view_layout->addWidget(list_view2_);
+
     QVBoxLayout* l_layout = new QVBoxLayout;
-    l_layout->addWidget(category_view_);
-    l_layout->addWidget(sound_file_view_);
+    l_layout->addWidget(category_view_, 2);
+    l_layout->addWidget(sound_file_view_, 2);
+    l_layout->addLayout(list_view_layout, 1);
 
     QVBoxLayout* r_layout = new QVBoxLayout;
     r_layout->addWidget(sound_file_importer_, -1);
