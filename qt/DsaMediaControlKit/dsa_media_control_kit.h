@@ -9,6 +9,9 @@
 #include <QPushButton>
 #include <QTreeView>
 #include <QTableView>
+#include <QAction>
+#include <QMenu>
+#include <QProgressBar>
 
 #include "ui/audio_widget.h"
 #include "ui/multi_track_media_player.h"
@@ -24,20 +27,37 @@ class DsaMediaControlKit : public QWidget
 public:
     explicit DsaMediaControlKit(QString const& name, QWidget *parent = 0);
 
+    QMenu* getMenu();
+    QString const& getStatusMessage() const;
+    QProgressBar* getProgressBar() const;
+
 signals:
+    void statusMessageUpdated(QString const&);
 
 public slots:
 
 private slots:
-    void addButtonClicked(bool);
+    void onAddWidgetAction(bool);
     void createPresetButtonClicked(bool);
+    void onProgressChanged(int);
 
 private:
     void initWidgets();
     void initLayout();
+    void initActions();
+    void initMenu();
     void initDB();
 
     QString control_name_;
+
+    // STATUS
+    QString status_message_;
+    QProgressBar* progress_bar_;
+
+    // MENU & ACTIONS
+    QMap<QString, QAction*> actions_;
+    QMenu* main_menu_;
+
     // WIDGETS
     UI::SoundFileListView* list_view1_;
     UI::SoundFileListView* list_view2_;

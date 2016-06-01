@@ -5,6 +5,9 @@
 DsaMediaControlKit::DsaMediaControlKit(QString const& name, QWidget *parent)
     : QWidget(parent)
     , control_name_(name)
+    , progress_bar_(0)
+    , actions_()
+    , main_menu_(0)
     , list_view1_(0)
     , list_view2_(0)
     , category_view_(0)
@@ -22,9 +25,26 @@ DsaMediaControlKit::DsaMediaControlKit(QString const& name, QWidget *parent)
     initDB();
     initWidgets();
     initLayout();
+    initActions();
+    initMenu();
 }
 
-void DsaMediaControlKit::addButtonClicked(bool)
+QMenu *DsaMediaControlKit::getMenu()
+{
+    return main_menu_;
+}
+
+const QString &DsaMediaControlKit::getStatusMessage() const
+{
+    return status_message_;
+}
+
+QProgressBar *DsaMediaControlKit::getProgressBar() const
+{
+    return progress_bar_;
+}
+
+void DsaMediaControlKit::onAddWidgetAction(bool)
 {
     multi_track_player_->addTrack(id_iterator_);
     ++id_iterator_;
@@ -34,7 +54,19 @@ void DsaMediaControlKit::createPresetButtonClicked(bool)
 {
     qDebug() << "create Preset Button clicked";
     multi_preset_controller_->addCreator();
+}
 
+void DsaMediaControlKit::onProgressChanged(int value)
+{
+    if(value != 100) {
+        if(progress_bar_->isHidden()) {
+            progress_bar_->show();
+        }
+    }
+    else {
+        progress_bar_->hide();
+    }
+    progress_bar_->setValue(value);
 }
 
 void DsaMediaControlKit::initWidgets()
@@ -42,14 +74,22 @@ void DsaMediaControlKit::initWidgets()
     QList<DB::SoundFileRecord*> temp;
     list_view2_ = new UI::SoundFileListView(temp,this);
 
-    temp.append(db_handler_->getSoundFileTableModel()->getSoundFileByRow(0));
-    temp.append(db_handler_->getSoundFileTableModel()->getSoundFileByRow(1));
-    temp.append(db_handler_->getSoundFileTableModel()->getSoundFileByRow(2));
-    temp.append(db_handler_->getSoundFileTableModel()->getSoundFileByRow(3));
-    temp.append(db_handler_->getSoundFileTableModel()->getSoundFileByRow(4));
+
+    DB::SoundFileRecord* rec = 0;
+    for(int i = 0; i < 5; ++i) {
+        rec = db_handler_->getSoundFileTableModel()->getSoundFileByRow(i);
+        if(rec == 0)
+            break;
+        temp.append(rec);
+    }
 
     list_view1_ = new UI::SoundFileListView(temp, this);
 
+    progress_bar_ = new QProgressBar;
+    progress_bar_->setMaximum(100);
+    progress_bar_->setMinimum(0);
+    progress_bar_->setValue(100);
+    progress_bar_->hide();
 
     add_button_ = new QPushButton("Add Track", this);
     create_preset_button_ = new QPushButton("Create Preset", this);
@@ -73,11 +113,13 @@ void DsaMediaControlKit::initWidgets()
     sound_file_view_->setModel(db_handler_->getSoundFileTableModel());
 
     connect(add_button_, SIGNAL(clicked(bool)),
-            this, SLOT(addButtonClicked(bool)));
+            this, SLOT(onAddWidgetAction(bool)));
     connect(create_preset_button_, SIGNAL(clicked(bool)),
             this, SLOT(createPresetButtonClicked(bool)));
     connect(sound_file_importer_, SIGNAL(folderImported(QList<DB::SoundFile> const&)),
             db_handler_, SLOT(insertSoundFilesAndCategories(QList<DB::SoundFile> const&)));
+    connect(db_handler_, SIGNAL(progressChanged(int)),
+            this, SLOT(onProgressChanged(int)));
 }
 
 void DsaMediaControlKit::initLayout()
@@ -94,7 +136,6 @@ void DsaMediaControlKit::initLayout()
     l_layout->addLayout(list_view_layout, 1);
 
     QVBoxLayout* r_layout = new QVBoxLayout;
-    r_layout->addWidget(sound_file_importer_, -1);
     r_layout->addWidget(add_button_, -1);
     r_layout->addWidget(create_preset_button_, -1);
     r_layout->addWidget(player_group_, 1);
@@ -104,6 +145,25 @@ void DsaMediaControlKit::initLayout()
     layout->addLayout(r_layout, 1);
 
     setLayout(layout);
+}
+
+void DsaMediaControlKit::initActions()
+{
+    actions_["Add Sound Folder..."] = new QAction(tr("Add Sound Folder..."), this);
+    actions_["Add Sound Folder..."]->setToolTip(tr("Imports a SoundFile folder into the database."));
+
+    connect(actions_["Add Sound Folder..."] , SIGNAL(triggered(bool)),
+            sound_file_importer_, SLOT(startBrowserFolder(bool)));
+}
+
+void DsaMediaControlKit::initMenu()
+{
+    main_menu_ = new QMenu(tr("DsaMediaControlKit"));
+
+    QMenu* add_menu = main_menu_->addMenu(tr("File"));
+    add_menu->addAction(actions_["Add Sound Folder..."]);
+
+    main_menu_->addMenu(add_menu);
 }
 
 void DsaMediaControlKit::initDB()

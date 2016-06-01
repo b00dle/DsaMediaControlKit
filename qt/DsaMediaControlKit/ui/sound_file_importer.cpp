@@ -8,12 +8,9 @@
 
 namespace UI {
 
-SoundFileImporter::SoundFileImporter(QWidget *parent)
-    : QWidget(parent)
-    , browse_button_(0)
+SoundFileImporter::SoundFileImporter(QObject *parent)
+    : QObject(parent)
 {
-    initWidgets();
-    initLayout();
 }
 
 void SoundFileImporter::parseFolder(const QUrl &url)
@@ -31,31 +28,14 @@ void SoundFileImporter::parseFolder(const QUrl &url)
     emit folderImported(files);
 }
 
-void SoundFileImporter::onBrowseButtonClicked(bool)
+void SoundFileImporter::startBrowserFolder(bool)
 {
-    QUrl url = QFileDialog::getExistingDirectoryUrl(this, tr("Open Sound File Directory"));
+    QUrl url = QFileDialog::getExistingDirectoryUrl(0, tr("Open Sound File Directory"));
     qDebug() << url;
     if(url.isValid())
     {
         parseFolder(url);
     }
-}
-
-void SoundFileImporter::initWidgets()
-{
-    browse_button_ = new QPushButton("Add Sound Folder", this);
-
-    connect(browse_button_, SIGNAL(clicked(bool)),
-            this, SLOT(onBrowseButtonClicked(bool)));
-}
-
-void SoundFileImporter::initLayout()
-{
-    QHBoxLayout* layout = new QHBoxLayout;
-
-    layout->addWidget(browse_button_);
-
-    setLayout(layout);
 }
 
 } // namespace UI

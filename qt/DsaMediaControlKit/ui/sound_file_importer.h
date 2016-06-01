@@ -1,8 +1,7 @@
 #ifndef UI_SOUND_FILE_IMPORTER_H
 #define UI_SOUND_FILE_IMPORTER_H
 
-#include <QWidget>
-#include <QPushButton>
+#include <QObject>
 #include <QStringList>
 #include <QFileInfo>
 
@@ -11,14 +10,14 @@
 namespace UI {
 
 /*
- * Class used to provide UI for importing soundfile ressources.
+ * Class for importing soundfile ressources.
 */
-class SoundFileImporter : public QWidget
+class SoundFileImporter : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit SoundFileImporter(QWidget *parent = 0);
+    explicit SoundFileImporter(QObject *parent = 0);
 
     /*
      * Imports folder with given url.
@@ -29,18 +28,14 @@ public:
 
 signals:
     void folderImported(QList<DB::SoundFile> const&);
+    void statusMessageUpdated(QString const&);
 
 public slots:
-
-private slots:
     /* triggers folder import dialog and parsing of soundfiles */
-    void onBrowseButtonClicked(bool);
+    void startBrowserFolder(bool);
 
 private:
-    void initWidgets();
-    void initLayout();
 
-    QPushButton* browse_button_;
 };
 
 } // namespace UI
