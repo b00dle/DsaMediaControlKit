@@ -41,8 +41,8 @@ private:
     void removePresetWidget(int id);
 
     /* adding and removing preset creation widgets **/
-    void addCreationWidget();
-    void removeCreationWidget();
+    void addPresetCreator();
+    void removePresetCreator();
 
     /* init empty widget layout **/
     void initLayout();
