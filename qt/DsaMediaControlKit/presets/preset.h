@@ -28,7 +28,7 @@ private:
 
     int id_iterator_;
     QString name_;
-    QMap<int, Component*> components;
+    QMap<int, Component*> components_;
 
 };
 

@@ -4,8 +4,9 @@ namespace Preset {
 
 Preset::Preset(QObject *parent)
     : QObject(parent)
-    ,name_("")
-    ,id_iterator_(0)
+    , id_iterator_(0)
+    , name_("")
+    , components_()
 {
 
 }

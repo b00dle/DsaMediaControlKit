@@ -34,7 +34,7 @@ void SoundFileImporter::parseFolder(const QUrl &url)
 void SoundFileImporter::onBrowseButtonClicked(bool)
 {
     QUrl url = QFileDialog::getExistingDirectoryUrl(this, tr("Open Sound File Directory"));
-
+    qDebug() << url;
     if(url.isValid())
     {
         parseFolder(url);

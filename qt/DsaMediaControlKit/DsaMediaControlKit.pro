@@ -7,6 +7,7 @@ TARGET = DsaMediaControlKit
 TEMPLATE = app
 
 QMAKE_CXXFLAGS += -std=c++0x
+
 QT       += core \
             gui \
             multimedia \
@@ -15,26 +16,26 @@ QT       += core \
             sql
 
 SOURCES += main.cpp \
-        main_window.cpp \
-        dsa_media_control_kit.cpp \
-        ui/audio_widget.cpp \
-        ui/player_controls.cpp \
-        ui/content_browser.cpp \
-        ui/multi_track_media_player.cpp \
-        db/sqlite_wrapper.cpp \
-        db/api.cpp \
-        db/tables.cpp \
-        ui/sound_file_importer.cpp \
-        db/sound_file.cpp \
-        db/handler.cpp \
-        db/model/category_tree_model.cpp \
-        presets/preset.cpp \
-        ui/audio_settings_widget.cpp \
+    main_window.cpp \
+    dsa_media_control_kit.cpp \
+    ui/audio_widget.cpp \
+    ui/player_controls.cpp \
+    ui/content_browser.cpp \
+    ui/multi_track_media_player.cpp \
+    db/sqlite_wrapper.cpp \
+    db/api.cpp \
+    db/tables.cpp \
+    ui/sound_file_importer.cpp \
+    db/sound_file.cpp \
+    db/handler.cpp \
+    db/model/category_tree_model.cpp \
+    presets/preset.cpp \
+    ui/audio_settings_widget.cpp \
     presets/component.cpp \
     ui/preset_widget.cpp \
     ui/multi_preset_controller.cpp \
-    ui/preset_creator.cpp
-
+    ui/preset_creator.cpp \
+    db/model/sound_file_table_model.cpp
 
 HEADERS  += main_window.h \
     dsa_media_control_kit.h \
@@ -56,5 +57,5 @@ HEADERS  += main_window.h \
     ui/audio_settings_widget.h \
     presets/ui_settings.h \
     ui/multi_preset_controller.h \
-    ui/preset_creator.h
-
+    ui/preset_creator.h \
+    db/model/sound_file_table_model.h

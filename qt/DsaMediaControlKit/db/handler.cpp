@@ -7,18 +7,13 @@ namespace DB {
 Handler::Handler(DB::Api* api, QObject *parent)
     : QObject(parent)
     , api_(api)
-    , sound_file_model_(0)
     , category_tree_model_(0)
+    , sound_file_table_model_(0)
 {
     if(api_ != 0) {
-        category_tree_model_ = new Model::CategoryTreeModel(this, api_->getCategoryTable());
-        sound_file_model_ = api_->getSoundFileTable();
+        getCategoryTreeModel();
+        getSoundFileTableModel();
     }
-}
-
-void Handler::setApi(Api *api)
-{
-    api_ = api;
 }
 
 Api *Handler::getApi() const
@@ -28,15 +23,27 @@ Api *Handler::getApi() const
 
 Model::CategoryTreeModel *Handler::getCategoryTreeModel()
 {
-    if(category_tree_model_ == 0)
-        category_tree_model_ = new Model::CategoryTreeModel(this, api_->getCategoryTable());
+    if(category_tree_model_ == 0) {
+        category_tree_model_ = new Model::CategoryTreeModel(api_, this);
+        category_tree_model_->select();
+    }
 
     return category_tree_model_;
 }
 
+Model::SoundFileTableModel *Handler::getSoundFileTableModel()
+{
+    if(sound_file_table_model_ == 0) {
+        sound_file_table_model_ = new Model::SoundFileTableModel(api_, this);
+        sound_file_table_model_->select();
+    }
+
+    return sound_file_table_model_;
+}
+
 void Handler::addSoundFile(const QFileInfo& info)
 {
-    api_->insertSoundFile(info);
+    sound_file_table_model_->addSoundFileRecord(info);
 }
 
 void Handler::addCategory(QString name, CategoryRecord *parent)
@@ -48,31 +55,34 @@ void Handler::addCategory(QString name, CategoryRecord *parent)
     category_tree_model_->update();
 }
 
+void Handler::addSoundFileCategory(int sound_file_id, int category_id)
+{
+    api_->insertSoundFileCategory(sound_file_id, category_id);
+}
+
 void Handler::insertSoundFilesAndCategories(const QList<DB::SoundFile>& sound_files)
 {
-    if(category_tree_model_ == 0)
-        category_tree_model_ = new Model::CategoryTreeModel(this, api_->getCategoryTable());
-
     CategoryRecord* cat = 0;
     foreach(SoundFile sf, sound_files) {
-        if(api_->soundFileExists(sf.getFileInfo().filePath(), sf.getFileInfo().fileName()))
+        // check if sound_file already imported
+        SoundFileRecord* sf_rec = sound_file_table_model_->getSoundFileByPath(sf.getFileInfo().filePath());
+        if(sf_rec != 0)
             continue;
 
-        qDebug() << "=========IMPORTING=========";
-        qDebug() << "info" << sf.getFileInfo().filePath();
-        qDebug() << "category tree" << sf.getCategoryPath();
-
+        // insert new sound_file into DB
         addSoundFile(sf.getFileInfo());
+        sf_rec = sound_file_table_model_->getLastSoundFileRecord();
+
+        // insert new category into DB
         cat = category_tree_model_->getCategoryByPath(sf.getCategoryPath());
         if(cat == 0) {
             addCategory(sf.getCategoryPath());
             cat = category_tree_model_->getCategoryByPath(sf.getCategoryPath());
         }
-        qDebug() << cat->name << cat->id;
 
-        // TODO insert sound_file category
+        // insert category sound_file relation into db
+        addSoundFileCategory(sf_rec->id, cat->id);
     }
-    qDebug() << "DONE.";
 }
 
 void Handler::addCategory(const QStringList &path)

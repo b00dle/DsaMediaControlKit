@@ -8,6 +8,7 @@
 #include <QGroupBox>
 #include <QPushButton>
 #include <QTreeView>
+#include <QTableView>
 
 #include "ui/audio_widget.h"
 #include "ui/multi_track_media_player.h"
@@ -38,6 +39,7 @@ private:
     QString control_name_;
     // WIDGETS
     QTreeView* category_view_;
+    QTableView* sound_file_view_;
     UI::MultiTrackMediaPlayer* multi_track_player_;
     UI::MultiPresetController* multi_preset_controller_;
     QGroupBox* player_group_;

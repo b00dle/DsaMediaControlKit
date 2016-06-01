@@ -5,6 +5,7 @@
 #include <QSqlRelationalTableModel>
 
 #include "db/tables.h"
+#include "db/api.h"
 
 namespace DB {
 namespace Model {
@@ -22,25 +23,72 @@ class CategoryTreeModel : public QStandardItemModel
 {
     Q_OBJECT
 public:
-    CategoryTreeModel(QObject* parent = 0, QSqlRelationalTableModel* category_table = 0);
+    CategoryTreeModel(Api* api, QObject* parent = 0);
 
-    void setCategoryTableModel(QSqlRelationalTableModel* category_table);
+    /* Fills model with data from Category database table **/
+    void select();
+
+    /* Sets whether the content of this model can be edited **/
     void setEditable(bool);
 
+    //// inheritted functions (from pure virtual BC) - see docs for description
     Qt::ItemFlags flags(const QModelIndex &index) const;
+    //// end inheritted functions
 
+    /*
+     * Gets a CategoryRecord based on the QStandardItem referencing it.
+     * returns 0 if none found.
+    */
     CategoryRecord* getCategoryByItem(QStandardItem*);
+
+    /*
+     * Gets a CategoryRecord based on it's hierarchical path.
+     * returns 0 if none found.
+    */
     CategoryRecord* getCategoryByPath(QStringList const&);
-    CategoryRecord* getCategoryByRid(int);
+
+    /*
+     * Gets a CategoryRecord based on it's ID.
+     * returns 0 if none found.
+    */
+    CategoryRecord* getCategoryById(int);
+
+    /*
+     * Gets the QStandardItem associated with given CategoryRecord.
+     * returns 0 if none found.
+    */
     QStandardItem* getItemByCategory(CategoryRecord*);
+
+    /*
+     * Gets the QStandardItem associated with given
+     * hierarchical CategoryRecord path.
+     * returns 0 if none found.
+    */
     QStandardItem* getItemByPath(QStringList const&);
+
+    /*
+     * Gets all subcategory names of CategoryRecord
+     * referenced by given QStandardItem.
+    */
     QStringList const getSubCategoryNamesByItem(QStandardItem* item = 0);
+
+    /* Gets all subcategory names of given CategoryRecord */
     QStringList const getSubCategoryNamesByCategory(CategoryRecord*);
 
+    /* Adds a CategoryRecord to this model and  **/
+
+    /*
+     * Compares given Category names.
+     * returns if both Categories have equal names.
+     * (' ' and '-' are treated as same charachter)
+    **/
     static bool equalCategoryName(QString const& left, QString const& right);
+
+    /* Returns true if there exists a CategoryRecord with given name and parent CategoryRecord. **/
     bool exists(QString const& name, CategoryRecord* parent);
 
 public slots:
+    /* Reselects and builds the CategoryTreeModel **/
     void update();
     void dbRowsInserted(QModelIndex,int, int);
     void onDataChanged(QModelIndex const& topLeft,
@@ -51,10 +99,20 @@ signals:
     void updated();
 
 private:
+    /* build this model based on underlying QSqlrelationalTableModel. **/
     void createModel();
+
+    /*
+     * Recursive function setting all child QStandardItems for given QStandardItem.
+     * Parameter item references a CategoryRecord, with parameter children list of
+     * child CategoryRecords.
+    **/
     void setChildItems(QStandardItem* item, QList<CategoryRecord*> children);
 
+    // underlying QSqlrelationalTableModel referencing DB Category table.
     QSqlRelationalTableModel* table_model_;
+
+    Api* api_;
 
     QMap<int, CategoryRecord*> categories_;
     QMap<CategoryRecord*, QStandardItem*> category_to_item_;
