@@ -9,6 +9,7 @@ PresetCreator::PresetCreator(QWidget *parent)
     : QWidget(parent)
     , close_button_(0)
     , test_button_(0)
+    , edit_(0)
     , box_(0)
 {
     initWidgets();
@@ -28,11 +29,12 @@ void UI::PresetCreator::onClosedClicked(bool)
 
 void UI::PresetCreator::onTestClicked(bool)
 {
-    qDebug() << "Test";
+    qDebug() << "Test A";
 }
 
 void PresetCreator::initWidgets()
 {
+    edit_ = new QLineEdit(this);
     close_button_ = new QPushButton("x", this);
     test_button_ = new QPushButton("Test", this);
 
@@ -47,15 +49,18 @@ void PresetCreator::initWidgets()
 
 void PresetCreator::initLayout()
 {
+    QWidget::setWindowFlags(Qt::Tool);
+    QWidget::setWindowTitle("Test Tool");
+
     QHBoxLayout* layout = new QHBoxLayout;
 
     QHBoxLayout* box_layout = new QHBoxLayout;
     box_layout->addWidget(test_button_, 1);
     //box_layout->addStretch(1);
     box_layout->addWidget(close_button_, -1);
+    box_layout->addWidget(edit_);
 
     box_->setLayout(box_layout);
-
     layout->addWidget(box_);
 
     setLayout(layout);
