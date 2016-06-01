@@ -28,6 +28,7 @@ public:
     Model::SoundFileTableModel* getSoundFileTableModel();
 
 signals:
+    void progressChanged(int);
 
 public slots:
     /*

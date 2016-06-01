@@ -1,6 +1,9 @@
 #include "handler.h"
 
 #include <QDebug>
+#include <QElapsedTimer>
+#include <QCoreApplication>
+#include <QDebug>
 
 namespace DB {
 
@@ -62,8 +65,15 @@ void Handler::addSoundFileCategory(int sound_file_id, int category_id)
 
 void Handler::insertSoundFilesAndCategories(const QList<DB::SoundFile>& sound_files)
 {
+    emit progressChanged(0);
+    QCoreApplication::processEvents();
+
+    QElapsedTimer timer;
+    timer.start();
+
     CategoryRecord* cat = 0;
-    foreach(SoundFile sf, sound_files) {
+    int i = 1;
+    foreach(SoundFile sf, sound_files) {                
         // check if sound_file already imported
         SoundFileRecord* sf_rec = sound_file_table_model_->getSoundFileByPath(sf.getFileInfo().filePath());
         if(sf_rec != 0)
@@ -82,7 +92,19 @@ void Handler::insertSoundFilesAndCategories(const QList<DB::SoundFile>& sound_fi
 
         // insert category sound_file relation into db
         addSoundFileCategory(sf_rec->id, cat->id);
+
+        if(timer.elapsed() > 100) {
+            int progress = (int) (i/(float)sound_files.size() * 100);
+            emit progressChanged(progress);
+            QCoreApplication::processEvents();
+            timer.start();
+        }
+
+        ++i;
     }
+
+    emit progressChanged(100);
+    QCoreApplication::processEvents();
 }
 
 void Handler::addCategory(const QStringList &path)
