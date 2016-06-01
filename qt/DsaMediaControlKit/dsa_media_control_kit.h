@@ -14,6 +14,7 @@
 #include "ui/multi_track_media_player.h"
 #include "ui/multi_preset_controller.h"
 #include "ui/sound_file_importer.h"
+#include "ui/sound_file_list_view.h"
 #include "db/api.h"
 #include "db/handler.h"
 
@@ -38,6 +39,8 @@ private:
 
     QString control_name_;
     // WIDGETS
+    UI::SoundFileListView* list_view1_;
+    UI::SoundFileListView* list_view2_;
     QTreeView* category_view_;
     QTableView* sound_file_view_;
     UI::MultiTrackMediaPlayer* multi_track_player_;
