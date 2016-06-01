@@ -22,7 +22,6 @@ class Handler : public QObject
 public:
     explicit Handler(DB::Api* api, QObject *parent = 0);
 
-    void setApi(DB::Api* api);
     DB::Api* getApi() const;
 
     Model::CategoryTreeModel* getCategoryTreeModel();
@@ -58,7 +57,6 @@ private:
 
     Api* api_;
 
-    QSqlRelationalTableModel* sound_file_model_;
     Model::CategoryTreeModel* category_tree_model_;
     Model::SoundFileTableModel* sound_file_table_model_;
 };

@@ -8,6 +8,12 @@
 namespace DB {
 namespace Model {
 
+/*
+ * Class derived from QAbstractTableModel.
+ * Builds a tablemodel based on the sound_file db table of this application.
+ * Provides convenience functions for accessing & managing SoundFileRecords maintained by it.
+*/
+
 class SoundFileTableModel : public QAbstractTableModel
 {
     Q_OBJECT

@@ -7,19 +7,13 @@ namespace DB {
 Handler::Handler(DB::Api* api, QObject *parent)
     : QObject(parent)
     , api_(api)
-    , sound_file_model_(0)
     , category_tree_model_(0)
     , sound_file_table_model_(0)
 {
     if(api_ != 0) {
-        category_tree_model_ = new Model::CategoryTreeModel(this, api_->getCategoryTable());
-        sound_file_model_ = api_->getSoundFileTable();
+        getCategoryTreeModel();
+        getSoundFileTableModel();
     }
-}
-
-void Handler::setApi(Api *api)
-{
-    api_ = api;
 }
 
 Api *Handler::getApi() const
@@ -29,8 +23,10 @@ Api *Handler::getApi() const
 
 Model::CategoryTreeModel *Handler::getCategoryTreeModel()
 {
-    if(category_tree_model_ == 0)
-        category_tree_model_ = new Model::CategoryTreeModel(this, api_->getCategoryTable());
+    if(category_tree_model_ == 0) {
+        category_tree_model_ = new Model::CategoryTreeModel(api_, this);
+        category_tree_model_->select();
+    }
 
     return category_tree_model_;
 }
@@ -66,12 +62,6 @@ void Handler::addSoundFileCategory(int sound_file_id, int category_id)
 
 void Handler::insertSoundFilesAndCategories(const QList<DB::SoundFile>& sound_files)
 {
-    if(category_tree_model_ == 0)
-        category_tree_model_ = getCategoryTreeModel();
-
-    if(sound_file_table_model_ == 0)
-        sound_file_table_model_ = getSoundFileTableModel();
-
     CategoryRecord* cat = 0;
     foreach(SoundFile sf, sound_files) {
         // check if sound_file already imported
