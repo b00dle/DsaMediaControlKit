@@ -30,6 +30,7 @@ void UI::PresetCreator::onClosedClicked(bool)
 void UI::PresetCreator::onTestClicked(bool)
 {
     qDebug() << "Test A";
+    emit created();
 }
 
 void PresetCreator::initWidgets()

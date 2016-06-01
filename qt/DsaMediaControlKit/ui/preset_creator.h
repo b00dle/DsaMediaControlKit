@@ -19,6 +19,7 @@ public:
 
 signals:
     void closed();
+    void created();
     void textChanged(QString const&);
 
 public slots:

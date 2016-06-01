@@ -5,6 +5,7 @@ namespace UI {
 
 PresetWidget::PresetWidget(QWidget *parent)
     : QWidget(parent)
+    , preset_()
 {
 
 }

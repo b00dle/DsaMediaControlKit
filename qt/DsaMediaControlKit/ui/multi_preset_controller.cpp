@@ -8,6 +8,7 @@ MultiPresetController::MultiPresetController(QWidget *parent)
     , preset_creator_()
     , active_widgets_()
     , widget_layout_(0)
+    , id_iterator_(0)
 {
     initLayout();
 }
@@ -19,7 +20,8 @@ MultiPresetController::~MultiPresetController()
 
 void MultiPresetController::addPreset(int)
 {
-    addPresetWidget();
+    addPresetWidget(id_iterator_);
+    id_iterator_++;
 }
 
 void MultiPresetController::addCreator()
@@ -47,7 +49,7 @@ void MultiPresetController::removePreset(int id)
 void MultiPresetController::addPresetWidget(int id)
 {
     if(active_widgets_.contains(id)) {
-        qDebug() << "NOTIFICATION: Player with ID" << id << "already exists.";
+        qDebug() << "NOTIFICATION: Widget with ID" << id << "already exists.";
         return;
     }
     active_widgets_.insert(id, new PresetWidget(this));
@@ -66,6 +68,8 @@ void MultiPresetController::addPresetCreator()
    //widget_layout_->addWidget(preset_creator_);
    connect(preset_creator_, SIGNAL(closed()),
            this, SLOT(removeCreator()));
+   connect(preset_creator_, SIGNAL(created()),
+           this, SLOT(addPreset()));
 }
 
 void MultiPresetController::removePresetCreator()

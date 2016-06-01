@@ -2,6 +2,7 @@
 #define PRESETWIDGET_H
 
 #include <QWidget>
+#include "presets/preset.h"
 
 namespace UI {
 
@@ -21,6 +22,7 @@ signals:
 public slots:
 
 private:
+    Preset preset_;
 
 };
 

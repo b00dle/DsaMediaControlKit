@@ -47,6 +47,7 @@ private:
     /* init empty widget layout **/
     void initLayout();
 
+    int id_iterator_;
     PresetCreator* preset_creator_;
     QMap<int, PresetWidget*> active_widgets_;
     QVBoxLayout* widget_layout_;
