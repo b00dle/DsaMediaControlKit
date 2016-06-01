@@ -22,7 +22,7 @@ signals:
 public slots:
 
 private:
-    Preset preset_;
+    Preset::Preset* preset_;
 
 };
 
