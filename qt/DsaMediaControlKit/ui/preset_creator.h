@@ -15,14 +15,14 @@ public:
     explicit PresetCreator(QWidget *parent = 0);
     ~PresetCreator();
 
-    QString const getText();
+    //QString const getText();
 
 signals:
     void closed();
     void textChanged(QString const&);
 
 public slots:
-    void onDoneClicked(bool);
+    //void onDoneClicked(bool);
     void onClosedClicked(bool);
     void onTestClicked(bool);
 
