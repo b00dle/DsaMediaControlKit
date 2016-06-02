@@ -7,9 +7,9 @@ namespace UI {
 
 PresetCreator::PresetCreator(QWidget *parent)
     : QWidget(parent)
-    , close_button_(0)
-    , test_button_(0)
     , edit_(0)
+    , close_button_(0)
+    , create_button_(0)
     , box_(0)
 {
     initWidgets();
@@ -17,49 +17,62 @@ PresetCreator::PresetCreator(QWidget *parent)
 }
 
 
-UI::PresetCreator::~PresetCreator()
+PresetCreator::~PresetCreator()
 {
 
 }
 
-void UI::PresetCreator::onClosedClicked(bool)
+const QString PresetCreator::getText()
+{
+    return edit_->text();
+}
+
+
+void PresetCreator::onClosedClicked(bool)
 {
     emit closed();
 }
 
-void UI::PresetCreator::onTestClicked(bool)
+void PresetCreator::onTestClicked(bool)
 {
     qDebug() << "Test A";
-    emit created();
+    if (getText().length() > 0){
+        emit created(getText());
+        emit closed();
+    } else {
+        qDebug() << "Please enter a Text";
+        edit_->setPlaceholderText("Preset name, please");
+    }
 }
 
 void PresetCreator::initWidgets()
 {
     edit_ = new QLineEdit(this);
-    close_button_ = new QPushButton("x", this);
-    test_button_ = new QPushButton("Test", this);
+    edit_->setPlaceholderText("Preset name");
+    close_button_ = new QPushButton("Cancel", this);
+    create_button_ = new QPushButton("Create Preset", this);
 
     box_ = new QGroupBox(this);
     box_->setTitle(tr("Preset Creator"));
 
     connect(close_button_, SIGNAL(clicked(bool)),
             this, SLOT(onClosedClicked(bool)));
-    connect(test_button_, SIGNAL(clicked(bool)),
+    connect(create_button_, SIGNAL(clicked(bool)),
             this, SLOT(onTestClicked(bool)));
 }
 
 void PresetCreator::initLayout()
 {
     QWidget::setWindowFlags(Qt::Tool);
-    QWidget::setWindowTitle("Test Tool");
+    QWidget::setWindowTitle("Preset Creator");
 
     QHBoxLayout* layout = new QHBoxLayout;
 
     QHBoxLayout* box_layout = new QHBoxLayout;
-    box_layout->addWidget(test_button_, 1);
+    box_layout->addWidget(edit_);
+    box_layout->addWidget(create_button_, 1);
     //box_layout->addStretch(1);
     box_layout->addWidget(close_button_, -1);
-    box_layout->addWidget(edit_);
 
     box_->setLayout(box_layout);
     layout->addWidget(box_);

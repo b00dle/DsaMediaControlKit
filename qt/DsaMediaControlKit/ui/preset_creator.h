@@ -15,12 +15,11 @@ public:
     explicit PresetCreator(QWidget *parent = 0);
     ~PresetCreator();
 
-    //QString const getText();
+    QString const getText();
 
 signals:
     void closed();
-    void created();
-    void textChanged(QString const&);
+    void created(QString const&);
 
 public slots:
     //void onDoneClicked(bool);
@@ -33,7 +32,7 @@ private:
 
     QLineEdit* edit_;
     QPushButton* close_button_;
-    QPushButton* test_button_;
+    QPushButton* create_button_;
     QGroupBox* box_;
 };
 
