@@ -15,7 +15,12 @@ class Preset : public QObject
     Q_OBJECT
 public:
     explicit Preset(QObject *parent = 0);
+    explicit Preset(QObject *parent = 0, QString name = "default");
     ~Preset();
+
+
+    QString name() const;
+    void setName(const QString &name);
 
 signals:
     void presetStart();
