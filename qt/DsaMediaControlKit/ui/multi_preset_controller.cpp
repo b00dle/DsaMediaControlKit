@@ -1,14 +1,16 @@
 #include "multi_preset_controller.h"
 
 #include <QDebug>
+
 namespace UI {
 
 MultiPresetController::MultiPresetController(QWidget *parent)
     : QWidget(parent)
+    , id_iterator_(0)
     , preset_creator_()
     , active_widgets_()
     , widget_layout_(0)
-    , id_iterator_(0)
+
 {
     initLayout();
 }
@@ -18,9 +20,10 @@ MultiPresetController::~MultiPresetController()
 
 }
 
-void MultiPresetController::addPreset(int)
+void MultiPresetController::addPreset(QString name)
 {
-    addPresetWidget(id_iterator_);
+    qDebug() << "NOTIFICATION";
+    addPresetWidget(id_iterator_, name);
     id_iterator_++;
 }
 
@@ -43,21 +46,37 @@ void MultiPresetController::loadPreset()
 
 void MultiPresetController::removePreset(int id)
 {
-
+    removePresetWidget(id);
 }
 
-void MultiPresetController::addPresetWidget(int id)
+void MultiPresetController::addPresetWidget(int id, QString name)
 {
     if(active_widgets_.contains(id)) {
         qDebug() << "NOTIFICATION: Widget with ID" << id << "already exists.";
         return;
     }
-    active_widgets_.insert(id, new PresetWidget(this));
+
+    // make sure player exists for connections below
+    //if(!active_widgets_.contains(id))
+    //    addPreset(id);
+
+    PresetWidget* widget = new PresetWidget(this, id, name);
+    active_widgets_.insert(id, widget);
+
+    widget_layout_->addWidget(active_widgets_[id]);
+
+    connect(active_widgets_[id], SIGNAL(closed(int)),
+            this, SLOT(removePreset(int)));
 }
 
 void MultiPresetController::removePresetWidget(int id)
 {
+    if(!active_widgets_.contains(id))
+        return;
 
+    widget_layout_->removeWidget(active_widgets_[id]);
+    delete active_widgets_[id];
+    active_widgets_.remove(id);
 }
 
 void MultiPresetController::addPresetCreator()
@@ -68,8 +87,8 @@ void MultiPresetController::addPresetCreator()
    //widget_layout_->addWidget(preset_creator_);
    connect(preset_creator_, SIGNAL(closed()),
            this, SLOT(removeCreator()));
-   connect(preset_creator_, SIGNAL(created()),
-           this, SLOT(addPreset()));
+   connect(preset_creator_, SIGNAL(created(QString)),
+           this, SLOT(addPreset(QString)));
 }
 
 void MultiPresetController::removePresetCreator()

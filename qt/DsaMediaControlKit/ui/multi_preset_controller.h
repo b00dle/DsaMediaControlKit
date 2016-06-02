@@ -23,8 +23,8 @@ public:
     ~MultiPresetController();
 
 public slots:
-    void addPreset(int);
-    void removePreset(int);
+    void addPreset(QString name);
+    void removePreset(int id);
 
     void addCreator();
     void removeCreator();
@@ -37,7 +37,7 @@ private slots:
 
 private:
     /* adding and removing preset widgets **/
-    void addPresetWidget(int id);
+    void addPresetWidget(int id, QString name);
     void removePresetWidget(int id);
 
     /* adding and removing preset creation widgets **/
