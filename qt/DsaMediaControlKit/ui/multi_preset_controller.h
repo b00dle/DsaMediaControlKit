@@ -24,6 +24,7 @@ public:
 
 public slots:
     void addPreset(QString name);
+    void addPreset(Preset::Preset* preset);
     void removePreset(int id);
 
     void addCreator();
@@ -38,6 +39,7 @@ private slots:
 private:
     /* adding and removing preset widgets **/
     void addPresetWidget(int id, QString name);
+    void addPresetWidget(int id, Preset::Preset* preset);
     void removePresetWidget(int id);
 
     /* adding and removing preset creation widgets **/
