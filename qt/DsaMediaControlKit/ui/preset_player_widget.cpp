@@ -5,3 +5,13 @@ PresetPlayerWidget::PresetPlayerWidget(QWidget *parent) : QWidget(parent)
 
 }
 
+void PresetPlayerWidget::initWidgets()
+{
+
+}
+
+void PresetPlayerWidget::initLayout()
+{
+
+}
+

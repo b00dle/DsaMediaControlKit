@@ -12,6 +12,9 @@ public:
 signals:
 
 public slots:
+    void initWidgets();
+    void initLayout();
+
 };
 
 #endif // PRESETPLAYERWIDGET_H
