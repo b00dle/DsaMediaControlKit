@@ -28,7 +28,7 @@ PresetPlaylist::PresetPlaylist(Preset::Playlist *playlist, QWidget *parent, int 
 {
     initWidgets();
     initLayout();
-}
+} 
 
 PresetPlaylist::~PresetPlaylist()
 {
