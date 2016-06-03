@@ -29,7 +29,7 @@ Preset::Preset(QString name, DB::SoundFileRecord *sound_file, QObject *parent)
     , name_(name)
     , playlists_()
 {
-    Playlist* playlist = new Playlist(name, this, id_iterator_);
+    Playlist* playlist = new Playlist(sound_file, this, id_iterator_);
     addPlaylist(playlist->getID(), playlist);
     ++id_iterator_;
 
