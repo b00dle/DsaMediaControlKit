@@ -18,6 +18,7 @@
 #include "sound_file/sound_file_importer.h"
 #include "sound_file/sound_file_list_view.h"
 #include "db/handler.h"
+#include "category/tree_view.h"
 
 class DsaMediaControlKit : public QWidget
 {
@@ -38,6 +39,7 @@ private slots:
     void createPresetButtonClicked(bool);
     void onProgressChanged(int);
     void onReceivedDrop(QObject*, const QMimeData*);
+    void onSelectedCategoryChanged(DB::CategoryRecord* rec);
 
 private:
     void initWidgets();
@@ -55,10 +57,8 @@ private:
     QMenu* main_menu_;
 
     // WIDGETS
-    SoundFile::SoundFileListView* list_view1_;
-    SoundFile::SoundFileListView* list_view2_;
-    QTreeView* category_view_;
-    QTableView* sound_file_view_;
+    SoundFile::SoundFileListView* sound_file_view_;
+    Category::TreeView* category_view_;
     Preset::MultiPresetController* multi_preset_controller_;
     Misc::DropGroupBox* preset_group_;
     QPushButton* create_preset_button_;

@@ -11,10 +11,8 @@ DsaMediaControlKit::DsaMediaControlKit(QWidget *parent)
     , progress_bar_(0)
     , actions_()
     , main_menu_(0)
-    , list_view1_(0)
-    , list_view2_(0)
-    , category_view_(0)
     , sound_file_view_(0)
+    , category_view_(0)
     , multi_preset_controller_()
     , preset_group_(0)
     , create_preset_button_(0)
@@ -69,21 +67,18 @@ void DsaMediaControlKit::onReceivedDrop(QObject* source, const QMimeData* data)
     qDebug() << " > text" << data->text();
 }
 
+void DsaMediaControlKit::onSelectedCategoryChanged(DB::CategoryRecord *rec)
+{
+    int id = -1;
+    if(rec != 0)
+        id = rec->id;
+
+    sound_file_view_->setSoundFiles(db_handler_->getSoundFileRecordsByCategoryId(id));
+}
+
 void DsaMediaControlKit::initWidgets()
 {
-    QList<DB::SoundFileRecord*> temp;
-    list_view2_ = new SoundFile::SoundFileListView(temp,this);
-
-
-    DB::SoundFileRecord* rec = 0;
-    for(int i = 0; i < 5; ++i) {
-        rec = db_handler_->getSoundFileTableModel()->getSoundFileByRow(i);
-        if(rec == 0)
-            break;
-        temp.append(rec);
-    }
-
-    list_view1_ = new SoundFile::SoundFileListView(temp, this);
+    sound_file_view_ = new SoundFile::SoundFileListView(QList<DB::SoundFileRecord*>(), this);
 
     progress_bar_ = new QProgressBar;
     progress_bar_->setMaximum(100);
@@ -99,11 +94,8 @@ void DsaMediaControlKit::initWidgets()
 
     sound_file_importer_ = new SoundFile::SoundFileImporter(this);
 
-    category_view_ = new QTreeView(this);
-    category_view_->setModel(db_handler_->getCategoryTreeModel());
-
-    sound_file_view_ = new QTableView(this);
-    sound_file_view_->setModel(db_handler_->getSoundFileTableModel());
+    category_view_ = new Category::TreeView(this);
+    category_view_->setCategoryTreeModel(db_handler_->getCategoryTreeModel());
 
     connect(preset_group_, SIGNAL(receivedDrop(QObject*, const QMimeData*)),
             this, SLOT(onReceivedDrop(QObject*, const QMimeData*)));
@@ -113,6 +105,8 @@ void DsaMediaControlKit::initWidgets()
             db_handler_, SLOT(insertSoundFilesAndCategories(QList<DB::SoundFile> const&)));
     connect(db_handler_, SIGNAL(progressChanged(int)),
             this, SLOT(onProgressChanged(int)));
+    connect(category_view_, SIGNAL(categorySelected(DB::CategoryRecord*)),
+            this, SLOT(onSelectedCategoryChanged(DB::CategoryRecord*)));
 }
 
 void DsaMediaControlKit::initLayout()
@@ -120,12 +114,10 @@ void DsaMediaControlKit::initLayout()
     QHBoxLayout* layout = new QHBoxLayout;
 
     QHBoxLayout* list_view_layout = new QHBoxLayout;
-    list_view_layout->addWidget(list_view1_);
-    list_view_layout->addWidget(list_view2_);
+    list_view_layout->addWidget(sound_file_view_);
 
     QVBoxLayout* l_layout = new QVBoxLayout;
-    l_layout->addWidget(category_view_, 2);
-    l_layout->addWidget(sound_file_view_, 2);
+    l_layout->addWidget(category_view_, 1);
     l_layout->addLayout(list_view_layout, 1);
 
     QVBoxLayout* r_layout = new QVBoxLayout;

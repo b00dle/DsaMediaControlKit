@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include <QFileInfo>
+#include <QList>
 
 #include "sqlite_wrapper.h"
 
@@ -33,11 +34,24 @@ public:
     bool soundFileExists(QString const& path, QString const& name);
     bool soundFileCategoryExists(int sound_file_id, int category_id);
 
+    /*
+     * Gets a list of ids from table referenced by 'get_table'
+     * related to element with id 'have_id' from table referenced by
+     * 'have_table'.
+    **/
+    QList<int> const getRelatedIds(TableIndex get_table, TableIndex have_table, int have_id);
+
 signals:
 
 public slots:
 
 private:
+    /*
+     * gets the index of the table descibing relations between given TableIndexes.
+     * Returns NONE if non exists
+    */
+    TableIndex getRelationTable(TableIndex first, TableIndex second);
+
     void initDB(QString const&);
 
     SqliteWrapper* db_wrapper_;
