@@ -2,7 +2,7 @@
 
 #include <QHBoxLayout>
 
-namespace UI {
+namespace _TEST {
 
 PlayerControls::PlayerControls(QWidget* parent)
     : QWidget(parent)
@@ -123,4 +123,4 @@ void PlayerControls::initLayout()
     setLayout(layout);
 }
 
-} // namespace Content
+} // namespace _TEST

@@ -3,7 +3,7 @@
 #include <QHBoxLayout>
 #include <QFileDialog>
 
-namespace UI {
+namespace _TEST {
 
 ContentBrowser::ContentBrowser(QWidget* parent)
     : QWidget(parent)
@@ -60,4 +60,4 @@ void ContentBrowser::initLayout()
     setLayout(layout);
 }
 
-} // namespace UI
+} // namespace _TEST

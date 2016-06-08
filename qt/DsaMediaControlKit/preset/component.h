@@ -3,9 +3,9 @@
 
 #include <QUrl>
 #include <QMediaPlayer>
-#include "presets/audio_settings.h"
-#include "presets/ui_settings.h"
-#include "db/tables.h"
+#include "audio_settings.h"
+#include "ui_settings.h"
+#include "db/table_records.h"
 
 namespace Preset {
 

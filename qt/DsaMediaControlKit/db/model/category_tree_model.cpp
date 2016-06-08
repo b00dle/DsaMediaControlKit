@@ -6,7 +6,7 @@
 namespace DB {
 namespace Model {
 
-CategoryTreeModel::CategoryTreeModel(Api* api, QObject* parent)
+CategoryTreeModel::CategoryTreeModel(Core::Api* api, QObject* parent)
     : QStandardItemModel(parent)
     , table_model_(0)
     , api_(api)

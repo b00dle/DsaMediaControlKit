@@ -1,11 +1,11 @@
-#ifndef CONTENT_MEDIA_CONTROLS_H
-#define CONTENT_MEDIA_CONTROLS_H
+#ifndef TEST_CONTENT_MEDIA_CONTROLS_H
+#define TEST_CONTENT_MEDIA_CONTROLS_H
 
 #include <QWidget>
 #include <QPushButton>
 #include <QSlider>
 
-namespace UI {
+namespace _TEST {
 
 /*
  * Defines UI for basic player controls.
@@ -46,6 +46,6 @@ private:
     QSlider* volume_slider_;
 };
 
-} // namespace Content
+} // namespace _TEST
 
-#endif // CONTENT_MEDIA_CONTROLS_H
+#endif // TEST_CONTENT_MEDIA_CONTROLS_H

@@ -6,7 +6,7 @@
 #include <QDrag>
 #include <QPixmap>
 
-namespace UI {
+namespace SoundFile {
 
 SoundFileListView::SoundFileListView(QList<DB::SoundFileRecord*> const& sound_files, QWidget *parent)
     : QListView(parent)
@@ -112,8 +112,8 @@ void SoundFileListView::performDrag()
         drag->setPixmap(QPixmap("../../resources/images/dick.png"));
 
         // will block until drag done
-        drag->exec(Qt::CopyAction);// == Qt::CopyAction
+        drag->exec(Qt::CopyAction);
     }
 }
 
-} // namespace UI
+} // namespace SoundFile

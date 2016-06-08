@@ -2,7 +2,7 @@
 
 #include <QDebug>
 
-namespace UI {
+namespace _TEST {
 
 MultiTrackMediaPlayer::MultiTrackMediaPlayer(QWidget* parent)
     : QWidget(parent)
@@ -162,4 +162,4 @@ void MultiTrackMediaPlayer::initLayout()
     setLayout(widget_layout_);
 }
 
-} // namespace Player
+} // namespace _TEST

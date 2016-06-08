@@ -1,5 +1,5 @@
-#ifndef UI_SOUND_FILE_IMPORTER_H
-#define UI_SOUND_FILE_IMPORTER_H
+#ifndef SOUND_FILE_IMPORTER_H
+#define SOUND_FILE_IMPORTER_H
 
 #include <QObject>
 #include <QStringList>
@@ -7,7 +7,7 @@
 
 #include "db/sound_file.h"
 
-namespace UI {
+namespace SoundFile {
 
 /*
  * Class for importing soundfile ressources.
@@ -38,6 +38,6 @@ private:
 
 };
 
-} // namespace UI
+} // namespace SoundFile
 
-#endif // UI_SOUND_FILE_IMPORTER_H
+#endif // SOUND_FILE_IMPORTER_H

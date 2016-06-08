@@ -3,7 +3,7 @@
 #include <QHBoxLayout>
 #include <QDebug>
 
-namespace UI {
+namespace Preset {
 
 PresetWidget::PresetWidget(QWidget *parent, int id, QString name)
     : QWidget(parent)
@@ -12,7 +12,7 @@ PresetWidget::PresetWidget(QWidget *parent, int id, QString name)
     , label_(0)
     , list_view_(0)
 {
-    preset_ = new Preset::Preset(this, name);
+    preset_ = new Preset(this, name);
     initWidgets();
     initLayout();
 }
@@ -36,7 +36,7 @@ void PresetWidget::onClosedClicked(bool)
 void PresetWidget::initWidgets()
 {
     QList<DB::SoundFileRecord*> temp;
-    list_view_ = new UI::SoundFileListView(temp,this);
+    list_view_ = new SoundFile::SoundFileListView(temp,this);
 
     label_ = new QLabel(preset_->name(),this);
     close_button_ = new QPushButton("x", this);

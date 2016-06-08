@@ -18,48 +18,48 @@ QT       += core \
 SOURCES += main.cpp \
     main_window.cpp \
     dsa_media_control_kit.cpp \
-    ui/audio_widget.cpp \
-    ui/player_controls.cpp \
-    ui/content_browser.cpp \
-    ui/multi_track_media_player.cpp \
-    db/sqlite_wrapper.cpp \
-    db/api.cpp \
-    db/tables.cpp \
-    ui/sound_file_importer.cpp \
     db/sound_file.cpp \
     db/handler.cpp \
     db/model/category_tree_model.cpp \
-    presets/preset.cpp \
-    ui/audio_settings_widget.cpp \
-    presets/component.cpp \
-    ui/preset_widget.cpp \
-    ui/multi_preset_controller.cpp \
-    ui/preset_creator.cpp \
     db/model/sound_file_table_model.cpp \
-    ui/sound_file_list_view.cpp \
-    ui/drop_group_box.cpp
+    db/core/api.cpp \
+    db/core/sqlite_wrapper.cpp \
+    db/table_records.cpp \
+    sound_file/sound_file_importer.cpp \
+    sound_file/sound_file_list_view.cpp \
+    _TEST/audio_widget.cpp \
+    _TEST/multi_track_media_player.cpp \
+    _TEST/player_controls.cpp \
+    _TEST/content_browser.cpp \
+    misc/drop_group_box.cpp \
+    preset/audio_settings_widget.cpp \
+    preset/component.cpp \
+    preset/multi_preset_controller.cpp \
+    preset/preset.cpp \
+    preset/preset_creator.cpp \
+    preset/preset_widget.cpp
 
 HEADERS  += main_window.h \
     dsa_media_control_kit.h \
-    ui/audio_widget.h \
-    ui/player_controls.h \
-    ui/content_browser.h \
-    ui/multi_track_media_player.h \
-    db/sqlite_wrapper.h \
-    db/api.h \
-    db/tables.h \
-    ui/sound_file_importer.h \
     db/sound_file.h \
     db/handler.h \
     db/model/category_tree_model.h \
-    presets/preset.h \
-    presets/audio_settings.h \
-    presets/component.h \
-    ui/preset_widget.h \
-    ui/audio_settings_widget.h \
-    presets/ui_settings.h \
-    ui/multi_preset_controller.h \
-    ui/preset_creator.h \
     db/model/sound_file_table_model.h \
-    ui/sound_file_list_view.h \
-    ui/drop_group_box.h
+    db/core/api.h \
+    db/core/sqlite_wrapper.h \
+    db/table_records.h \
+    sound_file/sound_file_importer.h \
+    sound_file/sound_file_list_view.h \
+    _TEST/audio_widget.h \
+    _TEST/multi_track_media_player.h \
+    _TEST/player_controls.h \
+    _TEST/content_browser.h \
+    misc/drop_group_box.h \
+    preset/audio_settings.h \
+    preset/audio_settings_widget.h \
+    preset/component.h \
+    preset/multi_preset_controller.h \
+    preset/preset.h \
+    preset/preset_creator.h \
+    preset/preset_widget.h \
+    preset/ui_settings.h

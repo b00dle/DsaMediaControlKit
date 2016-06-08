@@ -1,5 +1,5 @@
-#ifndef UI_DROP_GROUP_BOX_H
-#define UI_DROP_GROUP_BOX_H
+#ifndef MISC_DROP_GROUP_BOX_H
+#define MISC_DROP_GROUP_BOX_H
 
 #include <QGroupBox>
 
@@ -7,7 +7,7 @@
 #include <QMouseEvent>
 #include <QMimeData>
 
-namespace UI {
+namespace Misc {
 
 class DropGroupBox : public QGroupBox
 {
@@ -20,11 +20,11 @@ public:
     void dropEvent(QDropEvent *event);
 
 signals:
-    void receivedDrop(const QMimeData*);
+    void receivedDrop(QObject* source, const QMimeData*);
 
 public slots:
 };
 
-} // namespace UI
+} // namespace Misc
 
-#endif // DROPGROUPBOX_H
+#endif // MISC_DROP_GROUP_BOX_H

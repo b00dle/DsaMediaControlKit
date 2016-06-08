@@ -2,6 +2,9 @@
 #define MAIN_WINDOW_H
 
 #include <QMainWindow>
+#include <QList>
+#include <QMap>
+#include <QAction>
 
 #include "dsa_media_control_kit.h"
 
@@ -13,9 +16,17 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+    void toggleFullScreen(bool);
+
 private:
-    QVBoxLayout widget_layout_;
+    void initCentralWidget();
+    void initActions();
+    void initMenuBar();
+    void initStatusBar();
+
     DsaMediaControlKit* kit_;
+    QMap<QString, QList<QAction*> > actions_;
 };
 
 #endif // MAIN_WINDOW_H

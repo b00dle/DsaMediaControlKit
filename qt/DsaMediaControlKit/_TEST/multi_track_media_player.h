@@ -1,5 +1,5 @@
-#ifndef UI_MULTI_TRACK_MEDIA_PLAYER_H
-#define UI_MULTI_TRACK_MEDIA_PLAYER_H
+#ifndef TEST_MULTI_TRACK_MEDIA_PLAYER_H
+#define TEST_MULTI_TRACK_MEDIA_PLAYER_H
 
 #include <QObject>
 #include <QMediaPlayer>
@@ -8,7 +8,7 @@
 
 #include "audio_widget.h"
 
-namespace UI {
+namespace _TEST {
 
 /*
  * Class that manages a number of media players
@@ -64,6 +64,6 @@ private:
     QVBoxLayout* widget_layout_;
 };
 
-} // namespace UI
+} // namespace _TEST
 
-#endif // UI_MULTI_TRACK_MEDIA_PLAYER_H
+#endif // TEST_MULTI_TRACK_MEDIA_PLAYER_H

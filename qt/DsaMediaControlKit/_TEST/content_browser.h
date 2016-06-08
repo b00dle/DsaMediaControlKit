@@ -1,12 +1,12 @@
-#ifndef UI_CONTENT_BROWSER_H
-#define UI_CONTENT_BROWSER_H
+#ifndef TEST_CONTENT_BROWSER_H
+#define TEST_CONTENT_BROWSER_H
 
 #include <QWidget>
 #include <QPushButton>
 #include <QLineEdit>
 #include <QUrl>
 
-namespace UI {
+namespace _TEST {
 
 class ContentBrowser : public QWidget
 {
@@ -32,6 +32,6 @@ private:
     QUrl last_url_;
 };
 
-} // namespace UI
+} // namespace _TEST
 
 #endif // UI_CONTENT_BROWSER_H

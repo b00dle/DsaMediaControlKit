@@ -6,9 +6,10 @@
 #include <QSqlRelationalTableModel>
 #include <QSqlRecord>
 
-#include "tables.h"
+#include "db/table_records.h"
 
 namespace DB {
+namespace Core {
 
 /*
  * Class that can establish and manage connection to a Sqlite database.
@@ -43,6 +44,7 @@ private:
     QSqlDatabase db_;
 };
 
-}
+} // namespace Core
+} // namespace DB
 
 #endif // DB_SQLITE_WRAPPER_H

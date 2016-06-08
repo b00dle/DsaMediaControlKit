@@ -2,8 +2,8 @@
 #define DB_MODEL_SOUND_FILE_TABLE_MODEL_H
 
 #include <QAbstractTableModel>
-#include "db/api.h"
-#include "db/tables.h"
+#include "db/core/api.h"
+#include "db/table_records.h"
 
 namespace DB {
 namespace Model {
@@ -18,7 +18,7 @@ class SoundFileTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    SoundFileTableModel(Api* api, QObject* parent = 0);
+    SoundFileTableModel(Core::Api* api, QObject* parent = 0);
     ~SoundFileTableModel();
 
     //// inheritted functions (from pure virtual BC) - see docs for description
@@ -76,7 +76,7 @@ private:
     /* Clears all SoundFileRecords from records **/
     void clear();
 
-    Api* api_;
+    Core::Api* api_;
     QSqlRelationalTableModel* source_model_;
     QList<SoundFileRecord*> records_;
 };

@@ -8,7 +8,7 @@
 #include "preset_widget.h"
 #include "preset_creator.h"
 
-namespace UI {
+namespace Preset {
 
 /*
  * Class that manages a number of presets and allows the user
@@ -54,6 +54,6 @@ private:
 
 };
 
-} //namespace
+} // namespace Presets
 
 #endif // MULTIPRESETCONTROLLER_H

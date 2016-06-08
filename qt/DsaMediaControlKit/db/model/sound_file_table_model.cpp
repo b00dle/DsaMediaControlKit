@@ -5,7 +5,7 @@
 namespace DB {
 namespace Model {
 
-SoundFileTableModel::SoundFileTableModel(Api* api, QObject* parent)
+SoundFileTableModel::SoundFileTableModel(Core::Api* api, QObject* parent)
     : QAbstractTableModel(parent)
     , api_(api)
     , source_model_(0)
@@ -106,7 +106,7 @@ void SoundFileTableModel::select()
 {
     if(api_ == 0) {
         qDebug() << "FAILURE: cannot select SoundFileTableModel";
-        qDebug() << " > (DB::Api*) api is null";
+        qDebug() << " > (DB::Core::Api*) api is null";
         return;
     }
 
@@ -215,6 +215,6 @@ void SoundFileTableModel::clear()
     }
 }
 
-} // namespace DB
 } // namespace Model
+} // namespace DB
 

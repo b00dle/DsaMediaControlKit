@@ -3,7 +3,7 @@
 #include <QHBoxLayout>
 #include <QDebug>
 
-namespace UI {
+namespace _TEST {
 
 AudioWidget::AudioWidget(QWidget* parent, int id)
     : QWidget(parent)
@@ -108,4 +108,4 @@ void AudioWidget::initLayout()
     setLayout(layout);
 }
 
-} // namespace Content
+} // namespace _TEST

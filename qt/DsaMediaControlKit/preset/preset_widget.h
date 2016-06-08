@@ -6,10 +6,10 @@
 #include <QPushButton>
 #include <QGroupBox>
 
-#include "presets/preset.h"
-#include "ui/sound_file_list_view.h"
+#include "preset/preset.h"
+#include "sound_file/sound_file_list_view.h"
 
-namespace UI {
+namespace Preset {
 
 class PresetWidget : public QWidget
 {
@@ -37,10 +37,10 @@ private:
 
 
     int id_;
-    Preset::Preset* preset_;
+    Preset* preset_;
     QPushButton* close_button_;
     QLabel* label_;
-    UI::SoundFileListView* list_view_;
+    SoundFile::SoundFileListView* list_view_;
 
 };
 

@@ -1,5 +1,5 @@
-#ifndef UI_AUDIO_WIDGET_H
-#define UI_AUDIO_WIDGET_H
+#ifndef TEST_AUDIO_WIDGET_H
+#define TEST_AUDIO_WIDGET_H
 
 #include <QWidget>
 
@@ -10,7 +10,7 @@
 #include "player_controls.h"
 #include "content_browser.h"
 
-namespace UI {
+namespace _TEST {
 
 /*
  * Defines a UI for interaction with a audio content.
@@ -61,6 +61,6 @@ private:
     QGroupBox* box_;
 };
 
-} // namespace UI
+} // namespace _TEST
 
-#endif // UI_AUDIO_WIDGET_H
+#endif // TEST_AUDIO_WIDGET_H

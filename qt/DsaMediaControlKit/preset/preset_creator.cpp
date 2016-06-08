@@ -3,7 +3,7 @@
 #include <QHBoxLayout>
 #include <QDebug>
 
-namespace UI {
+namespace Preset {
 
 PresetCreator::PresetCreator(QWidget *parent)
     : QWidget(parent)

@@ -13,20 +13,17 @@
 #include <QMenu>
 #include <QProgressBar>
 
-#include "ui/audio_widget.h"
-#include "ui/multi_track_media_player.h"
-#include "ui/multi_preset_controller.h"
-#include "ui/sound_file_importer.h"
-#include "ui/sound_file_list_view.h"
-#include "ui/drop_group_box.h"
-#include "db/api.h"
+#include "preset/multi_preset_controller.h"
+#include "misc/drop_group_box.h"
+#include "sound_file/sound_file_importer.h"
+#include "sound_file/sound_file_list_view.h"
 #include "db/handler.h"
 
 class DsaMediaControlKit : public QWidget
 {
     Q_OBJECT
 public:
-    explicit DsaMediaControlKit(QString const& name, QWidget *parent = 0);
+    explicit DsaMediaControlKit(QWidget *parent = 0);
 
     QMenu* getMenu();
     QString const& getStatusMessage() const;
@@ -38,10 +35,9 @@ signals:
 public slots:
 
 private slots:
-    void onAddWidgetAction(bool);
     void createPresetButtonClicked(bool);
     void onProgressChanged(int);
-    void onReceivedDrop(const QMimeData*);
+    void onReceivedDrop(QObject*, const QMimeData*);
 
 private:
     void initWidgets();
@@ -49,8 +45,6 @@ private:
     void initActions();
     void initMenu();
     void initDB();
-
-    QString control_name_;
 
     // STATUS
     QString status_message_;
@@ -61,18 +55,14 @@ private:
     QMenu* main_menu_;
 
     // WIDGETS
-    UI::SoundFileListView* list_view1_;
-    UI::SoundFileListView* list_view2_;
+    SoundFile::SoundFileListView* list_view1_;
+    SoundFile::SoundFileListView* list_view2_;
     QTreeView* category_view_;
     QTableView* sound_file_view_;
-    UI::MultiTrackMediaPlayer* multi_track_player_;
-    UI::MultiPresetController* multi_preset_controller_;
-    QGroupBox* player_group_;
-    UI::DropGroupBox* preset_group_;
-    QPushButton* add_button_;
+    Preset::MultiPresetController* multi_preset_controller_;
+    Misc::DropGroupBox* preset_group_;
     QPushButton* create_preset_button_;
-    UI::SoundFileImporter* sound_file_importer_;
-    int id_iterator_;
+    SoundFile::SoundFileImporter* sound_file_importer_;
 
     // DB handler
     DB::Handler* db_handler_;

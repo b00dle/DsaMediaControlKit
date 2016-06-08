@@ -5,7 +5,7 @@
 
 #include <QSqlRelationalTableModel>
 
-#include "api.h"
+#include "core/api.h"
 #include "sound_file.h"
 #include "model/category_tree_model.h"
 #include "model/sound_file_table_model.h"
@@ -13,16 +13,16 @@
 namespace DB {
 
 /*
- * Class that Provides high-level interface to DB::Api,
+ * Class that Provides high-level interface to DB::Core::Api,
  * which is specific to this application.
  */
 class Handler : public QObject
 {
     Q_OBJECT
 public:
-    explicit Handler(DB::Api* api, QObject *parent = 0);
+    explicit Handler(DB::Core::Api* api, QObject *parent = 0);
 
-    DB::Api* getApi() const;
+    DB::Core::Api* getApi() const;
 
     Model::CategoryTreeModel* getCategoryTreeModel();
     Model::SoundFileTableModel* getSoundFileTableModel();
@@ -56,7 +56,7 @@ public slots:
 private:
     void addCategory(QStringList const& path);
 
-    Api* api_;
+    Core::Api* api_;
 
     Model::CategoryTreeModel* category_tree_model_;
     Model::SoundFileTableModel* sound_file_table_model_;

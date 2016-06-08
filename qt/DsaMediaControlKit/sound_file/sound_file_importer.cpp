@@ -6,7 +6,7 @@
 #include <QDirIterator>
 #include <QDir>
 
-namespace UI {
+namespace SoundFile {
 
 SoundFileImporter::SoundFileImporter(QObject *parent)
     : QObject(parent)
@@ -38,4 +38,4 @@ void SoundFileImporter::startBrowserFolder(bool)
     }
 }
 
-} // namespace UI
+} // namespace SoundFile

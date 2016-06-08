@@ -1,6 +1,6 @@
 #include "drop_group_box.h"
 
-namespace UI {
+namespace Misc {
 
 DropGroupBox::DropGroupBox(QString const& title, QWidget *parent)
     : QGroupBox(title, parent)
@@ -30,10 +30,10 @@ void DropGroupBox::dropEvent(QDropEvent *event)
 {
     DropGroupBox *source = qobject_cast<DropGroupBox*>(event->source());
     if (event->source() && source != this) {
-        emit receivedDrop(event->mimeData());
+        emit receivedDrop(event->source(), event->mimeData());
         event->setDropAction(Qt::CopyAction);
         event->accept();
     }
 }
 
-} // namespace UI
+} // namespace Misc

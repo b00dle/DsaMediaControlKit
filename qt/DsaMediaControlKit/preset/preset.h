@@ -4,8 +4,8 @@
 #include <QObject>
 #include <QMediaPlayer>
 #include <QMediaContent>
-#include "presets/audio_settings.h"
-#include "presets/component.h"
+#include "preset/audio_settings.h"
+#include "preset/component.h"
 
 
 namespace Preset {

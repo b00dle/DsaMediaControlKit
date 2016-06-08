@@ -1,5 +1,5 @@
-#ifndef UI_SOUND_FILE_LIST_VIEW_H
-#define UI_SOUND_FILE_LIST_VIEW_H
+#ifndef SOUND_FILE_LIST_VIEW_H
+#define SOUND_FILE_LIST_VIEW_H
 
 #include <QListView>
 
@@ -7,10 +7,10 @@
 #include <QMouseEvent>
 #include <QStandardItemModel>
 
-#include "db/tables.h"
+#include "db/table_records.h"
 
 
-namespace UI {
+namespace SoundFile {
 
 class SoundFileListView : public QListView
 {
@@ -43,6 +43,6 @@ private:
     QList<DB::SoundFileRecord*> sound_files_;
 };
 
-} // namespace UI
+} // namespace SoundFile
 
 #endif // UI_SOUND_FILE_LIST_VIEW_H

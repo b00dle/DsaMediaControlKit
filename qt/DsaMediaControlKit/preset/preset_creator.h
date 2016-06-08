@@ -6,7 +6,8 @@
 #include <QGroupBox>
 #include <QPushButton>
 #include <QLineEdit>
-namespace UI{
+
+namespace Preset {
 
 class PresetCreator : public QWidget
 {
@@ -36,6 +37,6 @@ private:
     QGroupBox* box_;
 };
 
-}// namespace UI
+}// namespace Preset
 
 #endif // PRESETCREATOR_H

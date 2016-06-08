@@ -7,7 +7,7 @@
 
 namespace DB {
 
-Handler::Handler(DB::Api* api, QObject *parent)
+Handler::Handler(DB::Core::Api* api, QObject *parent)
     : QObject(parent)
     , api_(api)
     , category_tree_model_(0)
@@ -19,7 +19,7 @@ Handler::Handler(DB::Api* api, QObject *parent)
     }
 }
 
-Api *Handler::getApi() const
+Core::Api *Handler::getApi() const
 {
     return api_;
 }

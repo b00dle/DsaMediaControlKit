@@ -2,7 +2,7 @@
 
 #include <QDebug>
 
-namespace UI {
+namespace Preset {
 
 MultiPresetController::MultiPresetController(QWidget *parent)
     : QWidget(parent)

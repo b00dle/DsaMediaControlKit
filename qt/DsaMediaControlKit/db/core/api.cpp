@@ -1,6 +1,7 @@
 #include "api.h"
 
 namespace DB {
+namespace Core {
 
 Api::Api(QString const& db_path, QObject *parent)
     : QObject(parent)
@@ -88,4 +89,5 @@ void Api::initDB(const QString& db_path)
     db_wrapper_ = new SqliteWrapper(db_path, this);
 }
 
-}
+} // namespace Core
+} // namespace DB

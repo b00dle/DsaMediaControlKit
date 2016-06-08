@@ -1,5 +1,5 @@
-#ifndef DB_API_H
-#define DB_API_H
+#ifndef DB_CORE_API_H
+#define DB_CORE_API_H
 
 #include <QObject>
 
@@ -8,6 +8,7 @@
 #include "sqlite_wrapper.h"
 
 namespace DB {
+namespace Core {
 
 /*
  * Class that Provides interface to DB::SqliteWrapper,
@@ -42,6 +43,7 @@ private:
     SqliteWrapper* db_wrapper_;
 };
 
+} // namespace Core
 } // namespace DB
 
 #endif // API_H
