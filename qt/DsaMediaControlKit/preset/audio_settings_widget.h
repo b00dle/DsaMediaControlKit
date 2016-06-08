@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+namespace Preset {
+
 class AudioSettingsWidget : public QWidget
 {
     Q_OBJECT
@@ -16,5 +18,7 @@ public slots:
 private:
 
 };
+
+} // namespace Preset
 
 #endif // AUDIOSETTINGSWIDGET_H

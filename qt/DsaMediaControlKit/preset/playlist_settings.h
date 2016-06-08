@@ -1,5 +1,5 @@
-#ifndef AUDIOSETTINGS_H
-#define AUDIOSETTINGS_H
+#ifndef PRESET_PLAYLIST_SETTINGS_H
+#define PRESET_PLAYLIST_SETTINGS_H
 
 namespace Preset {
 
@@ -19,7 +19,7 @@ enum PlayOrder{
 /*
  * Struct describing how a component should play its sound files.
 */
-struct AudioSettings{
+struct PlaylistSettings{
 
     PlayOrder order;
     bool repeat;
@@ -27,7 +27,7 @@ struct AudioSettings{
     int volume;
 
 
-    AudioSettings()
+    PlaylistSettings()
         :order(ORDERED)
         ,repeat(true)
         ,interval()
@@ -37,4 +37,4 @@ struct AudioSettings{
 
 } // namespace Preset
 
-#endif // AUDIOSETTINGS_H
+#endif // PRESET_PLAYLIST_SETTINGS_H

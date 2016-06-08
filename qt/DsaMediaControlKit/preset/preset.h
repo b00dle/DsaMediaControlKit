@@ -4,9 +4,8 @@
 #include <QObject>
 #include <QMediaPlayer>
 #include <QMediaContent>
-#include "preset/audio_settings.h"
-#include "preset/component.h"
-
+#include "preset/playlist_settings.h"
+#include "preset/playlist.h"
 
 namespace Preset {
 
@@ -15,12 +14,15 @@ class Preset : public QObject
     Q_OBJECT
 public:
     explicit Preset(QObject *parent = 0);
-    explicit Preset(QObject *parent = 0, QString name = "default");
+    explicit Preset(QString name, QObject *parent = 0);
+    explicit Preset(QString name, DB::SoundFileRecord *sound_file, QObject *parent = 0);
     ~Preset();
 
 
-    QString name() const;
+    QString getName() const;
     void setName(const QString &name);
+
+    void addPlaylist(int id, Playlist* playlist);
 
 signals:
     void presetStart();
@@ -31,9 +33,10 @@ public slots:
 private:
     void initComponents();
 
+    int id_;
     int id_iterator_;
     QString name_;
-    QMap<int, Component*> components_;
+    QMap<int, Playlist*> playlists_;
 
 };
 

@@ -22,8 +22,15 @@ MultiPresetController::~MultiPresetController()
 
 void MultiPresetController::addPreset(QString name)
 {
-    qDebug() << "NOTIFICATION";
+    qDebug() << "added preset with name";
     addPresetWidget(id_iterator_, name);
+    id_iterator_++;
+}
+
+void MultiPresetController::addPreset(Preset *preset)
+{
+    qDebug() << "added preset with preset-param";
+    addPresetWidget(id_iterator_, preset);
     id_iterator_++;
 }
 
@@ -60,7 +67,27 @@ void MultiPresetController::addPresetWidget(int id, QString name)
     //if(!active_widgets_.contains(id))
     //    addPreset(id);
 
-    PresetWidget* widget = new PresetWidget(this, id, name);
+    PresetWidget* widget = new PresetWidget(name, this, id );
+    active_widgets_.insert(id, widget);
+
+    widget_layout_->addWidget(active_widgets_[id]);
+
+    connect(active_widgets_[id], SIGNAL(closed(int)),
+            this, SLOT(removePreset(int)));
+}
+
+void MultiPresetController::addPresetWidget(int id, Preset *preset)
+{
+    if(active_widgets_.contains(id)) {
+        qDebug() << "NOTIFICATION: Widget with ID" << id << "already exists.";
+        return;
+    }
+
+    // make sure player exists for connections below
+    //if(!active_widgets_.contains(id))
+    //    addPreset(id);
+
+    PresetWidget* widget = new PresetWidget(preset, this, id);
     active_widgets_.insert(id, widget);
 
     widget_layout_->addWidget(active_widgets_[id]);
