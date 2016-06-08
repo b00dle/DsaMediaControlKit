@@ -29,7 +29,6 @@ SOURCES += main.cpp \
     db/sound_file.cpp \
     db/table_records.cpp \
     misc/drop_group_box.cpp \
-    preset/audio_settings_widget.cpp \
     preset/multi_preset_controller.cpp \
     preset/preset.cpp \
     preset/preset_creator.cpp \
@@ -39,7 +38,8 @@ SOURCES += main.cpp \
     sound_file/sound_file_importer.cpp \
     sound_file/sound_file_list_view.cpp \
     dsa_media_control_kit.cpp \
-    preset/playlist.cpp
+    preset/playlist.cpp \
+    preset/playlist_settings_widget.cpp
 
 HEADERS  += main_window.h \
     _TEST/audio_widget.h \
@@ -54,7 +54,6 @@ HEADERS  += main_window.h \
     db/sound_file.h \
     db/table_records.h \
     misc/drop_group_box.h \
-    preset/audio_settings_widget.h \
     preset/multi_preset_controller.h \
     preset/playlist_settings.h \
     preset/preset.h \
@@ -66,4 +65,5 @@ HEADERS  += main_window.h \
     sound_file/sound_file_importer.h \
     sound_file/sound_file_list_view.h \
     dsa_media_control_kit.h \
-    preset/playlist.h
+    preset/playlist.h \
+    preset/playlist_settings_widget.h

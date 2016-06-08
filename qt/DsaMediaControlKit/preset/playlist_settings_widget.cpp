@@ -1,4 +1,4 @@
-#include "audio_settings_widget.h"
+#include "playlist_settings_widget.h"
 
 namespace Preset {
 

@@ -1,5 +1,5 @@
-#ifndef PRESETCOMPONENT_H
-#define PRESETCOMPONENT_H
+#ifndef PRESET_PLAYLIST_H
+#define PRESET_PLAYLIST_H
 
 #include <QUrl>
 #include <QMediaPlayer>
@@ -58,4 +58,4 @@ private:
 
 } // namespace PRESET
 
-#endif // PRESETCOMPONENT_H
+#endif // PRESET_PLAYLIST_H

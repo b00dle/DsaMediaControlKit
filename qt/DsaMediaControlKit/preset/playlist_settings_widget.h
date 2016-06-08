@@ -1,5 +1,5 @@
-#ifndef AUDIOSETTINGSWIDGET_H
-#define AUDIOSETTINGSWIDGET_H
+#ifndef PRESET_PLAYLIST_SETTINGS_WIDGET_H
+#define PRESET_PLAYLIST_SETTINGS_WIDGET_H
 
 #include <QWidget>
 
@@ -21,4 +21,4 @@ private:
 
 } // namespace Preset
 
-#endif // AUDIOSETTINGSWIDGET_H
+#endif // PRESET_PLAYLIST_SETTINGS_WIDGET_H
