@@ -34,8 +34,7 @@ private:
     Playlist* playlist_;
     QPushButton* close_button_;
     QLineEdit* label_;
-    //SoundFile::SoundFileListView* list_view_;
-    QListView* test_;
+    SoundFile::SoundFileListView* list_view_;
     QGroupBox* box_;
 
 };
