@@ -36,7 +36,8 @@ SOURCES += main.cpp \
     ui/multi_preset_controller.cpp \
     ui/preset_creator.cpp \
     db/model/sound_file_table_model.cpp \
-    ui/sound_file_list_view.cpp
+    ui/sound_file_list_view.cpp \
+    ui/drop_group_box.cpp
 
 HEADERS  += main_window.h \
     dsa_media_control_kit.h \
@@ -60,4 +61,5 @@ HEADERS  += main_window.h \
     ui/multi_preset_controller.h \
     ui/preset_creator.h \
     db/model/sound_file_table_model.h \
-    ui/sound_file_list_view.h
+    ui/sound_file_list_view.h \
+    ui/drop_group_box.h

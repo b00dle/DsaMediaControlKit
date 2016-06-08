@@ -69,6 +69,11 @@ void DsaMediaControlKit::onProgressChanged(int value)
     progress_bar_->setValue(value);
 }
 
+void DsaMediaControlKit::onReceivedDrop(const QMimeData* data)
+{
+    qDebug() << "received DROP" << data->text();
+}
+
 void DsaMediaControlKit::initWidgets()
 {
     QList<DB::SoundFileRecord*> temp;
@@ -100,8 +105,7 @@ void DsaMediaControlKit::initWidgets()
     player_group_->setTitle(control_name_);
     player_group_->setLayout(multi_track_player_->layout());
 
-    preset_group_ = new QGroupBox(this);
-    preset_group_->setTitle("Presets:");
+    preset_group_ = new UI::DropGroupBox("Presets:", this);
     preset_group_->setLayout(multi_preset_controller_->layout());
 
     sound_file_importer_ = new UI::SoundFileImporter(this);
@@ -112,6 +116,8 @@ void DsaMediaControlKit::initWidgets()
     sound_file_view_ = new QTableView(this);
     sound_file_view_->setModel(db_handler_->getSoundFileTableModel());
 
+    connect(preset_group_, SIGNAL(receivedDrop(const QMimeData*)),
+            this, SLOT(onReceivedDrop(const QMimeData*)));
     connect(add_button_, SIGNAL(clicked(bool)),
             this, SLOT(onAddWidgetAction(bool)));
     connect(create_preset_button_, SIGNAL(clicked(bool)),

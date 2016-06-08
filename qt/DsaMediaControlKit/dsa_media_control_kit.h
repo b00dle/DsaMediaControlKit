@@ -18,6 +18,7 @@
 #include "ui/multi_preset_controller.h"
 #include "ui/sound_file_importer.h"
 #include "ui/sound_file_list_view.h"
+#include "ui/drop_group_box.h"
 #include "db/api.h"
 #include "db/handler.h"
 
@@ -40,6 +41,7 @@ private slots:
     void onAddWidgetAction(bool);
     void createPresetButtonClicked(bool);
     void onProgressChanged(int);
+    void onReceivedDrop(const QMimeData*);
 
 private:
     void initWidgets();
@@ -66,7 +68,7 @@ private:
     UI::MultiTrackMediaPlayer* multi_track_player_;
     UI::MultiPresetController* multi_preset_controller_;
     QGroupBox* player_group_;
-    QGroupBox* preset_group_;
+    UI::DropGroupBox* preset_group_;
     QPushButton* add_button_;
     QPushButton* create_preset_button_;
     UI::SoundFileImporter* sound_file_importer_;
