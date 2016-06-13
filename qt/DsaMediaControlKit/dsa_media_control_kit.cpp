@@ -5,6 +5,7 @@
 #include <QKeySequence>
 
 #include "db/core/api.h"
+#include "resources/resources.h"
 
 DsaMediaControlKit::DsaMediaControlKit(QWidget *parent)
     : QWidget(parent)
@@ -152,7 +153,6 @@ void DsaMediaControlKit::initMenu()
 
 void DsaMediaControlKit::initDB()
 {
-    QString db_path = QDir::currentPath() + "/../../db/dsamediacontrolkit.db";
-    DB::Core::Api* db_api = new DB::Core::Api(db_path, this);
+    DB::Core::Api* db_api = new DB::Core::Api(Resources::DATABASE_PATH, this);
     db_handler_ = new DB::Handler(db_api, this);
 }

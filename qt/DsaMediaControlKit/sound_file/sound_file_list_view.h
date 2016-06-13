@@ -37,6 +37,16 @@ public slots:
 private:
     void performDrag();
 
+    /* creates a QJsonObject identifying the SoundFile in given row */
+    QJsonDocument const createJsonReference(int row);
+
+    /*
+     * Creates a SoundFile from QJsonDocument.
+     * This SoundFile is not part of the SoundFileModel.
+     * It is used purely as a data transfer object.
+    */
+    DB::SoundFileRecord const createSoundFile(QJsonDocument const&);
+
     QPoint start_pos_;
 
     QStandardItemModel* model_;

@@ -5,6 +5,10 @@
 #include <QApplication>
 #include <QDrag>
 #include <QPixmap>
+#include <QJsonDocument>
+#include <QJsonObject>
+
+#include "resources/resources.h"
 
 namespace SoundFile {
 
@@ -74,7 +78,10 @@ void SoundFileListView::dropEvent(QDropEvent *event)
 {
     SoundFileListView *source = qobject_cast<SoundFileListView *>(event->source());
     if (source && source != this) {
-        addSoundFile(-1, event->mimeData()->text(), "/path/to/path");
+        DB::SoundFileRecord rec = createSoundFile(
+            QJsonDocument::fromJson(event->mimeData()->text().toUtf8())
+        );
+        addSoundFile(rec.id, rec.name, rec.path);
         event->setDropAction(Qt::CopyAction);
         event->accept();
     }
@@ -91,7 +98,7 @@ void SoundFileListView::addSoundFile(int id, const QString &name, const QString 
     items.push_back(new QStandardItem(name));
     items.push_back(new QStandardItem(path));
     model_->appendRow(items);
-    QModelIndex idx = model_->index(model_->rowCount()-1, model_->columnCount()-1);
+    QModelIndex idx = model_->index(model_->rowCount()-1, 0);
     model_->setData(idx, QVariant(id), Qt::UserRole);
 }
 
@@ -101,19 +108,57 @@ void SoundFileListView::performDrag()
     if(!index.isValid())
         return;
 
-    QString name = model_->data(model_->index(index.row(), 0)).toString();
-    if (name.size() > 0) {
+    QJsonDocument doc = createJsonReference(index.row());
+    if (!doc.isNull() && !doc.isEmpty()) {
+        // create MimeData
         QMimeData *mimeData = new QMimeData;
-        // TODO: all sound file data
-        mimeData->setText(name);
+        mimeData->setText(QString(doc.toJson()));
+        // create Drag
         QDrag *drag = new QDrag(this);
         drag->setMimeData(mimeData);
-        // TODO put resources reference enum resolution into config file
-        drag->setPixmap(QPixmap("../../resources/images/dick.png"));
-
+        drag->setPixmap(QPixmap(Resources::SOUND_FILE_DRAG_IMG_PATH));
         // will block until drag done
         drag->exec(Qt::CopyAction);
     }
+}
+
+const QJsonDocument SoundFileListView::createJsonReference(int row)
+{
+    int id = model_->data(model_->index(row, 0), Qt::UserRole).toInt();
+    QString name = model_->data(model_->index(row, 0)).toString();
+    QString path = model_->data(model_->index(row, 1)).toString();
+
+    QJsonObject data_obj;
+    data_obj.insert("type", QJsonValue(DB::SOUND_FILE));
+    data_obj.insert("id", QJsonValue(id));
+    data_obj.insert("name", QJsonValue(name));
+    data_obj.insert("path", QJsonValue(path));
+
+    return QJsonDocument(data_obj);
+}
+
+const DB::SoundFileRecord SoundFileListView::createSoundFile(const QJsonDocument& doc)
+{
+    DB::SoundFileRecord rec;
+    if(doc.isEmpty() || doc.isNull() || !doc.isObject())
+        return rec;
+
+    QJsonObject obj = doc.object();
+    if(!obj.contains("type") || obj["type"].toInt() != DB::SOUND_FILE)
+        return rec;
+
+    if(!obj.contains("id"))
+        return rec;
+
+    rec.id = obj["id"].toInt();
+
+    if(obj.contains("name") && obj["name"].isString())
+        rec.name = obj["name"].toString();
+
+    if(obj.contains("path") && obj["path"].isString())
+        rec.path = obj["path"].toString();
+
+    return rec;
 }
 
 } // namespace SoundFile

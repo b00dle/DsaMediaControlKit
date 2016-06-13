@@ -40,7 +40,8 @@ SOURCES += main.cpp \
     sound_file/sound_file_list_view.cpp \
     dsa_media_control_kit.cpp \
     preset/playlist.cpp \
-    category/tree_view.cpp
+    category/tree_view.cpp \
+    resources/resources.cpp
 
 HEADERS  += main_window.h \
     _TEST/audio_widget.h \
@@ -68,4 +69,5 @@ HEADERS  += main_window.h \
     sound_file/sound_file_list_view.h \
     dsa_media_control_kit.h \
     preset/playlist.h \
-    category/tree_view.h
+    category/tree_view.h \
+    resources/resources.h
