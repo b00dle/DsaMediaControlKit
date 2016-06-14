@@ -32,8 +32,6 @@ Preset::Preset(QString name, DB::SoundFileRecord *sound_file, QObject *parent)
     Playlist* playlist = new Playlist(sound_file, this, id_iterator_);
     addPlaylist(playlist->getID(), playlist);
     ++id_iterator_;
-
-
 }
 
 Preset::~Preset()

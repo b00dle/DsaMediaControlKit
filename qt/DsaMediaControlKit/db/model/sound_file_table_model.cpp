@@ -201,6 +201,11 @@ void SoundFileTableModel::addSoundFileRecord(const QFileInfo& info)
     emit layoutChanged();
 }
 
+const QList<SoundFileRecord *> &SoundFileTableModel::getSoundFiles() const
+{
+    return records_;
+}
+
 bool SoundFileTableModel::indexIsValid(const QModelIndex & index) const
 {
     return index.isValid() && index.row() < rowCount() && index.column() < columnCount();

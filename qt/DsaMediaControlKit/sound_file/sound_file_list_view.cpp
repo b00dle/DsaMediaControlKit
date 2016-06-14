@@ -9,6 +9,7 @@
 #include <QJsonObject>
 
 #include "resources/resources.h"
+#include "misc/json_mime_data_parser.h"
 
 namespace SoundFile {
 
@@ -76,14 +77,31 @@ void SoundFileListView::dragMoveEvent(QDragMoveEvent *event)
 
 void SoundFileListView::dropEvent(QDropEvent *event)
 {
-    SoundFileListView *source = qobject_cast<SoundFileListView *>(event->source());
+    SoundFileListView *source = qobject_cast<SoundFileListView*>(event->source());
     if (source && source != this) {
-        DB::SoundFileRecord rec = createSoundFile(
-            QJsonDocument::fromJson(event->mimeData()->text().toUtf8())
-        );
-        addSoundFile(rec.id, rec.name, rec.path);
-        event->setDropAction(Qt::CopyAction);
-        event->accept();
+        // extract DB::TableRecord from mime data
+        DB::TableRecord* temp_rec = Misc::JsonMimeDataParser::toTableRecord(event->mimeData());
+
+        // validate parsing
+        if(temp_rec == 0) {
+            event->ignore();
+            return;
+        }
+
+        // handle extracted data
+        if(temp_rec->index == DB::SOUND_FILE) {
+            DB::SoundFileRecord* rec = (DB::SoundFileRecord*) temp_rec;
+            addSoundFile(rec->id, rec->name, rec->path);
+            event->setDropAction(Qt::CopyAction);
+            event->accept();
+            rec = 0;
+        }
+        else {
+            event->ignore();
+        }
+
+        delete temp_rec;
+        temp_rec = 0;
     }
 }
 
@@ -108,57 +126,25 @@ void SoundFileListView::performDrag()
     if(!index.isValid())
         return;
 
-    QJsonDocument doc = createJsonReference(index.row());
-    if (!doc.isNull() && !doc.isEmpty()) {
-        // create MimeData
-        QMimeData *mimeData = new QMimeData;
-        mimeData->setText(QString(doc.toJson()));
-        // create Drag
-        QDrag *drag = new QDrag(this);
-        drag->setMimeData(mimeData);
-        drag->setPixmap(QPixmap(Resources::SOUND_FILE_DRAG_IMG_PATH));
-        // will block until drag done
-        drag->exec(Qt::CopyAction);
-    }
-}
+    // create temporary SoundFileRecord for QMimeData generation
+    DB::SoundFileRecord* temp_rec = new DB::SoundFileRecord;
+    temp_rec->id = model_->data(model_->index(index.row(), 0), Qt::UserRole).toInt();
+    temp_rec->name = model_->data(model_->index(index.row(), 0)).toString();
+    temp_rec->path = model_->data(model_->index(index.row(), 1)).toString();
 
-const QJsonDocument SoundFileListView::createJsonReference(int row)
-{
-    int id = model_->data(model_->index(row, 0), Qt::UserRole).toInt();
-    QString name = model_->data(model_->index(row, 0)).toString();
-    QString path = model_->data(model_->index(row, 1)).toString();
+    // create QMimeData
+    QMimeData* mime_data = Misc::JsonMimeDataParser::toJsonMimeData(temp_rec);
 
-    QJsonObject data_obj;
-    data_obj.insert("type", QJsonValue(DB::SOUND_FILE));
-    data_obj.insert("id", QJsonValue(id));
-    data_obj.insert("name", QJsonValue(name));
-    data_obj.insert("path", QJsonValue(path));
+    // delete temporary TableRecord
+    delete temp_rec;
 
-    return QJsonDocument(data_obj);
-}
+    // create Drag
+    QDrag *drag = new QDrag(this);
+    drag->setMimeData(mime_data);
+    drag->setPixmap(QPixmap(Resources::SOUND_FILE_DRAG_IMG_PATH));
 
-const DB::SoundFileRecord SoundFileListView::createSoundFile(const QJsonDocument& doc)
-{
-    DB::SoundFileRecord rec;
-    if(doc.isEmpty() || doc.isNull() || !doc.isObject())
-        return rec;
-
-    QJsonObject obj = doc.object();
-    if(!obj.contains("type") || obj["type"].toInt() != DB::SOUND_FILE)
-        return rec;
-
-    if(!obj.contains("id"))
-        return rec;
-
-    rec.id = obj["id"].toInt();
-
-    if(obj.contains("name") && obj["name"].isString())
-        rec.name = obj["name"].toString();
-
-    if(obj.contains("path") && obj["path"].isString())
-        rec.path = obj["path"].toString();
-
-    return rec;
+    // will block until drag done
+    drag->exec(Qt::CopyAction);
 }
 
 } // namespace SoundFile

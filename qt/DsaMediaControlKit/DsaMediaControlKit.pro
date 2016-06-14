@@ -41,7 +41,8 @@ SOURCES += main.cpp \
     dsa_media_control_kit.cpp \
     preset/playlist.cpp \
     category/tree_view.cpp \
-    resources/resources.cpp
+    resources/resources.cpp \
+    misc/json_mime_data_parser.cpp
 
 HEADERS  += main_window.h \
     _TEST/audio_widget.h \
@@ -70,4 +71,5 @@ HEADERS  += main_window.h \
     dsa_media_control_kit.h \
     preset/playlist.h \
     category/tree_view.h \
-    resources/resources.h
+    resources/resources.h \
+    misc/json_mime_data_parser.h

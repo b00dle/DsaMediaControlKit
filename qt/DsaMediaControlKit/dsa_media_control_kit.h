@@ -12,6 +12,8 @@
 #include <QAction>
 #include <QMenu>
 #include <QProgressBar>
+#include <QSplitter>
+#include <QScrollArea>
 
 #include "preset/multi_preset_controller.h"
 #include "misc/drop_group_box.h"
@@ -38,7 +40,7 @@ public slots:
 private slots:
     void createPresetButtonClicked(bool);
     void onProgressChanged(int);
-    void onReceivedDrop(QObject*, const QMimeData*);
+    void onPresetGroupReceivedDrop(QObject*, const QMimeData*);
     void onSelectedCategoryChanged(DB::CategoryRecord* rec);
 
 private:
@@ -61,8 +63,13 @@ private:
     Category::TreeView* category_view_;
     Preset::MultiPresetController* multi_preset_controller_;
     Misc::DropGroupBox* preset_group_;
+    QScrollArea* preset_scroll_area_;
     QPushButton* create_preset_button_;
     SoundFile::SoundFileImporter* sound_file_importer_;
+    QSplitter* center_h_splitter_;
+    QSplitter* left_v_splitter_;
+    QGroupBox* left_box_;
+    QGroupBox* right_box_;
 
     // DB handler
     DB::Handler* db_handler_;
