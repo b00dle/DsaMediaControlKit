@@ -27,6 +27,12 @@ public:
     Model::CategoryTreeModel* getCategoryTreeModel();
     Model::SoundFileTableModel* getSoundFileTableModel();
 
+    /*
+     * Gets a list of SoundFileRecords,
+     * associated with Category referenced by given id.
+    */
+    QList<SoundFileRecord*> const getSoundFileRecordsByCategoryId(int category_id = -1);
+
 signals:
     void progressChanged(int);
 

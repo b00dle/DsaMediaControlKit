@@ -84,6 +84,39 @@ bool Api::soundFileCategoryExists(int sound_file_id, int category_id)
     return db_wrapper_->selectQuery("Count(*)", SOUND_FILE_CATEGORY, where)[0].value(0).toInt() > 0;
 }
 
+const QList<int> Api::getRelatedIds(TableIndex get_table, TableIndex have_table, int have_id)
+{
+    QList<int> ids;
+    if(have_table == NONE || get_table == NONE)
+        return ids;
+
+    TableIndex relation_idx = getRelationTable(get_table, have_table);
+    if(relation_idx == NONE)
+        return ids;
+
+    QString SELECT = toString(get_table) + "_id";
+    QString FROM = toString(relation_idx);
+    QString WHERE = toString(have_table) + "_id = " +  QString::number(have_id);
+
+    foreach(QSqlRecord rec, db_wrapper_->selectQuery(SELECT, FROM, WHERE))
+        ids.append(rec.value(0).toInt());
+
+    return ids;
+}
+
+TableIndex Api::getRelationTable(TableIndex first, TableIndex second)
+{
+    if(first == second)
+        return NONE;
+
+    if(first == SOUND_FILE || first == CATEGORY) {
+        if(second == SOUND_FILE || second == CATEGORY)
+            return SOUND_FILE_CATEGORY;
+    }
+
+    return NONE;
+}
+
 void Api::initDB(const QString& db_path)
 {
     db_wrapper_ = new SqliteWrapper(db_path, this);

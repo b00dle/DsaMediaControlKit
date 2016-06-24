@@ -33,13 +33,16 @@ SOURCES += main.cpp \
     preset/preset.cpp \
     preset/preset_creator.cpp \
     preset/preset_player_widget.cpp \
-    preset/preset_playlist.cpp \
     preset/preset_widget.cpp \
     sound_file/sound_file_importer.cpp \
     sound_file/sound_file_list_view.cpp \
     dsa_media_control_kit.cpp \
     preset/playlist.cpp \
-    preset/playlist_settings_widget.cpp
+    preset/playlist_settings_widget.cpp \
+    category/tree_view.cpp \
+    resources/resources.cpp \
+    misc/json_mime_data_parser.cpp \
+    preset/playlist_widget.cpp
 
 HEADERS  += main_window.h \
     _TEST/audio_widget.h \
@@ -59,11 +62,14 @@ HEADERS  += main_window.h \
     preset/preset.h \
     preset/preset_creator.h \
     preset/preset_player_widget.h \
-    preset/preset_playlist.h \
     preset/preset_widget.h \
     preset/ui_settings.h \
     sound_file/sound_file_importer.h \
     sound_file/sound_file_list_view.h \
     dsa_media_control_kit.h \
     preset/playlist.h \
-    preset/playlist_settings_widget.h
+    preset/playlist_settings_widget.h \
+    category/tree_view.h \
+    resources/resources.h \
+    misc/json_mime_data_parser.h \
+    preset/playlist_widget.h

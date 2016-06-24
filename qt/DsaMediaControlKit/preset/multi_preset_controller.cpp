@@ -20,7 +20,7 @@ MultiPresetController::~MultiPresetController()
 
 }
 
-void MultiPresetController::addPreset(QString name)
+void MultiPresetController::addPreset(const QString &name)
 {
     qDebug() << "added preset with name";
     addPresetWidget(id_iterator_, name);
@@ -31,6 +31,13 @@ void MultiPresetController::addPreset(Preset *preset)
 {
     qDebug() << "added preset with preset-param";
     addPresetWidget(id_iterator_, preset);
+    id_iterator_++;
+}
+
+void MultiPresetController::addPreset(const QList<DB::SoundFileRecord *> &sound_list)
+{
+    qDebug() << "added preset with soundlist-param";
+    addPresetWidget(id_iterator_, sound_list);
     id_iterator_++;
 }
 
@@ -83,11 +90,23 @@ void MultiPresetController::addPresetWidget(int id, Preset *preset)
         return;
     }
 
-    // make sure player exists for connections below
-    //if(!active_widgets_.contains(id))
-    //    addPreset(id);
-
     PresetWidget* widget = new PresetWidget(preset, this, id);
+    active_widgets_.insert(id, widget);
+
+    widget_layout_->addWidget(active_widgets_[id]);
+
+    connect(active_widgets_[id], SIGNAL(closed(int)),
+            this, SLOT(removePreset(int)));
+}
+
+void MultiPresetController::addPresetWidget(int id, const QList<DB::SoundFileRecord *> &sound_list)
+{
+    if(active_widgets_.contains(id)) {
+        qDebug() << "NOTIFICATION: Widget with ID" << id << "already exists.";
+        return;
+    }
+
+    PresetWidget* widget = new PresetWidget(sound_list, this, id);
     active_widgets_.insert(id, widget);
 
     widget_layout_->addWidget(active_widgets_[id]);

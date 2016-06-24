@@ -19,15 +19,15 @@ class Playlist : public QObject
     Q_OBJECT
 public:
     explicit Playlist(QString name = "Playlist", QObject *parent = 0, int id =-1);
-    explicit Playlist(DB::SoundFileRecord* sound_file, QObject *parent = 0, int id= -1);
+    explicit Playlist(DB::SoundFileRecord *sound_file, QObject *parent = 0, int id= -1);
     explicit Playlist(QList<DB::SoundFileRecord*> const& sound_files, QObject *parent = 0, int id= -1);
     ~Playlist();
 
-    void addSoundFile(const DB::SoundFileRecord &);
-
-    QList<DB::SoundFileRecord *> getSoundFiles() const;
+    const QList<DB::SoundFileRecord *> &getSoundFiles() const;
     void setSoundFiles(const QList<DB::SoundFileRecord *> &sound_files);
+
     void addSoundFile(DB::SoundFileRecord *sound_file);
+    void addSoundFiles(const QList<DB::SoundFileRecord *> &sound_files);
     int getID();
 
     QString getName() const;

@@ -5,20 +5,25 @@
 #include <QKeySequence>
 
 #include "db/core/api.h"
+#include "resources/resources.h"
+#include "misc/json_mime_data_parser.h"
 
 DsaMediaControlKit::DsaMediaControlKit(QWidget *parent)
     : QWidget(parent)
     , progress_bar_(0)
     , actions_()
     , main_menu_(0)
-    , list_view1_(0)
-    , list_view2_(0)
-    , category_view_(0)
     , sound_file_view_(0)
+    , category_view_(0)
     , multi_preset_controller_()
     , preset_group_(0)
+    , preset_scroll_area_(0)
     , create_preset_button_(0)
     , sound_file_importer_(0)
+    , center_h_splitter_(0)
+    , left_v_splitter_(0)
+    , left_box_(0)
+    , right_box_(0)
     , db_handler_(0)
 {
     initDB();
@@ -62,28 +67,51 @@ void DsaMediaControlKit::onProgressChanged(int value)
     progress_bar_->setValue(value);
 }
 
-void DsaMediaControlKit::onReceivedDrop(QObject* source, const QMimeData* data)
+void DsaMediaControlKit::onPresetGroupReceivedDrop(QObject* source, const QMimeData* data)
 {
     qDebug() << "received DROP";
     qDebug() << " > from" << source;
     qDebug() << " > text" << data->text();
+
+    SoundFile::SoundFileListView* list_source = qobject_cast<SoundFile::SoundFileListView*>(source);
+    // check if source is a SoundFile::SoundFileListView
+    if(list_source) {
+        // extract TableRecord from MimeData
+        DB::TableRecord* temp_rec = Misc::JsonMimeDataParser::toTableRecord(data);
+        if(temp_rec == 0)
+            return;
+
+        // handle extracted data
+        if(temp_rec->index == DB::SOUND_FILE) {
+            DB::SoundFileRecord* rec = db_handler_->getSoundFileTableModel()->getSoundFileById(temp_rec->id);
+            // TODO: better interface for adding presets from SoundFiles
+            if(rec != 0){
+                QList<DB::SoundFileRecord*> song_list({rec});
+                //multi_preset_controller_->addPreset(new Preset::Preset("New Preset", rec, multi_preset_controller_));
+                multi_preset_controller_->addPreset(song_list);
+            }
+        }
+
+        // delete temporary TableRecord
+        delete temp_rec;
+    }
+}
+
+void DsaMediaControlKit::onSelectedCategoryChanged(DB::CategoryRecord *rec)
+{
+    int id = -1;
+    if(rec != 0)
+        id = rec->id;
+
+    sound_file_view_->setSoundFiles(db_handler_->getSoundFileRecordsByCategoryId(id));
 }
 
 void DsaMediaControlKit::initWidgets()
 {
-    QList<DB::SoundFileRecord*> temp;
-    list_view2_ = new SoundFile::SoundFileListView(temp,this);
-
-
-    DB::SoundFileRecord* rec = 0;
-    for(int i = 0; i < 5; ++i) {
-        rec = db_handler_->getSoundFileTableModel()->getSoundFileByRow(i);
-        if(rec == 0)
-            break;
-        temp.append(rec);
-    }
-
-    list_view1_ = new SoundFile::SoundFileListView(temp, this);
+    sound_file_view_ = new SoundFile::SoundFileListView(
+        db_handler_->getSoundFileTableModel()->getSoundFiles(),
+        this
+    );
 
     progress_bar_ = new QProgressBar;
     progress_bar_->setMaximum(100);
@@ -95,45 +123,60 @@ void DsaMediaControlKit::initWidgets()
     multi_preset_controller_ = new Preset::MultiPresetController(this);
 
     preset_group_ = new Misc::DropGroupBox("Presets:", this);
-    preset_group_->setLayout(multi_preset_controller_->layout());
+    preset_scroll_area_ = new QScrollArea(this);
+    preset_scroll_area_->setWidget(multi_preset_controller_);
+    preset_scroll_area_->setWidgetResizable(true);
 
     sound_file_importer_ = new SoundFile::SoundFileImporter(this);
 
-    category_view_ = new QTreeView(this);
-    category_view_->setModel(db_handler_->getCategoryTreeModel());
+    category_view_ = new Category::TreeView(this);
+    category_view_->setCategoryTreeModel(db_handler_->getCategoryTreeModel());
 
-    sound_file_view_ = new QTableView(this);
-    sound_file_view_->setModel(db_handler_->getSoundFileTableModel());
+    left_box_ = new QGroupBox(this);
+    right_box_ = new QGroupBox(this);
+
+    left_v_splitter_ = new QSplitter(Qt::Vertical, this);
+    left_v_splitter_->addWidget(category_view_);
+    left_v_splitter_->addWidget(sound_file_view_);
+    left_v_splitter_->setStretchFactor(0, 2);
+    left_v_splitter_->setStretchFactor(1, 8);
+
+    center_h_splitter_ = new QSplitter(Qt::Horizontal);
+    center_h_splitter_->addWidget(left_box_);
+    center_h_splitter_->addWidget(right_box_);
+    center_h_splitter_->setStretchFactor(0, 0);
+    center_h_splitter_->setStretchFactor(1, 10);
 
     connect(preset_group_, SIGNAL(receivedDrop(QObject*, const QMimeData*)),
-            this, SLOT(onReceivedDrop(QObject*, const QMimeData*)));
+            this, SLOT(onPresetGroupReceivedDrop(QObject*, const QMimeData*)));
     connect(create_preset_button_, SIGNAL(clicked(bool)),
             this, SLOT(createPresetButtonClicked(bool)));
     connect(sound_file_importer_, SIGNAL(folderImported(QList<DB::SoundFile> const&)),
             db_handler_, SLOT(insertSoundFilesAndCategories(QList<DB::SoundFile> const&)));
     connect(db_handler_, SIGNAL(progressChanged(int)),
             this, SLOT(onProgressChanged(int)));
+    connect(category_view_, SIGNAL(categorySelected(DB::CategoryRecord*)),
+            this, SLOT(onSelectedCategoryChanged(DB::CategoryRecord*)));
 }
 
 void DsaMediaControlKit::initLayout()
 {
     QHBoxLayout* layout = new QHBoxLayout;
 
-    QHBoxLayout* list_view_layout = new QHBoxLayout;
-    list_view_layout->addWidget(list_view1_);
-    list_view_layout->addWidget(list_view2_);
+    QHBoxLayout* preset_group_layout = new QHBoxLayout;
+    preset_group_layout->addWidget(preset_scroll_area_);
+    preset_group_->setLayout(preset_group_layout);
 
     QVBoxLayout* l_layout = new QVBoxLayout;
-    l_layout->addWidget(category_view_, 2);
-    l_layout->addWidget(sound_file_view_, 2);
-    l_layout->addLayout(list_view_layout, 1);
+    l_layout->addWidget(left_v_splitter_, 1);
+    left_box_->setLayout(l_layout);
 
     QVBoxLayout* r_layout = new QVBoxLayout;
     r_layout->addWidget(create_preset_button_, -1);
     r_layout->addWidget(preset_group_, 1);
+    right_box_->setLayout(r_layout);
 
-    layout->addLayout(l_layout, 1);
-    layout->addLayout(r_layout, 1);
+    layout->addWidget(center_h_splitter_);
 
     setLayout(layout);
 }
@@ -160,7 +203,6 @@ void DsaMediaControlKit::initMenu()
 
 void DsaMediaControlKit::initDB()
 {
-    QString db_path = QDir::currentPath() + "/../../db/dsamediacontrolkit.db";
-    DB::Core::Api* db_api = new DB::Core::Api(db_path, this);
+    DB::Core::Api* db_api = new DB::Core::Api(Resources::DATABASE_PATH, this);
     db_handler_ = new DB::Handler(db_api, this);
 }

@@ -34,7 +34,10 @@ Playlist::Playlist(QList<DB::SoundFileRecord*> const& sound_files, QObject *pare
     , ui_settings_()
     , sound_files_(sound_files)
 {
-
+    QString name = "PlaylistNew"+QString::number(id);
+    name_ = name;
+    addSoundFiles(sound_files);
+    qDebug()  << "create playlist with qlist of sounds";
 }
 
 Playlist::~Playlist()
@@ -57,7 +60,7 @@ void Playlist::setName(const QString &name)
     name_ = name;
 }
 
-QList<DB::SoundFileRecord *> Playlist::getSoundFiles() const
+const QList<DB::SoundFileRecord *> &Playlist::getSoundFiles() const
 {
     return sound_files_;
 }
@@ -70,6 +73,11 @@ void Playlist::addSoundFile(DB::SoundFileRecord *sound_file)
 void Playlist::setSoundFiles(const QList<DB::SoundFileRecord *> &sound_files)
 {
     sound_files_ = sound_files;
+}
+
+void Playlist::addSoundFiles(const QList<DB::SoundFileRecord *> &sound_files)
+{
+    sound_files_.append(sound_files);
 }
 
 } // namespace Preset

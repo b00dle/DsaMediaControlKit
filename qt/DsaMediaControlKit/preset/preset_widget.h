@@ -7,8 +7,8 @@
 #include <QHBoxLayout>
 
 #include "preset/preset.h"
+#include "playlist_widget.h"
 #include "sound_file/sound_file_list_view.h"
-#include "preset_playlist.h"
 #include "db/table_records.h"
 
 namespace Preset {
@@ -20,6 +20,7 @@ public:
     explicit PresetWidget(QString name ,QWidget *parent = 0, int id = -1);
     explicit PresetWidget(Preset *preset, QWidget *parent = 0, int id = -1);
     explicit PresetWidget(DB::SoundFileRecord *sound_file, QWidget *parent = 0, int id = -1);
+    explicit PresetWidget(QList<DB::SoundFileRecord *> sound_list, QWidget *parent = 0, int id = -1);
     ~PresetWidget();
 
     int getID() const;
@@ -31,12 +32,14 @@ signals:
 public slots:
     void onClosedClicked(bool);
     void addPlaylist();
+    void addPlaylist(QList<DB::SoundFileRecord*> sound_files);
     void removePlaylist(int id);
 
 public slots:
 
 private:
-    void addPresetPlaylist(int id);
+    void addPlaylistWidget(int id);
+    void addPlaylistWidget(int id, QList<DB::SoundFileRecord*> sound_files);
     void removePresetPlaylist(int id);
 
     void initWidgets();
@@ -44,15 +47,15 @@ private:
 
 
     int id_;
-    int playlist_id_iterator_;
+    int playlist_widget_id_iterator_;
     Preset* preset_;
     QPushButton* add_playlist_button_;
     QPushButton* close_button_;
     QLabel* label_;
-    QMap<int, PresetPlaylist*> playlists_widgets_;
+    QMap<int, PlaylistWidget*> playlists_widgets_;
     QVBoxLayout* widget_layout_;
 };
 
-} // namespace UI
+} // namespace Preset
 
 #endif // PRESETWIDGET_H

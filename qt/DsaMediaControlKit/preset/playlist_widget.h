@@ -1,5 +1,5 @@
-#ifndef PRESET_PLAYLIST_H
-#define PRESET_PLAYLIST_H
+#ifndef PRESET_PLAYLIST_WIDGET_H
+#define PRESET_PLAYLIST_WIDGET_H
 
 #include <QWidget>
 
@@ -12,13 +12,13 @@
 
 namespace Preset {
 
-class PresetPlaylist : public QWidget
+class PlaylistWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PresetPlaylist(QString name = "playlist", QWidget *parent = 0, int id = -1);
-    explicit PresetPlaylist(Playlist* playlist, QWidget *parent = 0, int id = -1);
-    ~PresetPlaylist();
+    explicit PlaylistWidget(QString name = "playlist", QWidget *parent = 0, int id = -1);
+    explicit PlaylistWidget(Playlist* playlist, QWidget *parent = 0, int id = -1);
+    ~PlaylistWidget();
 
 signals:
     void closed(int);
@@ -41,4 +41,4 @@ private:
 
 } // namespace Preset
 
-#endif // PRESET_PLAYLIST_H
+#endif // PRESET_PLAYLIST_WIDGET_H

@@ -68,6 +68,10 @@ public:
     */
     void addSoundFileRecord(const QFileInfo& info);
 
+    /*
+    * Returns all SoundFileRecords held by this model
+    */
+    QList<DB::SoundFileRecord*> const& getSoundFiles() const;
 
 private:
     /* validates existance of given QModelIndex for this model **/

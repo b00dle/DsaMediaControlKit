@@ -4,6 +4,7 @@
 #include <QWidget>
 
 #include <QMap>
+#include <QList>
 #include <QVBoxLayout>
 #include "preset_widget.h"
 #include "preset_creator.h"
@@ -23,8 +24,9 @@ public:
     ~MultiPresetController();
 
 public slots:
-    void addPreset(QString name);
+    void addPreset(QString const& name);
     void addPreset(Preset* preset);
+    void addPreset(QList<DB::SoundFileRecord*> const& sound_list);
     void removePreset(int id);
 
     void addCreator();
@@ -40,6 +42,7 @@ private:
     /* adding and removing preset widgets **/
     void addPresetWidget(int id, QString name);
     void addPresetWidget(int id, Preset* preset);
+    void addPresetWidget(int id, QList<DB::SoundFileRecord *> const& sound_list);
     void removePresetWidget(int id);
 
     /* adding and removing preset creation widgets **/

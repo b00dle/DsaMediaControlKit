@@ -54,6 +54,12 @@ public:
     CategoryRecord* getCategoryById(int);
 
     /*
+     * Gets a CategoryRecord based on it's QModelIndex.
+     * returns 0 if none found.
+    */
+    CategoryRecord* getCategoryByIndex(QModelIndex const&);
+
+    /*
      * Gets the QStandardItem associated with given CategoryRecord.
      * returns 0 if none found.
     */
@@ -74,6 +80,18 @@ public:
 
     /* Gets all subcategory names of given CategoryRecord */
     QStringList const getSubCategoryNamesByCategory(CategoryRecord*);
+
+    /* Gets all subcategory ids of given CategoryRecord */
+    QStringList const getSubCategoryNamesByCategoryId(int);
+
+    /* Gets all subcategory ids of given CategoryRecord */
+    QList<int> const getSubCategoryIdsByItem(QStandardItem* item = 0);
+
+    /* Gets all subcategory ids of given CategoryRecord */
+    QList<int> const getSubCategoryIdsByCategory(CategoryRecord*);
+
+    /* Gets all subcategory ids of given CategoryRecord */
+    QList<int> const getSubCategoryIdsByCategoryId(int);
 
     /* Adds a CategoryRecord to this model and  **/
 

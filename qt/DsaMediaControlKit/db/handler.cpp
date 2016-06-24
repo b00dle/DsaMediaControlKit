@@ -44,6 +44,21 @@ Model::SoundFileTableModel *Handler::getSoundFileTableModel()
     return sound_file_table_model_;
 }
 
+const QList<SoundFileRecord *> Handler::getSoundFileRecordsByCategoryId(int category_id)
+{
+    QList<SoundFileRecord*> records;
+
+    QList<int> cat_ids = category_tree_model_->getSubCategoryIdsByCategoryId(category_id);
+    cat_ids.append(category_id);
+
+    foreach(int c_id, cat_ids) {
+        foreach(int s_id, api_->getRelatedIds(SOUND_FILE, CATEGORY, c_id))
+            records.append(sound_file_table_model_->getSoundFileById(s_id));
+    }
+
+    return records;
+}
+
 void Handler::addSoundFile(const QFileInfo& info)
 {
     sound_file_table_model_->addSoundFileRecord(info);

@@ -62,6 +62,14 @@ CategoryRecord* CategoryTreeModel::getCategoryById(int rid)
         return 0;
 }
 
+CategoryRecord *CategoryTreeModel::getCategoryByIndex(const QModelIndex& index)
+{
+    if(!index.isValid())
+        return 0;
+
+    return getCategoryById(index.data(Qt::UserRole).toInt());
+}
+
 QStandardItem* CategoryTreeModel::getItemByCategory(CategoryRecord* category)
 {
     if(category_to_item_.contains(category))
@@ -111,6 +119,34 @@ const QStringList CategoryTreeModel::getSubCategoryNamesByItem(QStandardItem* it
 const QStringList CategoryTreeModel::getSubCategoryNamesByCategory(CategoryRecord* category)
 {
     return getSubCategoryNamesByItem(getItemByCategory(category));
+}
+
+const QStringList CategoryTreeModel::getSubCategoryNamesByCategoryId(int id)
+{
+    return getSubCategoryNamesByItem(getItemByCategory(getCategoryById(id)));
+}
+
+const QList<int> CategoryTreeModel::getSubCategoryIdsByItem(QStandardItem* item)
+{
+    QList<int> list;
+
+    if(item == 0)
+        item = invisibleRootItem();
+
+    for(int child = 0; child < item->rowCount(); ++child)
+        list.append(getCategoryByItem(item->child(child))->id);
+
+    return list;
+}
+
+const QList<int> CategoryTreeModel::getSubCategoryIdsByCategory(CategoryRecord* category)
+{
+    return getSubCategoryIdsByItem(getItemByCategory(category));
+}
+
+const QList<int> CategoryTreeModel::getSubCategoryIdsByCategoryId(int id)
+{
+    return getSubCategoryIdsByItem(getItemByCategory(getCategoryById(id)));
 }
 
 bool CategoryTreeModel::equalCategoryName(const QString &left, const QString &right)

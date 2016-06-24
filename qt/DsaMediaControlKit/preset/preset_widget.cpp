@@ -8,7 +8,7 @@ namespace Preset {
 PresetWidget::PresetWidget(QString name, QWidget *parent, int id)
     : QWidget(parent)
     , id_(id)
-    , playlist_id_iterator_(0)
+    , playlist_widget_id_iterator_(0)
     , preset_()
     , add_playlist_button_(0)
     , close_button_(0)
@@ -24,7 +24,7 @@ PresetWidget::PresetWidget(QString name, QWidget *parent, int id)
 PresetWidget::PresetWidget(Preset *preset, QWidget *parent, int id)
     : QWidget(parent)
     , id_(id)
-    , playlist_id_iterator_(0)
+    , playlist_widget_id_iterator_(0)
     , preset_(preset)
     , add_playlist_button_(0)
     , close_button_(0)
@@ -39,7 +39,7 @@ PresetWidget::PresetWidget(Preset *preset, QWidget *parent, int id)
 PresetWidget::PresetWidget(DB::SoundFileRecord *sound_file, QWidget *parent, int id)
     : QWidget(parent)
     , id_(id)
-    , playlist_id_iterator_(0)
+    , playlist_widget_id_iterator_(0)
     , preset_()
     , add_playlist_button_(0)
     , close_button_(0)
@@ -48,6 +48,22 @@ PresetWidget::PresetWidget(DB::SoundFileRecord *sound_file, QWidget *parent, int
     , widget_layout_(0)
 {
     preset_ = new Preset(sound_file->name, sound_file, this);
+    initWidgets();
+    initLayout();
+}
+
+PresetWidget::PresetWidget(QList<DB::SoundFileRecord *> sound_list, QWidget *parent, int id)
+    : QWidget(parent)
+    , id_(id)
+    , playlist_widget_id_iterator_(0)
+    , preset_()
+    , add_playlist_button_(0)
+    , close_button_(0)
+    , label_(0)
+    , playlists_widgets_()
+    , widget_layout_(0)
+{
+    preset_ = new Preset("Test", sound_list, this);
     initWidgets();
     initLayout();
 }
@@ -64,9 +80,16 @@ int PresetWidget::getID() const
 
 void PresetWidget::addPlaylist()
 {
-    addPresetPlaylist(playlist_id_iterator_);
-    ++playlist_id_iterator_;
-    qDebug() << "Debug Preset Widget: adding playlist " << playlist_id_iterator_;
+    addPlaylistWidget(playlist_widget_id_iterator_);
+    ++playlist_widget_id_iterator_;
+    qDebug() << "Debug Preset Widget: adding playlist " << playlist_widget_id_iterator_;
+}
+
+void PresetWidget::addPlaylist(QList<DB::SoundFileRecord *> sound_files)
+{
+    addPlaylistWidget(playlist_widget_id_iterator_,sound_files);
+    ++playlist_widget_id_iterator_;
+    qDebug() << "Debug Preset Widget: adding playlist " << playlist_widget_id_iterator_<< "with sound files";
 }
 
 void PresetWidget::removePlaylist(int id)
@@ -80,14 +103,35 @@ void PresetWidget::onClosedClicked(bool)
     emit closed(id_);
 }
 
-void PresetWidget::addPresetPlaylist(int id)
+void PresetWidget::addPlaylistWidget(int id)
 {
     if(playlists_widgets_.contains(id)) {
         qDebug() << "PresetWidget note: Playlist with ID" << id << "already exists.";
         return;
     }
     QString name = "Playlist"+QString::number(id);
-    PresetPlaylist* playlist = new PresetPlaylist(name, this, id);
+    PlaylistWidget* playlist = new PlaylistWidget(name, this, id);
+    playlists_widgets_.insert(id, playlist);
+
+    widget_layout_->addWidget(playlists_widgets_[id]);
+
+    connect(playlists_widgets_[id], SIGNAL(closed(int)),
+            this, SLOT(removePlaylist(int)));
+}
+
+void PresetWidget::addPlaylistWidget(int id, QList<DB::SoundFileRecord *> sound_files)
+{
+    //TO DO: Ich muss sicherstellen, dass immer wenn ein PlaylistWidget erzeugt wird,
+    // auch eine PLaylist erzeugt wird und umgekehrt!!!
+    if(playlists_widgets_.contains(id)) {
+        qDebug() << "PresetWidget note: Playlist with ID" << id << "already exists.";
+        return;
+    }
+
+    preset_->createPlaylist(sound_files);
+
+    QString name = "Playlist"+QString::number(id);
+    PlaylistWidget* playlist = new PlaylistWidget(sound_files, this, id);
     playlists_widgets_.insert(id, playlist);
 
     widget_layout_->addWidget(playlists_widgets_[id]);
@@ -111,6 +155,13 @@ void PresetWidget::initWidgets()
     label_ = new QLabel(preset_->getName(),this);
     add_playlist_button_ = new QPushButton("new Playlist", this);
     close_button_ = new QPushButton("x", this);
+
+    if (preset_->getPlaylists().count()> 0){
+        foreach (Playlist* playlist, preset_->getPlaylists().value()){
+            addPlaylistWidget(playlist_widget_id_iterator_);
+            ++playlist_widget_id_iterator_;
+        }
+    }
 
     connect(add_playlist_button_, SIGNAL(clicked(bool)),
             this, SLOT(addPlaylist()));

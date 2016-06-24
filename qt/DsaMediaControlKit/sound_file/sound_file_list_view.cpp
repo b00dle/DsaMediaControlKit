@@ -5,6 +5,11 @@
 #include <QApplication>
 #include <QDrag>
 #include <QPixmap>
+#include <QJsonDocument>
+#include <QJsonObject>
+
+#include "resources/resources.h"
+#include "misc/json_mime_data_parser.h"
 
 namespace SoundFile {
 
@@ -72,11 +77,31 @@ void SoundFileListView::dragMoveEvent(QDragMoveEvent *event)
 
 void SoundFileListView::dropEvent(QDropEvent *event)
 {
-    SoundFileListView *source = qobject_cast<SoundFileListView *>(event->source());
+    SoundFileListView *source = qobject_cast<SoundFileListView*>(event->source());
     if (source && source != this) {
-        addSoundFile(-1, event->mimeData()->text(), "/path/to/path");
-        event->setDropAction(Qt::CopyAction);
-        event->accept();
+        // extract DB::TableRecord from mime data
+        DB::TableRecord* temp_rec = Misc::JsonMimeDataParser::toTableRecord(event->mimeData());
+
+        // validate parsing
+        if(temp_rec == 0) {
+            event->ignore();
+            return;
+        }
+
+        // handle extracted data
+        if(temp_rec->index == DB::SOUND_FILE) {
+            DB::SoundFileRecord* rec = (DB::SoundFileRecord*) temp_rec;
+            addSoundFile(rec->id, rec->name, rec->path);
+            event->setDropAction(Qt::CopyAction);
+            event->accept();
+            rec = 0;
+        }
+        else {
+            event->ignore();
+        }
+
+        delete temp_rec;
+        temp_rec = 0;
     }
 }
 
@@ -91,7 +116,7 @@ void SoundFileListView::addSoundFile(int id, const QString &name, const QString 
     items.push_back(new QStandardItem(name));
     items.push_back(new QStandardItem(path));
     model_->appendRow(items);
-    QModelIndex idx = model_->index(model_->rowCount()-1, model_->columnCount()-1);
+    QModelIndex idx = model_->index(model_->rowCount()-1, 0);
     model_->setData(idx, QVariant(id), Qt::UserRole);
 }
 
@@ -101,19 +126,25 @@ void SoundFileListView::performDrag()
     if(!index.isValid())
         return;
 
-    QString name = model_->data(model_->index(index.row(), 0)).toString();
-    if (name.size() > 0) {
-        QMimeData *mimeData = new QMimeData;
-        // TODO: all sound file data
-        mimeData->setText(name);
-        QDrag *drag = new QDrag(this);
-        drag->setMimeData(mimeData);
-        // TODO put resources reference enum resolution into config file
-        drag->setPixmap(QPixmap("../../resources/images/dick.png"));
+    // create temporary SoundFileRecord for QMimeData generation
+    DB::SoundFileRecord* temp_rec = new DB::SoundFileRecord;
+    temp_rec->id = model_->data(model_->index(index.row(), 0), Qt::UserRole).toInt();
+    temp_rec->name = model_->data(model_->index(index.row(), 0)).toString();
+    temp_rec->path = model_->data(model_->index(index.row(), 1)).toString();
 
-        // will block until drag done
-        drag->exec(Qt::CopyAction);
-    }
+    // create QMimeData
+    QMimeData* mime_data = Misc::JsonMimeDataParser::toJsonMimeData(temp_rec);
+
+    // delete temporary TableRecord
+    delete temp_rec;
+
+    // create Drag
+    QDrag *drag = new QDrag(this);
+    drag->setMimeData(mime_data);
+    drag->setPixmap(QPixmap(Resources::SOUND_FILE_DRAG_IMG_PATH));
+
+    // will block until drag done
+    drag->exec(Qt::CopyAction);
 }
 
 } // namespace SoundFile

@@ -1,4 +1,4 @@
-#include "preset_playlist.h"
+#include "playlist_widget.h"
 
 #include <QHBoxLayout>
 #include <QDebug>
@@ -6,7 +6,7 @@
 
 namespace Preset {
 
-PresetPlaylist::PresetPlaylist(QString name, QWidget *parent, int id )
+PlaylistWidget::PlaylistWidget(QString name, QWidget *parent, int id )
     : QWidget(parent)
     , id_(id)
     , playlist_(0)
@@ -20,7 +20,7 @@ PresetPlaylist::PresetPlaylist(QString name, QWidget *parent, int id )
     initLayout();
 }
 
-PresetPlaylist::PresetPlaylist(Playlist *playlist, QWidget *parent, int id)
+PlaylistWidget::PlaylistWidget(Playlist *playlist, QWidget *parent, int id)
     : QWidget(parent)
     , id_(id)
     , playlist_(playlist)
@@ -33,17 +33,17 @@ PresetPlaylist::PresetPlaylist(Playlist *playlist, QWidget *parent, int id)
     initLayout();
 }
 
-PresetPlaylist::~PresetPlaylist()
+PlaylistWidget::~PlaylistWidget()
 {
 
 }
 
-void PresetPlaylist::onClosedClicked(bool)
+void PlaylistWidget::onClosedClicked(bool)
 {
     emit closed(id_);
 }
 
-void PresetPlaylist::initWidgets()
+void PlaylistWidget::initWidgets()
 {
     list_view_ = new SoundFile::SoundFileListView(playlist_->getSoundFiles(),this);
     label_ = new QLineEdit(playlist_->getName(),this);
@@ -56,7 +56,7 @@ void PresetPlaylist::initWidgets()
 }
 
 
-void PresetPlaylist::initLayout()
+void PlaylistWidget::initLayout()
 {
     QHBoxLayout* layout = new QHBoxLayout;
 

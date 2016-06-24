@@ -16,13 +16,17 @@ public:
     explicit Preset(QObject *parent = 0);
     explicit Preset(QString name, QObject *parent = 0);
     explicit Preset(QString name, DB::SoundFileRecord *sound_file, QObject *parent = 0);
+    explicit Preset(QString name, QList<DB::SoundFileRecord *> sound_list, QObject *parent = 0);
     ~Preset();
 
 
     QString getName() const;
     void setName(const QString &name);
 
-    void addPlaylist(int id, Playlist* playlist);
+    QMap<int, Playlist *> getPlaylists() const;
+    void setPlaylists(const QMap<int, Playlist *> &playlists);
+
+    void createPlaylist(const QList<DB::SoundFileRecord*> &sound_files);
 
 signals:
     void presetStart();
@@ -32,9 +36,10 @@ public slots:
 
 private:
     void initComponents();
+    void addPlaylist(int id, Playlist* playlist);
 
     int id_;
-    int id_iterator_;
+    int playlist_id_iterator_;
     QString name_;
     QMap<int, Playlist*> playlists_;
 
