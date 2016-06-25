@@ -33,6 +33,20 @@ PlaylistWidget::PlaylistWidget(Playlist *playlist, QWidget *parent, int id)
     initLayout();
 }
 
+PlaylistWidget::PlaylistWidget(QList<DB::SoundFileRecord *> const& sound_files, QWidget *parent, int id)
+    : QWidget(parent)
+    , id_(id)
+    , playlist_()
+    , close_button_(0)
+    , label_(0)
+    , list_view_(0)
+    , box_(0)
+{
+    playlist_ = new Playlist(sound_files,this, id);
+    initWidgets();
+    initLayout();
+}
+
 PlaylistWidget::~PlaylistWidget()
 {
 

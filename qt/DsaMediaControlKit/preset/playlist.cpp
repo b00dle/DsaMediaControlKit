@@ -36,8 +36,6 @@ Playlist::Playlist(QList<DB::SoundFileRecord*> const& sound_files, QObject *pare
 {
     QString name = "PlaylistNew"+QString::number(id);
     name_ = name;
-    addSoundFiles(sound_files);
-    qDebug()  << "create playlist with qlist of sounds";
 }
 
 Playlist::~Playlist()

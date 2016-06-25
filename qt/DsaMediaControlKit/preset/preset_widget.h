@@ -20,7 +20,7 @@ public:
     explicit PresetWidget(QString name ,QWidget *parent = 0, int id = -1);
     explicit PresetWidget(Preset *preset, QWidget *parent = 0, int id = -1);
     explicit PresetWidget(DB::SoundFileRecord *sound_file, QWidget *parent = 0, int id = -1);
-    explicit PresetWidget(QList<DB::SoundFileRecord *> sound_list, QWidget *parent = 0, int id = -1);
+    explicit PresetWidget(const QList<DB::SoundFileRecord *> &sound_list, QWidget *parent = 0, int id = -1);
     ~PresetWidget();
 
     int getID() const;
@@ -33,13 +33,16 @@ public slots:
     void onClosedClicked(bool);
     void addPlaylist();
     void addPlaylist(QList<DB::SoundFileRecord*> sound_files);
+    void addPlaylist(Playlist* playlist);
     void removePlaylist(int id);
+    void loadPlaylistWidgets();
 
 public slots:
 
 private:
     void addPlaylistWidget(int id);
     void addPlaylistWidget(int id, QList<DB::SoundFileRecord*> sound_files);
+    void addPlaylistWidget(int id, Playlist* playlist);
     void removePresetPlaylist(int id);
 
     void initWidgets();

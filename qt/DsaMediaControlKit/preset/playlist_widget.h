@@ -18,6 +18,7 @@ class PlaylistWidget : public QWidget
 public:
     explicit PlaylistWidget(QString name = "playlist", QWidget *parent = 0, int id = -1);
     explicit PlaylistWidget(Playlist* playlist, QWidget *parent = 0, int id = -1);
+    explicit PlaylistWidget(QList<DB::SoundFileRecord* > const& sound_files, QWidget *parent = 0, int id = -1);
     ~PlaylistWidget();
 
 signals:

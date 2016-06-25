@@ -22,28 +22,27 @@ MultiPresetController::~MultiPresetController()
 
 void MultiPresetController::addPreset(const QString &name)
 {
-    qDebug() << "added preset with name";
+    qDebug() << "DEBUG: MultiPresetController - added preset with name";
     addPresetWidget(id_iterator_, name);
     id_iterator_++;
 }
 
 void MultiPresetController::addPreset(Preset *preset)
 {
-    qDebug() << "added preset with preset-param";
+    qDebug() << "DEBUG: MultiPresetController - added preset with preset-param";
     addPresetWidget(id_iterator_, preset);
     id_iterator_++;
 }
 
 void MultiPresetController::addPreset(const QList<DB::SoundFileRecord *> &sound_list)
 {
-    qDebug() << "added preset with soundlist-param";
+    qDebug() << "DEBUG: MultiPresetController - added preset with soundlist-param";
     addPresetWidget(id_iterator_, sound_list);
     id_iterator_++;
 }
 
 void MultiPresetController::addCreator()
 {
-    qDebug()<< "Open Preset Creator";
     if (preset_creator_ == NULL)
         addPresetCreator();
 }
