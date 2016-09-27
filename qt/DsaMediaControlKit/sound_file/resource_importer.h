@@ -1,5 +1,5 @@
-#ifndef SOUND_FILE_IMPORTER_H
-#define SOUND_FILE_IMPORTER_H
+#ifndef SOUND_FILE_RESOURCE_IMPORTER_H
+#define SOUND_FILE_RESOURCE_IMPORTER_H
 
 #include <QObject>
 #include <QStringList>
@@ -12,12 +12,12 @@ namespace SoundFile {
 /*
  * Class for importing soundfile ressources.
 */
-class SoundFileImporter : public QObject
+class ResourceImporter : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit SoundFileImporter(QObject *parent = 0);
+    explicit ResourceImporter(QObject *parent = 0);
 
     /*
      * Imports folder with given url.
@@ -40,4 +40,4 @@ private:
 
 } // namespace SoundFile
 
-#endif // SOUND_FILE_IMPORTER_H
+#endif // SOUND_FILE_RESOURCE_IMPORTER_H

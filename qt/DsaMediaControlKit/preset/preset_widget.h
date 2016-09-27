@@ -5,10 +5,11 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QHBoxLayout>
+#include <QMouseEvent>
 
 #include "preset/preset.h"
 #include "playlist_widget.h"
-#include "sound_file/sound_file_list_view.h"
+#include "sound_file/list_view.h"
 #include "db/table_records.h"
 
 namespace Preset {
@@ -37,7 +38,9 @@ public slots:
     void removePlaylist(int id);
     void loadPlaylistWidgets();
 
-public slots:
+protected slots:
+    virtual void mousePressEvent(QMouseEvent* e);
+    virtual void mouseMoveEvent(QMouseEvent* e);
 
 private:
     void addPlaylistWidget(int id);
@@ -57,6 +60,7 @@ private:
     QLabel* label_;
     QMap<int, PlaylistWidget*> playlists_widgets_;
     QVBoxLayout* widget_layout_;
+    QPoint move_offset_;
 };
 
 } // namespace Preset

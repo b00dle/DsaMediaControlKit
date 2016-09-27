@@ -34,15 +34,18 @@ SOURCES += main.cpp \
     preset/preset_creator.cpp \
     preset/preset_player_widget.cpp \
     preset/preset_widget.cpp \
-    sound_file/sound_file_importer.cpp \
-    sound_file/sound_file_list_view.cpp \
     dsa_media_control_kit.cpp \
     preset/playlist.cpp \
     preset/playlist_settings_widget.cpp \
     category/tree_view.cpp \
     resources/resources.cpp \
     misc/json_mime_data_parser.cpp \
-    preset/playlist_widget.cpp
+    preset/playlist_widget.cpp \
+    misc/standard_item_model.cpp \
+    sound_file/resource_importer.cpp \
+    sound_file/list_view.cpp \
+    sound_file/path_fixer.cpp \
+    sound_file/master_view.cpp
 
 HEADERS  += main_window.h \
     _TEST/audio_widget.h \
@@ -64,12 +67,15 @@ HEADERS  += main_window.h \
     preset/preset_player_widget.h \
     preset/preset_widget.h \
     preset/ui_settings.h \
-    sound_file/sound_file_importer.h \
-    sound_file/sound_file_list_view.h \
     dsa_media_control_kit.h \
     preset/playlist.h \
     preset/playlist_settings_widget.h \
     category/tree_view.h \
     resources/resources.h \
     misc/json_mime_data_parser.h \
-    preset/playlist_widget.h
+    preset/playlist_widget.h \
+    misc/standard_item_model.h \
+    sound_file/resource_importer.h \
+    sound_file/list_view.h \
+    sound_file/path_fixer.h \
+    sound_file/master_view.h

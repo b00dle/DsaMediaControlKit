@@ -8,7 +8,7 @@
 #include <QGroupBox>
 
 #include "playlist.h"
-#include "sound_file/sound_file_list_view.h"
+#include "sound_file/list_view.h"
 
 namespace Preset {
 
@@ -35,7 +35,7 @@ private:
     Playlist* playlist_;
     QPushButton* close_button_;
     QLineEdit* label_;
-    SoundFile::SoundFileListView* list_view_;
+    SoundFile::ListView* list_view_;
     QGroupBox* box_;
 
 };

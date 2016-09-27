@@ -1,5 +1,6 @@
 #include "sound_file_table_model.h"
 
+#include <QCoreApplication>
 #include <QDebug>
 
 namespace DB {
@@ -10,8 +11,7 @@ SoundFileTableModel::SoundFileTableModel(Core::Api* api, QObject* parent)
     , api_(api)
     , source_model_(0)
     , records_()
-{
-}
+{}
 
 SoundFileTableModel::~SoundFileTableModel()
 {
@@ -102,6 +102,92 @@ bool SoundFileTableModel::setHeaderData(int, Qt::Orientation, const QVariant &, 
     return false;
 }
 
+bool SoundFileTableModel::removeColumn(int, const QModelIndex&)
+{
+    return false;
+}
+
+bool SoundFileTableModel::removeColumns(int, int, const QModelIndex&)
+{
+    return false;
+}
+
+bool SoundFileTableModel::removeRow(int row, const QModelIndex&)
+{
+    if(row < 0)
+        return false;
+
+    // collect SOundFileRecord being deleted
+    DB::SoundFileRecord* rec = getSoundFileByRow(row);
+    if(rec != 0) {
+
+        // signal deletion
+        emit aboutToBeDeleted(rec);
+        QCoreApplication::processEvents();
+
+        // remove from source
+        if(!source_model_->removeRow(row, QModelIndex()))
+            return false;
+
+        // remove from storage & delete pointer
+        records_.removeAt(row);
+        delete rec;
+        rec = 0;
+
+        // call super class function
+        QAbstractTableModel::removeRow(row, QModelIndex());
+
+        return true;
+    }
+
+    return false;
+}
+
+bool SoundFileTableModel::removeRows(int row, int count, const QModelIndex&)
+{
+    if(count < 0 || row < 0)
+        return false;
+
+    if(row < records_.size() && row+count < records_.size()) {
+
+        // collect all SoundFileRecords being deleted
+        QList<DB::SoundFileRecord*> recs;
+        for(int i = row; i <= row+count; ++i) {
+            DB::SoundFileRecord* rec = getSoundFileByRow(i);
+            if(rec == 0)
+                return false;
+            recs.append(rec);
+        }
+
+        // signal deletion
+        emit aboutToBeDeleted(recs);
+        QCoreApplication::processEvents();
+
+        // remove from source model
+        if(!source_model_->removeRows(row, count, QModelIndex()))
+            return false;
+
+        // remove from storage
+        for(int i = row+count; i >= row; --i)
+            records_.removeAt(i);
+
+        // delete pointers
+        while(recs.size() > 0) {
+            DB::SoundFileRecord* rec = recs.first();
+            delete rec;
+            rec = 0;
+            recs.pop_front();
+        }
+
+        // call super class function
+        QAbstractTableModel::removeRows(row, count, QModelIndex());
+
+        return true;
+    }
+
+    return false;
+}
+
 void SoundFileTableModel::select()
 {
     if(api_ == 0) {
@@ -140,6 +226,15 @@ void SoundFileTableModel::select()
     emit layoutAboutToBeChanged();
     emit layoutChanged();
     emit dataChanged(index(0,0), index(rowCount(), columnCount()));
+}
+
+int SoundFileTableModel::getRowBySoundFile(SoundFileRecord *rec)
+{
+    for(int row = 0; row < records_.size(); ++row) {
+        if(records_[row] == rec)
+            return row;
+    }
+    return -1;
 }
 
 SoundFileRecord *SoundFileTableModel::getSoundFileByPath(const QString &path)
@@ -204,6 +299,18 @@ void SoundFileTableModel::addSoundFileRecord(const QFileInfo& info)
 const QList<SoundFileRecord *> &SoundFileTableModel::getSoundFiles() const
 {
     return records_;
+}
+
+void SoundFileTableModel::deleteSoundFile(int id)
+{
+    SoundFileRecord* rec = getSoundFileById(id);
+    if(rec == 0)
+        return;
+
+    int row = getRowBySoundFile(rec);
+
+    if(row != -1)
+        removeRow(row);
 }
 
 bool SoundFileTableModel::indexIsValid(const QModelIndex & index) const

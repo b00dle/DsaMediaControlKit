@@ -73,7 +73,7 @@ void DsaMediaControlKit::onPresetGroupReceivedDrop(QObject* source, const QMimeD
     qDebug() << " > from" << source;
     qDebug() << " > text" << data->text();
 
-    SoundFile::SoundFileListView* list_source = qobject_cast<SoundFile::SoundFileListView*>(source);
+    SoundFile::ListView* list_source = qobject_cast<SoundFile::ListView*>(source);
     // check if source is a SoundFile::SoundFileListView
     if(list_source) {
         // extract TableRecord from MimeData
@@ -108,7 +108,7 @@ void DsaMediaControlKit::onSelectedCategoryChanged(DB::CategoryRecord *rec)
 
 void DsaMediaControlKit::initWidgets()
 {
-    sound_file_view_ = new SoundFile::SoundFileListView(
+    sound_file_view_ = new SoundFile::MasterView(
         db_handler_->getSoundFileTableModel()->getSoundFiles(),
         this
     );
@@ -127,7 +127,7 @@ void DsaMediaControlKit::initWidgets()
     preset_scroll_area_->setWidget(multi_preset_controller_);
     preset_scroll_area_->setWidgetResizable(true);
 
-    sound_file_importer_ = new SoundFile::SoundFileImporter(this);
+    sound_file_importer_ = new SoundFile::ResourceImporter(this);
 
     category_view_ = new Category::TreeView(this);
     category_view_->setCategoryTreeModel(db_handler_->getCategoryTreeModel());
@@ -157,6 +157,10 @@ void DsaMediaControlKit::initWidgets()
             this, SLOT(onProgressChanged(int)));
     connect(category_view_, SIGNAL(categorySelected(DB::CategoryRecord*)),
             this, SLOT(onSelectedCategoryChanged(DB::CategoryRecord*)));
+    connect(sound_file_view_, SIGNAL(deleteSoundFileRequested(int)),
+            db_handler_->getSoundFileTableModel(), SLOT(deleteSoundFile(int)));
+    connect(db_handler_->getSoundFileTableModel(), SIGNAL(aboutToBeDeleted(DB::SoundFileRecord*)),
+            sound_file_view_, SLOT(onSoundFileAboutToBeDeleted(DB::SoundFileRecord*)));
 }
 
 void DsaMediaControlKit::initLayout()
