@@ -8,6 +8,7 @@
 #include <QGroupBox>
 
 #include "playlist.h"
+#include "playlist_settings_widget.h"
 #include "sound_file/sound_file_list_view.h"
 
 namespace Preset {
@@ -27,13 +28,20 @@ signals:
 public slots:
     void onClosedClicked(bool);
 
+private slots:
+    void onSettingsButtonClicked(bool);
+
+
 private:
     void initWidgets();
     void initLayout();
 
+
     int id_;
     Playlist* playlist_;
+    PlaylistSettingsWidget* playlist_settings_widget_;
     QPushButton* close_button_;
+    QPushButton* settings_button_;
     QLineEdit* label_;
     SoundFile::SoundFileListView* list_view_;
     QGroupBox* box_;

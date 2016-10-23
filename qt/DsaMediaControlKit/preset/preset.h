@@ -9,6 +9,11 @@
 
 namespace Preset {
 
+/*
+ * A preset is a collection of different sound playlists. It allows to play
+ * all playlists with their own settings at once.
+*/
+
 class Preset : public QObject
 {
     Q_OBJECT
@@ -26,6 +31,9 @@ public:
     QMap<int, Playlist *> getPlaylists() const;
     void setPlaylists(const QMap<int, Playlist *> &playlists);
 
+    /*
+     * creat a playlist and add it to the preset.
+    */
     Playlist* createPlaylist(const QString &name);
     Playlist* createPlaylist(const QList<DB::SoundFileRecord*> &sound_files);
 

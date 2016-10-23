@@ -7,6 +7,7 @@ struct Resources
 {
     static QString DATABASE_PATH;
     static QString SOUND_FILE_DRAG_IMG_PATH;
+    static QString PLAYLIST_SETTINGS_IMG_PATH;
 };
 
 #endif // RESOURCES_H

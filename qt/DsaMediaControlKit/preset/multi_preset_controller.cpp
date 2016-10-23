@@ -68,7 +68,6 @@ void MultiPresetController::addPresetWidget(int id, QString name)
         qDebug() << "NOTIFICATION: Widget with ID" << id << "already exists.";
         return;
     }
-
     // make sure player exists for connections below
     //if(!active_widgets_.contains(id))
     //    addPreset(id);

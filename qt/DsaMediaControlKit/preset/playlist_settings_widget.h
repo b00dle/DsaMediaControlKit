@@ -3,19 +3,37 @@
 
 #include <QWidget>
 
+#include <QGroupBox>
+#include <QPushButton>
+#include <QLineEdit>
+#include "playlist_settings.h"
+
 namespace Preset {
 
-class AudioSettingsWidget : public QWidget
+class PlaylistSettingsWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit AudioSettingsWidget(QWidget *parent = 0);
+    explicit PlaylistSettingsWidget(QWidget *parent = 0);
+    ~PlaylistSettingsWidget();
 
 signals:
+    void closed();
+    void created(QString const&);
 
 public slots:
+    void onClosedClicked(bool);
+    void onCreateClicked(bool);
 
 private:
+    void initWidgets();
+    void initLayout();
+
+    PlaylistSettings* playlist_settings_;
+    QLineEdit* edit_;
+    QPushButton* close_button_;
+    QPushButton* create_button_;
+    QGroupBox* box_;
 
 };
 

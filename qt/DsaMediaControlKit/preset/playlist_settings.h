@@ -5,7 +5,7 @@ namespace Preset {
 
 
 /*
- * Describes in which order a component should play sound files.
+ * Describes in which order a playlist can play its sound files.
  * ordered: simply follows the imported order.
  * shuffle: random order.
  * weigthed: component looks up sound weights and plays probablistic.
@@ -17,7 +17,7 @@ enum PlayOrder{
 };
 
 /*
- * Struct describing how a component should play its sound files.
+ * Struct describing how a playlist should play its sound files.
 */
 struct PlaylistSettings{
 
