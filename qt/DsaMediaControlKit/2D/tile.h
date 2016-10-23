@@ -1,5 +1,5 @@
-#ifndef TWO_D_GRAPHICS_ITEM_H
-#define TWO_D_GRAPHICS_ITEM_H
+#ifndef TWO_D_TILE_H
+#define TWO_D_TILE_H
 
 #include <QObject>
 #include <QGraphicsItem>
@@ -9,10 +9,11 @@
 #include <QTimer>
 #include <QLineF>
 #include <QMouseEvent>
+#include <QMediaPlayer>
 
 namespace TwoD {
 
-class GraphicsItem : public QObject, public QGraphicsItem
+class Tile : public QObject, public QGraphicsItem
 {
     Q_OBJECT
     Q_PROPERTY(QPointF pos READ pos WRITE setPos)
@@ -38,13 +39,19 @@ protected:
     };
 
 public:
-    GraphicsItem(QGraphicsItem* parent = 0);
+    Tile(QGraphicsItem* parent = 0);
+    virtual ~Tile();
 
-    QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    virtual QRectF boundingRect() const;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
-    void setSize(int);
-    int getSize() const;
+    virtual void setSize(int);
+    virtual int getSize() const;
+
+signals:
+    void mousePressed(QGraphicsSceneMouseEvent* e);
+    void mouseReleased(QGraphicsSceneMouseEvent* e);
+    void mouseMoved(QGraphicsSceneMouseEvent* e);
 
 protected slots:
     /* slot to enable move mode after timer */
@@ -81,4 +88,4 @@ protected:
 
 } // namespace TwoD
 
-#endif // TWO_D_GRAPHICS_ITEM_H
+#endif // TWO_D_TILE_ITEM_H

@@ -1,31 +1,35 @@
-#include "graphics_item.h"
+#include "tile.h"
 #include <QDebug>
 #include <QGraphicsScene>
 #include <QPropertyAnimation>
+#include <QGraphicsPixmapItem>
 
 #define OFFSET 5
 
 namespace TwoD {
 
-GraphicsItem::GraphicsItem(QGraphicsItem* parent)
+Tile::Tile(QGraphicsItem* parent)
     : QObject(0)
     , QGraphicsItem(parent)
     , long_click_timer_()
-    , long_click_duration_(1000)
+    , long_click_duration_(300)
     , mode_(IDLE)
     , size_(1)
-{
+{    
     long_click_timer_ = new QTimer;
     connect(long_click_timer_, SIGNAL(timeout()),
             this, SLOT(onLongClick()));
 }
 
-QRectF GraphicsItem::boundingRect() const
+Tile::~Tile()
+{}
+
+QRectF Tile::boundingRect() const
 {
     return QRectF(0,0,100*size_,100*size_);
 }
 
-void GraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+void Tile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     scene()->update(scene()->sceneRect());
 
@@ -58,7 +62,7 @@ void GraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QW
     painter->drawRect(draw_rect);
 }
 
-void GraphicsItem::setSize(int size)
+void Tile::setSize(int size)
 {
     int prev_size = size_;
     size_ = size;
@@ -85,7 +89,7 @@ void GraphicsItem::setSize(int size)
         QSet<QGraphicsItem*> remove_items;
         foreach(QGraphicsItem* it, items) {
             // cast necessary for property animation
-            GraphicsItem* c_it = dynamic_cast<GraphicsItem*>(it);
+            Tile* c_it = dynamic_cast<Tile*>(it);
 
             // skip non GraphicsItems
             if(!c_it)
@@ -159,12 +163,12 @@ void GraphicsItem::setSize(int size)
         anim->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
-int GraphicsItem::getSize() const
+int Tile::getSize() const
 {
     return size_;
 }
 
-void GraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent* e)
+void Tile::mousePressEvent(QGraphicsSceneMouseEvent* e)
 {
     if(e->button() == Qt::LeftButton) {
         setMode(SELECTED);
@@ -178,16 +182,18 @@ void GraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent* e)
     }
 
     QGraphicsItem::mousePressEvent(e);
+    emit mousePressed(e);
 }
 
-void GraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* e)
+void Tile::mouseReleaseEvent(QGraphicsSceneMouseEvent* e)
 {
     setMode(IDLE);
     long_click_timer_->stop();
     QGraphicsItem::mouseReleaseEvent(e);
+    emit mouseReleased(e);
 }
 
-void GraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
+void Tile::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 {
     if(mode_ == MOVE) {
         QPointF p = pos();
@@ -238,20 +244,22 @@ void GraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
         if(col_it.size() > 0)
             setPos(p);
     }
+
+    emit mouseMoved(e);
 }
 
-void GraphicsItem::setMode(GraphicsItem::ItemMode mode)
+void Tile::setMode(Tile::ItemMode mode)
 {
     mode_ = mode;
     update();
 }
 
-void GraphicsItem::onLongClick()
+void Tile::onLongClick()
 {
     setMode(MOVE);
 }
 
-qreal GraphicsItem::distance(const QPointF &p, const QLineF &l)
+qreal Tile::distance(const QPointF &p, const QLineF &l)
 {
     // transform to loocal coordinates system (0,0) - (lx, ly)
     QPointF p1 = l.p1();
@@ -271,7 +279,7 @@ qreal GraphicsItem::distance(const QPointF &p, const QLineF &l)
     return fabs(x*y2 - y*x2) / norm;
 }
 
-GraphicsItem::BOX_SIDE GraphicsItem::closestSide(const QPointF &p, const QRectF &rect)
+Tile::BOX_SIDE Tile::closestSide(const QPointF &p, const QRectF &rect)
 {
     qreal x_min = rect.x();
     qreal x_max = rect.x() + rect.width();
