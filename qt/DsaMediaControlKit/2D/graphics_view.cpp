@@ -87,6 +87,7 @@ void GraphicsView::dropEvent(QDropEvent *event)
     PlayerTile* tile = new PlayerTile;
     tile->setFlag(QGraphicsItem::ItemIsMovable, true);
     tile->setMedia(QMediaContent(QUrl(rec->path)));
+    tile->setName(rec->name);
 
     // set position
     QPoint p(event->pos());

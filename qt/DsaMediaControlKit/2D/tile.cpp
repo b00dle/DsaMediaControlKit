@@ -15,10 +15,13 @@ Tile::Tile(QGraphicsItem* parent)
     , long_click_duration_(300)
     , mode_(IDLE)
     , size_(1)
+    , name_()
 {    
     long_click_timer_ = new QTimer;
     connect(long_click_timer_, SIGNAL(timeout()),
             this, SLOT(onLongClick()));
+
+    setAcceptHoverEvents(true);
 }
 
 Tile::~Tile()
@@ -33,33 +36,12 @@ void Tile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     scene()->update(scene()->sceneRect());
 
-    QBrush b(Qt::blue);
+    setDefaultOpacity();
 
-    QRectF draw_rect = boundingRect();
-    draw_rect.setX(draw_rect.x()+OFFSET);
-    draw_rect.setY(draw_rect.y()+OFFSET);
-    draw_rect.setWidth(draw_rect.width()-OFFSET);
-    draw_rect.setHeight(draw_rect.height()-OFFSET);
+    QRectF paint_rect(getPaintRect());
 
-    switch(mode_) {
-        case SELECTED:
-            setOpacity(1.0);
-            b.setColor(Qt::green);
-            break;
-
-        case MOVE:
-            setOpacity(0.2);
-            b.setColor(Qt::green);
-            break;
-
-        case IDLE:
-        default:
-            setOpacity(1.0);
-            break;
-    }
-
-    painter->fillRect(draw_rect, b);
-    painter->drawRect(draw_rect);
+    painter->fillRect(paint_rect, getBackgroundBrush());
+    painter->drawRect(paint_rect);
 }
 
 void Tile::setSize(int size)
@@ -168,6 +150,16 @@ int Tile::getSize() const
     return size_;
 }
 
+void Tile::setName(const QString &str)
+{
+    name_ = str;
+}
+
+const QString &Tile::getName() const
+{
+    return name_;
+}
+
 void Tile::mousePressEvent(QGraphicsSceneMouseEvent* e)
 {
     if(e->button() == Qt::LeftButton) {
@@ -248,10 +240,69 @@ void Tile::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
     emit mouseMoved(e);
 }
 
+void Tile::hoverEnterEvent(QGraphicsSceneHoverEvent* e)
+{
+    if(mode_ == IDLE)
+        setMode(HOVER);
+    e->accept();
+}
+
+void Tile::hoverLeaveEvent(QGraphicsSceneHoverEvent* e)
+{
+    if(mode_ == HOVER)
+        setMode(IDLE);
+    e->accept();
+}
+
+const QRectF Tile::getPaintRect() const
+{
+    QRectF paint_rect = boundingRect();
+    paint_rect.setX(paint_rect.x()+OFFSET);
+    paint_rect.setY(paint_rect.y()+OFFSET);
+    paint_rect.setWidth(paint_rect.width()-OFFSET);
+    paint_rect.setHeight(paint_rect.height()-OFFSET);
+    return paint_rect;
+}
+
+const QBrush Tile::getBackgroundBrush() const
+{
+    QBrush b(Qt::blue);
+
+    switch(mode_) {
+        case SELECTED:
+        case MOVE:
+            b.setColor(Qt::green);
+            break;
+
+        case HOVER:
+            b.setColor(Qt::red);
+            break;
+
+        default:
+            break;
+    }
+
+    return b;
+}
+
+void Tile::setDefaultOpacity()
+{
+    switch(mode_) {
+        case MOVE:
+            setOpacity(0.2);
+            break;
+
+        default:
+            setOpacity(1.0);
+            break;
+    }
+
+}
+
 void Tile::setMode(Tile::ItemMode mode)
 {
     mode_ = mode;
-    update();
+    update(boundingRect());
 }
 
 void Tile::onLongClick()

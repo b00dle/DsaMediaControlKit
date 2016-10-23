@@ -15,6 +15,8 @@ public:
     PlayerTile(QGraphicsItem* parent = 0);
     virtual ~PlayerTile();
 
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+
 public slots:
     virtual void setMedia(const QMediaContent& c);
     virtual void play();
@@ -25,6 +27,11 @@ protected:
      * BC overrides
     */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* e);
+
+    /*
+     * Returns the image based on the playback state
+    */
+    virtual const QPixmap getPlayStatePixmap() const;
 
     QMediaPlayer* player_;
     bool is_playing_;

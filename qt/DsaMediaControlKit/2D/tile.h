@@ -6,6 +6,7 @@
 #include <QElapsedTimer>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsSceneHoverEvent>
 #include <QTimer>
 #include <QLineF>
 #include <QMouseEvent>
@@ -24,6 +25,7 @@ protected:
     */
     enum ItemMode {
         IDLE,
+        HOVER,
         SELECTED,
         MOVE
     };
@@ -48,6 +50,9 @@ public:
     virtual void setSize(int);
     virtual int getSize() const;
 
+    virtual void setName(const QString& str);
+    virtual const QString& getName() const;
+
 signals:
     void mousePressed(QGraphicsSceneMouseEvent* e);
     void mouseReleased(QGraphicsSceneMouseEvent* e);
@@ -64,6 +69,23 @@ protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* e);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* e);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* e);
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *e);
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *e);
+
+    /*
+    * Returns QRectF definition for draw area
+    */
+    virtual const QRectF getPaintRect() const;
+
+    /*
+    * Returns default background color brush based on ItemMode
+    */
+    virtual const QBrush getBackgroundBrush() const;
+
+    /*
+    * Sets default opacity value based on ItemState
+    */
+    virtual void setDefaultOpacity();
 
     /*
      * setter
@@ -80,6 +102,7 @@ protected:
     */
     static BOX_SIDE closestSide(const QPointF& p, const QRectF& rect);
 
+    QString name_;
     QTimer* long_click_timer_;
     int long_click_duration_;
     ItemMode mode_;

@@ -1,4 +1,7 @@
 #include "player_tile.h"
+#include "resources/resources.h"
+
+#include <QGraphicsScene>
 
 namespace TwoD {
 
@@ -8,11 +11,26 @@ PlayerTile::PlayerTile(QGraphicsItem *parent)
     , is_playing_(false)
 {
     player_ = new QMediaPlayer(this);
-
 }
 
 PlayerTile::~PlayerTile()
 {
+}
+
+void PlayerTile::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget*)
+{
+    scene()->update(scene()->sceneRect());
+
+    setDefaultOpacity();
+
+    QRectF p_rect = getPaintRect();
+
+    // paint
+    painter->fillRect(p_rect, getBackgroundBrush());
+    painter->drawPixmap((int) p_rect.x(), (int)p_rect.y(), getPlayStatePixmap());
+    painter->drawRect(p_rect);
+    if(mode_ == HOVER)
+        painter->drawText(QPointF(p_rect.x(), p_rect.y()-5), name_);
 }
 
 void PlayerTile::setMedia(const QMediaContent &c)
@@ -46,6 +64,27 @@ void PlayerTile::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
     }
 
     Tile::mouseReleaseEvent(e);
+}
+
+const QPixmap PlayerTile::getPlayStatePixmap() const
+{
+    QString icon_str;
+    if(is_playing_)
+        icon_str  = Resources::ICON_STOP_PATH;
+    else
+        icon_str = Resources::ICON_PLAY_PATH;
+
+    QRectF p_rect = getPaintRect();
+
+    QPixmap p(icon_str);
+    p = p.scaled(
+        (int)p_rect.width(),
+        (int)p_rect.height(),
+        Qt::IgnoreAspectRatio,
+        Qt::SmoothTransformation
+    );
+
+    return p;
 }
 
 } // namespace TwoD
