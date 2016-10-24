@@ -1,18 +1,20 @@
-#ifndef TWO_D_GRAPHICS_ITEM_H
-#define TWO_D_GRAPHICS_ITEM_H
+#ifndef TWO_D_TILE_H
+#define TWO_D_TILE_H
 
 #include <QObject>
 #include <QGraphicsItem>
 #include <QElapsedTimer>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsSceneHoverEvent>
 #include <QTimer>
 #include <QLineF>
 #include <QMouseEvent>
+#include <QMediaPlayer>
 
 namespace TwoD {
 
-class GraphicsItem : public QObject, public QGraphicsItem
+class Tile : public QObject, public QGraphicsItem
 {
     Q_OBJECT
     Q_PROPERTY(QPointF pos READ pos WRITE setPos)
@@ -23,6 +25,7 @@ protected:
     */
     enum ItemMode {
         IDLE,
+        HOVER,
         SELECTED,
         MOVE
     };
@@ -38,13 +41,22 @@ protected:
     };
 
 public:
-    GraphicsItem(QGraphicsItem* parent = 0);
+    Tile(QGraphicsItem* parent = 0);
+    virtual ~Tile();
 
-    QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    virtual QRectF boundingRect() const;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
-    void setSize(int);
-    int getSize() const;
+    virtual void setSize(int);
+    virtual int getSize() const;
+
+    virtual void setName(const QString& str);
+    virtual const QString& getName() const;
+
+signals:
+    void mousePressed(QGraphicsSceneMouseEvent* e);
+    void mouseReleased(QGraphicsSceneMouseEvent* e);
+    void mouseMoved(QGraphicsSceneMouseEvent* e);
 
 protected slots:
     /* slot to enable move mode after timer */
@@ -57,6 +69,23 @@ protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* e);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* e);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* e);
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *e);
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *e);
+
+    /*
+    * Returns QRectF definition for draw area
+    */
+    virtual const QRectF getPaintRect() const;
+
+    /*
+    * Returns default background color brush based on ItemMode
+    */
+    virtual const QBrush getBackgroundBrush() const;
+
+    /*
+    * Sets default opacity value based on ItemState
+    */
+    virtual void setDefaultOpacity();
 
     /*
      * setter
@@ -73,6 +102,7 @@ protected:
     */
     static BOX_SIDE closestSide(const QPointF& p, const QRectF& rect);
 
+    QString name_;
     QTimer* long_click_timer_;
     int long_click_duration_;
     ItemMode mode_;
@@ -81,4 +111,4 @@ protected:
 
 } // namespace TwoD
 
-#endif // TWO_D_GRAPHICS_ITEM_H
+#endif // TWO_D_TILE_ITEM_H

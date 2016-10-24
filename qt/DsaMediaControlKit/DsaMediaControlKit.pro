@@ -46,8 +46,9 @@ SOURCES += main.cpp \
     sound_file/list_view.cpp \
     sound_file/path_fixer.cpp \
     sound_file/master_view.cpp \
-    2D/graphics_item.cpp \
-    2D/graphics_view.cpp
+    2D/graphics_view.cpp \
+    2D/tile.cpp \
+    2D/player_tile.cpp
 
 HEADERS  += main_window.h \
     _TEST/audio_widget.h \
@@ -81,5 +82,6 @@ HEADERS  += main_window.h \
     sound_file/list_view.h \
     sound_file/path_fixer.h \
     sound_file/master_view.h \
-    2D/graphics_item.h \
-    2D/graphics_view.h
+    2D/graphics_view.h \
+    2D/tile.h \
+    2D/player_tile.h

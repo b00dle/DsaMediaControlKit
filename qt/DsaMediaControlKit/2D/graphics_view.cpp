@@ -3,7 +3,8 @@
 #include <QDebug>
 #include <QMimeData>
 
-#include "graphics_item.h"
+#include "player_tile.h"
+#include "misc/json_mime_data_parser.h"
 
 namespace TwoD {
 
@@ -72,22 +73,35 @@ void GraphicsView::dropEvent(QDropEvent *event)
     if(!scene())
         return;
 
-    GraphicsView *source = qobject_cast<GraphicsView*>(event->source());
-    if (event->source() && source != this) {
-        GraphicsItem* it = new GraphicsItem;
-        it->setFlag(QGraphicsItem::ItemIsMovable, true);
+    // extract DB::TableRecord from mime data
+    DB::TableRecord* temp_rec = Misc::JsonMimeDataParser::toTableRecord(event->mimeData());
 
-        QPoint p(event->pos());
-        p.setX(p.x()-(it->boundingRect().width()/2.0));
-        p.setY(p.y()-(it->boundingRect().height()/2.0));
-
-        it->setPos(p);
-
-        scene()->addItem(it);
-
-        event->setDropAction(Qt::CopyAction);
-        event->accept();
+    // validate parsing
+    if(temp_rec == 0 || temp_rec->index != DB::SOUND_FILE) {
+        event->ignore();
+        return;
     }
+
+    // create graphics item
+    DB::SoundFileRecord* rec = (DB::SoundFileRecord*) temp_rec;
+    PlayerTile* tile = new PlayerTile;
+    tile->setFlag(QGraphicsItem::ItemIsMovable, true);
+    tile->setMedia(QMediaContent(QUrl(rec->path)));
+    tile->setName(rec->name);
+
+    // set position
+    QPoint p(event->pos());
+    p.setX(p.x()-(tile->boundingRect().width()/2.0));
+    p.setY(p.y()-(tile->boundingRect().height()/2.0));
+    tile->setPos(p);
+
+    // add to scene
+    scene()->addItem(tile);
+
+    // except event
+    event->setDropAction(Qt::CopyAction);
+    event->accept();
+    rec = 0;
 }
 
 } // namespace TwoD
