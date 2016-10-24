@@ -71,7 +71,7 @@ void PlaylistWidget::onSettingsButtonClicked(bool)
 
 void PlaylistWidget::initWidgets()
 {
-    list_view_ = new SoundFile::SoundFileListView(playlist_->getSoundFiles(),this);
+    list_view_ = new SoundFile::ListView(playlist_->getSoundFiles(),this);
     label_ = new QLineEdit(playlist_->getName(),this);
     close_button_ = new QPushButton("x", this);
     settings_button_ = new QPushButton(this);

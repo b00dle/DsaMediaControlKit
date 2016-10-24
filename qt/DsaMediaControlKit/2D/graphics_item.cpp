@@ -1,0 +1,314 @@
+#include "graphics_item.h"
+#include <QDebug>
+#include <QGraphicsScene>
+#include <QPropertyAnimation>
+
+#define OFFSET 5
+
+namespace TwoD {
+
+GraphicsItem::GraphicsItem(QGraphicsItem* parent)
+    : QObject(0)
+    , QGraphicsItem(parent)
+    , long_click_timer_()
+    , long_click_duration_(1000)
+    , mode_(IDLE)
+    , size_(1)
+{
+    long_click_timer_ = new QTimer;
+    connect(long_click_timer_, SIGNAL(timeout()),
+            this, SLOT(onLongClick()));
+}
+
+QRectF GraphicsItem::boundingRect() const
+{
+    return QRectF(0,0,100*size_,100*size_);
+}
+
+void GraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+{
+    scene()->update(scene()->sceneRect());
+
+    QBrush b(Qt::blue);
+
+    QRectF draw_rect = boundingRect();
+    draw_rect.setX(draw_rect.x()+OFFSET);
+    draw_rect.setY(draw_rect.y()+OFFSET);
+    draw_rect.setWidth(draw_rect.width()-OFFSET);
+    draw_rect.setHeight(draw_rect.height()-OFFSET);
+
+    switch(mode_) {
+        case SELECTED:
+            setOpacity(1.0);
+            b.setColor(Qt::green);
+            break;
+
+        case MOVE:
+            setOpacity(0.2);
+            b.setColor(Qt::green);
+            break;
+
+        case IDLE:
+        default:
+            setOpacity(1.0);
+            break;
+    }
+
+    painter->fillRect(draw_rect, b);
+    painter->drawRect(draw_rect);
+}
+
+void GraphicsItem::setSize(int size)
+{
+    int prev_size = size_;
+    size_ = size;
+
+    if(prev_size > size_)
+        return;
+
+    QList<QGraphicsItem*> cols = collidingItems(Qt::IntersectsItemShape);
+    // no collision, keep layout
+    if(cols.size() == 0)
+        return;
+
+    // all movement animations will have to be perfromed
+    // after seting the psoitions statically for quick intersect computation
+    QMap<QGraphicsItem*,QPropertyAnimation*> animations;
+
+    // fix overlapping
+    qreal dist = abs(size_ * 100 - prev_size * 100);
+    bool collision = true;
+    QSet<QGraphicsItem*> items = scene()->items().toSet();
+    items.remove(this);
+    while(collision) {
+        collision = false;
+        QSet<QGraphicsItem*> remove_items;
+        foreach(QGraphicsItem* it, items) {
+            // cast necessary for property animation
+            GraphicsItem* c_it = dynamic_cast<GraphicsItem*>(it);
+
+            // skip non GraphicsItems
+            if(!c_it)
+                continue;
+
+            /*if(c_it->x() < x()-c_it->boundingRect().width() || c_it->y() < y()-c_it->boundingRect().height()) {
+                remove_items.insert(it);
+                continue;
+            }*/
+
+            // do not move non colliding
+            if(c_it->collidingItems(Qt::IntersectsItemShape).size() == 0)
+                continue;
+
+            // move item along extension of sized item
+            QPointF start = c_it->pos();
+            QPointF end(c_it->pos().x()+dist, c_it->pos().y()+dist);
+
+            // start and end might be same for started animations
+            //if((start - end).manhattanLength() < 0.0001)
+            //    continue;
+
+            // actual new collsion found
+            collision = true;
+
+            if(!animations.contains(it)) {
+                // store positional change animation
+                QPropertyAnimation* anim = new QPropertyAnimation(c_it, "pos");
+                anim->setDuration(300);
+                anim->setStartValue(start);
+                anim->setEndValue(end);
+                anim->setEasingCurve(QEasingCurve::InOutQuad);
+                animations[it] = anim;
+            }
+
+            // set final pos statically for now
+            // overlap computation will be easier that way
+            // after all final positions are reached
+            // position change will be animated again
+            c_it->setPos(end);
+
+            // add to list of moved items
+            // (use 'it' since 'c_it' is casted)
+            remove_items.insert(it);
+
+            // extend scene bounds if item gets pushed out of screen
+            // x
+            qreal max_x = scene()->width() - c_it->boundingRect().width();
+            if (end.x() > max_x) {
+                qreal screen_ext = max_x - end.x();
+                QRectF rect = scene()->sceneRect();
+                rect.setWidth(rect.width() + abs(screen_ext));
+                scene()->setSceneRect(rect);
+            }
+            // y
+            qreal max_y = scene()->height() - c_it->boundingRect().height();
+            if (end.y() > max_y) {
+                qreal screen_ext = max_y - end.y();
+                QRectF rect = scene()->sceneRect();
+                rect.setHeight(rect.height() + abs(screen_ext));
+                scene()->setSceneRect(rect);
+            }  
+        }
+
+        // limit items to the ones, which have not been moved
+        items.subtract(remove_items);
+    }
+
+    // trigger transitions
+    foreach(QPropertyAnimation* anim, animations.values())
+        anim->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+int GraphicsItem::getSize() const
+{
+    return size_;
+}
+
+void GraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent* e)
+{
+    if(e->button() == Qt::LeftButton) {
+        setMode(SELECTED);
+        long_click_timer_->start(long_click_duration_);
+    }
+    else if(e->button() == Qt::RightButton) {
+        qDebug() << "right button";
+    }
+    else if(e->button() == Qt::MidButton) {
+        qDebug() << "mid button";
+    }
+
+    QGraphicsItem::mousePressEvent(e);
+}
+
+void GraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* e)
+{
+    setMode(IDLE);
+    long_click_timer_->stop();
+    QGraphicsItem::mouseReleaseEvent(e);
+}
+
+void GraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
+{
+    if(mode_ == MOVE) {
+        QPointF p = pos();
+        QGraphicsItem::mouseMoveEvent(e);
+        QPointF p_new = pos();
+
+        QList<QGraphicsItem*> col_it = collidingItems(Qt::IntersectsItemBoundingRect);
+        if(col_it.size() > 0) {
+            qreal x_min = col_it[0]->pos().x() - boundingRect().width();
+            qreal x_max = col_it[0]->pos().x() + col_it[0]->boundingRect().width();
+            qreal y_min = col_it[0]->pos().y() - boundingRect().height();
+            qreal y_max = col_it[0]->pos().y() + col_it[0]->boundingRect().height();
+
+            QRectF rect(QPointF(x_min, y_min), QPointF(x_max, y_max));
+
+            switch(closestSide(p_new, rect)) {
+                case LEFT:
+                    p_new.setX(x_min);
+                    break;
+                case RIGHT:
+                    p_new.setX(x_max);
+                    break;
+                case UPPER:
+                    p_new.setY(y_min);
+                    break;
+                case LOWER:
+                    p_new.setY(y_max);
+                    break;
+            }
+            setPos(p_new);
+        }
+
+        // check if item in scene bounds
+        qreal max_x = scene()->width() - boundingRect().width();
+        qreal max_y = scene()->height() - boundingRect().height();
+        if (x() < 0)
+            setPos(0, y());
+        else if (x() > max_x)
+            setPos(max_x, y());
+
+        if (y() < 0)
+            setPos(x(), 0);
+        else if (y() > max_y)
+            setPos(x(), max_y);
+
+        // if still colliding set pos back to start
+        col_it = collidingItems(Qt::IntersectsItemBoundingRect);
+        if(col_it.size() > 0)
+            setPos(p);
+    }
+}
+
+void GraphicsItem::setMode(GraphicsItem::ItemMode mode)
+{
+    mode_ = mode;
+    update();
+}
+
+void GraphicsItem::onLongClick()
+{
+    setMode(MOVE);
+}
+
+qreal GraphicsItem::distance(const QPointF &p, const QLineF &l)
+{
+    // transform to loocal coordinates system (0,0) - (lx, ly)
+    QPointF p1 = l.p1();
+    QPointF p2 = l.p2();
+    qreal x = p.x() - p1.x();
+    qreal y = p.y() - p1.y();
+    qreal x2 = p2.x() - p1.x();
+    qreal y2 = p2.y() - p1.y();
+
+    // if line is a point (nodes are the same) =>
+    // just return distance between point and one line node
+    qreal norm = sqrt(x2*x2 + y2*y2);
+    if (norm <= std::numeric_limits<int>::epsilon())
+      return sqrt(x*x + y*y);
+
+    // distance
+    return fabs(x*y2 - y*x2) / norm;
+}
+
+GraphicsItem::BOX_SIDE GraphicsItem::closestSide(const QPointF &p, const QRectF &rect)
+{
+    qreal x_min = rect.x();
+    qreal x_max = rect.x() + rect.width();
+    qreal y_min = rect.y();
+    qreal y_max = rect.y() + rect.height();
+    qreal temp_dist = 0;
+
+    // left
+    QLineF l(QPointF(x_min, y_min), QPointF(x_min, y_max));
+    qreal min_dist = distance(p,l);
+    BOX_SIDE side = LEFT;
+
+    // right
+    l.setPoints(QPointF(x_max,y_min), QPointF(x_max, y_max));
+    temp_dist = distance(p,l);
+    if(temp_dist < min_dist) {
+        min_dist = temp_dist;
+        side = RIGHT;
+    }
+
+    // upper
+    l.setPoints(QPointF(x_min, y_min), QPointF(x_max, y_min));
+    temp_dist = distance(p,l);
+    if(temp_dist < min_dist) {
+        min_dist = temp_dist;
+        side = UPPER;
+    }
+
+    // lower
+    l.setPoints(QPointF(x_min, y_max), QPointF(x_max, y_max));
+    temp_dist = distance(p,l);
+    if(temp_dist < min_dist) {
+        min_dist = temp_dist;
+        side = LOWER;
+    }
+
+    return side;
+}
+
+} // namespace TwoD

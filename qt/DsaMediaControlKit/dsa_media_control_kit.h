@@ -17,10 +17,11 @@
 
 #include "preset/multi_preset_controller.h"
 #include "misc/drop_group_box.h"
-#include "sound_file/sound_file_importer.h"
-#include "sound_file/sound_file_list_view.h"
+#include "sound_file/resource_importer.h"
+#include "sound_file/master_view.h"
 #include "db/handler.h"
 #include "category/tree_view.h"
+#include "2D/graphics_view.h"
 
 class DsaMediaControlKit : public QWidget
 {
@@ -59,13 +60,11 @@ private:
     QMenu* main_menu_;
 
     // WIDGETS
-    SoundFile::SoundFileListView* sound_file_view_;
+    SoundFile::MasterView* sound_file_view_;
     Category::TreeView* category_view_;
     Preset::MultiPresetController* multi_preset_controller_;
-    Misc::DropGroupBox* preset_group_;
-    QScrollArea* preset_scroll_area_;
-    QPushButton* create_preset_button_;
-    SoundFile::SoundFileImporter* sound_file_importer_;
+    TwoD::GraphicsView* preset_view_;
+    SoundFile::ResourceImporter* sound_file_importer_;
     QSplitter* center_h_splitter_;
     QSplitter* left_v_splitter_;
     QGroupBox* left_box_;

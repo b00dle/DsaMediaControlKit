@@ -22,22 +22,45 @@ public:
     ~SoundFileTableModel();
 
     //// inheritted functions (from pure virtual BC) - see docs for description
+
     // read
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
+
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
+
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const;
 
     //write
     Qt::ItemFlags flags(const QModelIndex &index) const;
+
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
+
     bool setHeaderData(int section, Qt::Orientation orientation,
                        const QVariant &value, int role = Qt::DisplayRole);
+
+    /* does nothing, returns false */
+    bool removeColumn(int column, const QModelIndex &parent = QModelIndex());
+
+    /* does nothing, returns false */
+    bool removeColumns(int column, int count, const QModelIndex &parent = QModelIndex());
+
+    bool removeRow(int row, const QModelIndex &parent = QModelIndex());
+
+    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex());
+
     //// end inheritted functions
 
     /* Fills model with data from SoundFile database table **/
     void select();
+
+    /*
+     * Gets the row of SoundFileRecord.
+     * Returns -1 if none found
+    */
+    int getRowBySoundFile(DB::SoundFileRecord* rec);
 
     /*
      * Gets SoundFileRecord based on path.
@@ -72,6 +95,16 @@ public:
     * Returns all SoundFileRecords held by this model
     */
     QList<DB::SoundFileRecord*> const& getSoundFiles() const;
+
+public slots:
+    void deleteSoundFile(int id);
+
+signals:
+    /* triggered and processed before SoundFileRecord gets deleted */
+    void aboutToBeDeleted(DB::SoundFileRecord*);
+
+    /* triggered and processed before SoundFileRecords get deleted */
+    void aboutToBeDeleted(const QList<DB::SoundFileRecord*>&);
 
 private:
     /* validates existance of given QModelIndex for this model **/

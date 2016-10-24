@@ -16,9 +16,7 @@ DsaMediaControlKit::DsaMediaControlKit(QWidget *parent)
     , sound_file_view_(0)
     , category_view_(0)
     , multi_preset_controller_()
-    , preset_group_(0)
-    , preset_scroll_area_(0)
-    , create_preset_button_(0)
+    , preset_view_(0)
     , sound_file_importer_(0)
     , center_h_splitter_(0)
     , left_v_splitter_(0)
@@ -73,7 +71,7 @@ void DsaMediaControlKit::onPresetGroupReceivedDrop(QObject* source, const QMimeD
     qDebug() << " > from" << source;
     qDebug() << " > text" << data->text();
 
-    SoundFile::SoundFileListView* list_source = qobject_cast<SoundFile::SoundFileListView*>(source);
+    SoundFile::ListView* list_source = qobject_cast<SoundFile::ListView*>(source);
     // check if source is a SoundFile::SoundFileListView
     if(list_source) {
         // extract TableRecord from MimeData
@@ -108,7 +106,7 @@ void DsaMediaControlKit::onSelectedCategoryChanged(DB::CategoryRecord *rec)
 
 void DsaMediaControlKit::initWidgets()
 {
-    sound_file_view_ = new SoundFile::SoundFileListView(
+    sound_file_view_ = new SoundFile::MasterView(
         db_handler_->getSoundFileTableModel()->getSoundFiles(),
         this
     );
@@ -119,15 +117,11 @@ void DsaMediaControlKit::initWidgets()
     progress_bar_->setValue(100);
     progress_bar_->hide();
 
-    create_preset_button_ = new QPushButton("Create Preset", this);
     multi_preset_controller_ = new Preset::MultiPresetController(this);
 
-    preset_group_ = new Misc::DropGroupBox("Presets:", this);
-    preset_scroll_area_ = new QScrollArea(this);
-    preset_scroll_area_->setWidget(multi_preset_controller_);
-    preset_scroll_area_->setWidgetResizable(true);
+    preset_view_ = new TwoD::GraphicsView(this);
 
-    sound_file_importer_ = new SoundFile::SoundFileImporter(this);
+    sound_file_importer_ = new SoundFile::ResourceImporter(this);
 
     category_view_ = new Category::TreeView(this);
     category_view_->setCategoryTreeModel(db_handler_->getCategoryTreeModel());
@@ -147,33 +141,28 @@ void DsaMediaControlKit::initWidgets()
     center_h_splitter_->setStretchFactor(0, 0);
     center_h_splitter_->setStretchFactor(1, 10);
 
-    connect(preset_group_, SIGNAL(receivedDrop(QObject*, const QMimeData*)),
-            this, SLOT(onPresetGroupReceivedDrop(QObject*, const QMimeData*)));
-    connect(create_preset_button_, SIGNAL(clicked(bool)),
-            this, SLOT(createPresetButtonClicked(bool)));
     connect(sound_file_importer_, SIGNAL(folderImported(QList<DB::SoundFile> const&)),
             db_handler_, SLOT(insertSoundFilesAndCategories(QList<DB::SoundFile> const&)));
     connect(db_handler_, SIGNAL(progressChanged(int)),
             this, SLOT(onProgressChanged(int)));
     connect(category_view_, SIGNAL(categorySelected(DB::CategoryRecord*)),
             this, SLOT(onSelectedCategoryChanged(DB::CategoryRecord*)));
+    connect(sound_file_view_, SIGNAL(deleteSoundFileRequested(int)),
+            db_handler_->getSoundFileTableModel(), SLOT(deleteSoundFile(int)));
+    connect(db_handler_->getSoundFileTableModel(), SIGNAL(aboutToBeDeleted(DB::SoundFileRecord*)),
+            sound_file_view_, SLOT(onSoundFileAboutToBeDeleted(DB::SoundFileRecord*)));
 }
 
 void DsaMediaControlKit::initLayout()
 {
     QHBoxLayout* layout = new QHBoxLayout;
 
-    QHBoxLayout* preset_group_layout = new QHBoxLayout;
-    preset_group_layout->addWidget(preset_scroll_area_);
-    preset_group_->setLayout(preset_group_layout);
-
     QVBoxLayout* l_layout = new QVBoxLayout;
     l_layout->addWidget(left_v_splitter_, 1);
     left_box_->setLayout(l_layout);
 
     QVBoxLayout* r_layout = new QVBoxLayout;
-    r_layout->addWidget(create_preset_button_, -1);
-    r_layout->addWidget(preset_group_, 1);
+    r_layout->addWidget(preset_view_, 1);
     right_box_->setLayout(r_layout);
 
     layout->addWidget(center_h_splitter_);

@@ -1,4 +1,4 @@
-#include "sound_file_list_view.h"
+#include "list_view.h"
 
 #include <QDebug>
 #include <QMimeData>
@@ -13,14 +13,12 @@
 
 namespace SoundFile {
 
-SoundFileListView::SoundFileListView(QList<DB::SoundFileRecord*> const& sound_files, QWidget *parent)
+ListView::ListView(QList<DB::SoundFileRecord*> const& sound_files, QWidget *parent)
     : QListView(parent)
     , start_pos_()
     , model_(0)
 {
-    setAcceptDrops(true);
-
-    model_ = new QStandardItemModel(this);
+    model_ = new Misc::StandardItemModel(this);
     model_->setColumnCount(2);
     model_->setHorizontalHeaderItem(0, new QStandardItem("Name"));
     model_->setHorizontalHeaderItem(1, new QStandardItem("Path"));
@@ -28,26 +26,39 @@ SoundFileListView::SoundFileListView(QList<DB::SoundFileRecord*> const& sound_fi
     setSoundFiles(sound_files);
 
     setModel(model_);
+    setAcceptDrops(true);
+    setEditable(false);
 }
 
-SoundFileListView::~SoundFileListView()
+ListView::~ListView()
 {}
 
-void SoundFileListView::setSoundFiles(const QList<DB::SoundFileRecord *>& sound_files)
+void ListView::setSoundFiles(const QList<DB::SoundFileRecord *>& sound_files)
 {
     model_->clear();
     foreach(DB::SoundFileRecord* rec, sound_files)
         addSoundFile(rec);
 }
 
-void SoundFileListView::mousePressEvent(QMouseEvent *event)
+void ListView::setEditable(bool is_editable)
+{
+    for(int i = 0; i < model_->columnCount(); ++i)
+        model_->setColumnEditable(i, is_editable);
+}
+
+bool ListView::getEditable()
+{
+    return model_->getColumnEditable(0);
+}
+
+void ListView::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
         start_pos_ = event->pos();
     QListView::mousePressEvent(event);
 }
 
-void SoundFileListView::mouseMoveEvent(QMouseEvent *event)
+void ListView::mouseMoveEvent(QMouseEvent *event)
 {
     if (event->buttons() & Qt::LeftButton) {
         int distance = (event->pos() - start_pos_).manhattanLength();
@@ -57,27 +68,27 @@ void SoundFileListView::mouseMoveEvent(QMouseEvent *event)
     QListView::mouseMoveEvent(event);
 }
 
-void SoundFileListView::dragEnterEvent(QDragEnterEvent *event)
+void ListView::dragEnterEvent(QDragEnterEvent *event)
 {
-    SoundFileListView *source = qobject_cast<SoundFileListView*>(event->source());
+    ListView *source = qobject_cast<ListView*>(event->source());
     if (source && source != this) {
         event->setDropAction(Qt::CopyAction);
         event->accept();
     }
 }
 
-void SoundFileListView::dragMoveEvent(QDragMoveEvent *event)
+void ListView::dragMoveEvent(QDragMoveEvent *event)
 {
-    SoundFileListView *source = qobject_cast<SoundFileListView *>(event->source());
+    ListView *source = qobject_cast<ListView *>(event->source());
     if (source && source != this) {
         event->setDropAction(Qt::CopyAction);
         event->accept();
     }
 }
 
-void SoundFileListView::dropEvent(QDropEvent *event)
+void ListView::dropEvent(QDropEvent *event)
 {
-    SoundFileListView *source = qobject_cast<SoundFileListView*>(event->source());
+    ListView *source = qobject_cast<ListView*>(event->source());
     if (source && source != this) {
         // extract DB::TableRecord from mime data
         DB::TableRecord* temp_rec = Misc::JsonMimeDataParser::toTableRecord(event->mimeData());
@@ -105,12 +116,17 @@ void SoundFileListView::dropEvent(QDropEvent *event)
     }
 }
 
-void SoundFileListView::addSoundFile(DB::SoundFileRecord *rec)
+void ListView::addSoundFile(DB::SoundFileRecord *rec)
 {
     addSoundFile(rec->id, rec->name, rec->path);
 }
 
-void SoundFileListView::addSoundFile(int id, const QString &name, const QString &path)
+void ListView::onSoundFileAboutToBeDeleted(DB::SoundFileRecord *)
+{
+    qDebug() << "TODO implement sound file about to be deleted.";
+}
+
+void ListView::addSoundFile(int id, const QString &name, const QString &path)
 {
     QList<QStandardItem*> items;
     items.push_back(new QStandardItem(name));
@@ -120,7 +136,7 @@ void SoundFileListView::addSoundFile(int id, const QString &name, const QString 
     model_->setData(idx, QVariant(id), Qt::UserRole);
 }
 
-void SoundFileListView::performDrag()
+void ListView::performDrag()
 {
     QModelIndex index = currentIndex();
     if(!index.isValid())

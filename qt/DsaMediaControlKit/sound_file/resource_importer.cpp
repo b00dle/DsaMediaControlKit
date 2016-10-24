@@ -1,4 +1,4 @@
-#include "sound_file_importer.h"
+#include "resource_importer.h"
 
 #include <QFileDialog>
 #include <QHBoxLayout>
@@ -8,12 +8,12 @@
 
 namespace SoundFile {
 
-SoundFileImporter::SoundFileImporter(QObject *parent)
+ResourceImporter::ResourceImporter(QObject *parent)
     : QObject(parent)
 {
 }
 
-void SoundFileImporter::parseFolder(const QUrl &url)
+void ResourceImporter::parseFolder(const QUrl &url)
 {
     QList<DB::SoundFile> files;
     if(url.isValid() && url.isLocalFile())
@@ -28,7 +28,7 @@ void SoundFileImporter::parseFolder(const QUrl &url)
     emit folderImported(files);
 }
 
-void SoundFileImporter::startBrowserFolder(bool)
+void ResourceImporter::startBrowserFolder(bool)
 {
     QUrl url = QFileDialog::getExistingDirectoryUrl(0, tr("Open Sound File Directory"));
     qDebug() << url;

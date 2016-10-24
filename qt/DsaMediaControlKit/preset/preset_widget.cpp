@@ -15,6 +15,7 @@ PresetWidget::PresetWidget(QString name, QWidget *parent, int id)
     , label_(0)
     , playlists_widgets_()
     , widget_layout_(0)
+    , move_offset_()
 {
     preset_ = new Preset(name, this);
     initWidgets();
@@ -31,6 +32,7 @@ PresetWidget::PresetWidget(Preset *preset, QWidget *parent, int id)
     , label_(0)
     , playlists_widgets_()
     , widget_layout_(0)
+    , move_offset_()
 {
     initWidgets();
     initLayout();
@@ -47,6 +49,7 @@ PresetWidget::PresetWidget(DB::SoundFileRecord *sound_file, QWidget *parent, int
     , label_(0)
     , playlists_widgets_()
     , widget_layout_(0)
+    , move_offset_()
 {
     preset_ = new Preset(sound_file->name, sound_file, this);
     initWidgets();
@@ -64,6 +67,7 @@ PresetWidget::PresetWidget (const QList<DB::SoundFileRecord *> &sound_files, QWi
     , label_(0)
     , playlists_widgets_()
     , widget_layout_(0)
+    , move_offset_()
 {
     QString name = "Preset "+QString::number(id);
     preset_ = new Preset(name, sound_files, this);
@@ -117,6 +121,19 @@ void PresetWidget::loadPlaylistWidgets()
             ++playlist_widget_id_iterator_;
         }
     }
+}
+
+void PresetWidget::mousePressEvent(QMouseEvent *e)
+{
+    QWidget::mousePressEvent(e);
+
+    move_offset_ = e->pos();
+}
+
+void PresetWidget::mouseMoveEvent(QMouseEvent *e)
+{
+    QWidget::mouseMoveEvent(e);
+    move(mapToParent(e->pos() - move_offset_));
 }
 
 void PresetWidget::onClosedClicked(bool)

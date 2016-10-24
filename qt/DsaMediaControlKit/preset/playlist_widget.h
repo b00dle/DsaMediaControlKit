@@ -9,7 +9,8 @@
 
 #include "playlist.h"
 #include "playlist_settings_widget.h"
-#include "sound_file/sound_file_list_view.h"
+#include "sound_file/list_view.h"
+
 
 namespace Preset {
 
@@ -43,7 +44,7 @@ private:
     QPushButton* close_button_;
     QPushButton* settings_button_;
     QLineEdit* label_;
-    SoundFile::SoundFileListView* list_view_;
+    SoundFile::ListView* list_view_;
     QGroupBox* box_;
 
 };
