@@ -14,6 +14,7 @@ void TreeView::setCategoryTreeModel(DB::Model::CategoryTreeModel *model)
 {
     model_ = model;
     setModel(model);
+    selectRoot();
 }
 
 void TreeView::mousePressEvent(QMouseEvent *event)
@@ -22,9 +23,14 @@ void TreeView::mousePressEvent(QMouseEvent *event)
 
     QModelIndex item = indexAt(event->pos());
     if(item.row() == -1 && item.column() == -1) {
-        selectionModel()->clearSelection();
-        emit categorySelected(0);
+        selectRoot();
     }
+}
+
+void TreeView::selectRoot()
+{
+    selectionModel()->clearSelection();
+    emit categorySelected(0);
 }
 
 void TreeView::onClicked(const QModelIndex& index)
@@ -32,7 +38,7 @@ void TreeView::onClicked(const QModelIndex& index)
     if(model_ == 0)
         return;
     else if(!index.isValid())
-        emit categorySelected(0);
+        selectRoot();
     else
         emit categorySelected(model_->getCategoryByIndex(index));
 }

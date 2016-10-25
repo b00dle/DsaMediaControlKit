@@ -56,7 +56,7 @@ void PlayerTile::stop()
 
 void PlayerTile::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 {
-    if(mode_ != MOVE) {
+    if(e->button() == Qt::LeftButton && mode_ != MOVE) {
         if(is_playing_)
             stop();
         else

@@ -104,6 +104,18 @@ const QList<int> Api::getRelatedIds(TableIndex get_table, TableIndex have_table,
     return ids;
 }
 
+void Api::deleteAll()
+{
+    // delete sound_files
+    db_wrapper_->deleteQuery(SOUND_FILE, "id > 0");
+
+    // delete sound_files
+    db_wrapper_->deleteQuery(CATEGORY, "id > 0");
+
+    // delete sound_files
+    db_wrapper_->deleteQuery(SOUND_FILE_CATEGORY, "id > 0");
+}
+
 TableIndex Api::getRelationTable(TableIndex first, TableIndex second)
 {
     if(first == second)

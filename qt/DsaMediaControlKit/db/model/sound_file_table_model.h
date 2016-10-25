@@ -53,6 +53,9 @@ public:
 
     //// end inheritted functions
 
+    /* Update model with data from db */
+    void update();
+
     /* Fills model with data from SoundFile database table **/
     void select();
 

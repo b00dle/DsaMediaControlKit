@@ -41,10 +41,9 @@ signals:
 public slots:
 
 private slots:
-    void createPresetButtonClicked(bool);
     void onProgressChanged(int);
-    void onPresetGroupReceivedDrop(QObject*, const QMimeData*);
     void onSelectedCategoryChanged(DB::CategoryRecord* rec);
+    void onDeleteDatabase();
 
 private:
     void initWidgets();
@@ -64,9 +63,11 @@ private:
     // WIDGETS
     SoundFile::MasterView* sound_file_view_;
     Category::TreeView* category_view_;
+
     //Preset::MultiPresetController* multi_preset_controller_;
     //Preset::PresetCreator* preset_creator_;
     //Preset::PresetWidget* preset_widget_;
+
     TwoD::GraphicsView* preset_view_;
     SoundFile::ResourceImporter* sound_file_importer_;
     QSplitter* center_h_splitter_;

@@ -13,9 +13,6 @@ public:
     GraphicsView(QGraphicsScene *scene, QWidget *parent);
     GraphicsView(QWidget *parent);
 
-    void resize(const QSize& size);
-    void resize(int w, int h);
-
 private:
     void resizeEvent(QResizeEvent* e);
 

@@ -17,7 +17,7 @@ DsaMediaControlKit::DsaMediaControlKit(QWidget *parent)
     , category_view_(0)
     //, multi_preset_controller_()
     //, preset_creator_()
-    //, preset_view_(0)
+    , preset_view_(0)
     , sound_file_importer_(0)
     , center_h_splitter_(0)
     , left_v_splitter_(0)
@@ -47,11 +47,6 @@ QProgressBar *DsaMediaControlKit::getProgressBar() const
     return progress_bar_;
 }
 
-void DsaMediaControlKit::createPresetButtonClicked(bool)
-{
-    //qDebug() << "create Preset Button clicked";
-    //multi_preset_controller_->addCreator();
-}
 
 void DsaMediaControlKit::onProgressChanged(int value)
 {
@@ -66,36 +61,6 @@ void DsaMediaControlKit::onProgressChanged(int value)
     progress_bar_->setValue(value);
 }
 
-void DsaMediaControlKit::onPresetGroupReceivedDrop(QObject* source, const QMimeData* data)
-{
-    qDebug() << "received DROP";
-    qDebug() << " > from" << source;
-    qDebug() << " > text" << data->text();
-
-    SoundFile::ListView* list_source = qobject_cast<SoundFile::ListView*>(source);
-    // check if source is a SoundFile::SoundFileListView
-    if(list_source) {
-        // extract TableRecord from MimeData
-        DB::TableRecord* temp_rec = Misc::JsonMimeDataParser::toTableRecord(data);
-        if(temp_rec == 0)
-            return;
-
-        // handle extracted data
-        if(temp_rec->index == DB::SOUND_FILE) {
-            DB::SoundFileRecord* rec = db_handler_->getSoundFileTableModel()->getSoundFileById(temp_rec->id);
-            // TODO: better interface for adding presets from SoundFiles
-            if(rec != 0){
-                QList<DB::SoundFileRecord*> song_list({rec});
-                //multi_preset_controller_->addPreset(new Preset::Preset("New Preset", rec, multi_preset_controller_));
-                //multi_preset_controller_->addPreset(song_list);
-            }
-        }
-
-        // delete temporary TableRecord
-        delete temp_rec;
-    }
-}
-
 void DsaMediaControlKit::onSelectedCategoryChanged(DB::CategoryRecord *rec)
 {
     int id = -1;
@@ -103,6 +68,12 @@ void DsaMediaControlKit::onSelectedCategoryChanged(DB::CategoryRecord *rec)
         id = rec->id;
 
     sound_file_view_->setSoundFiles(db_handler_->getSoundFileRecordsByCategoryId(id));
+}
+
+void DsaMediaControlKit::onDeleteDatabase()
+{
+    db_handler_->deleteAll();
+    category_view_->selectRoot();
 }
 
 void DsaMediaControlKit::initWidgets()
@@ -118,10 +89,6 @@ void DsaMediaControlKit::initWidgets()
     progress_bar_->setValue(100);
     progress_bar_->hide();
 
-    //multi_preset_controller_ = new Preset::MultiPresetController(this);
-    //preset_creator_ = new Preset::PresetCreator(this);
-    //preset_widget_ = new Preset::PresetWidget("Test",this);
-
     preset_view_ = new TwoD::GraphicsView(this);
 
     sound_file_importer_ = new SoundFile::ResourceImporter(this);
@@ -133,11 +100,8 @@ void DsaMediaControlKit::initWidgets()
     right_box_ = new QGroupBox(this);
 
     left_v_splitter_ = new QSplitter(Qt::Vertical, this);
-    //left_v_splitter_->addWidget(preset_widget_);
     left_v_splitter_->addWidget(category_view_);
     left_v_splitter_->addWidget(sound_file_view_);
-    //left_v_splitter_->addWidget(multi_preset_controller_);
-    //left_v_splitter_->addWidget(preset_creator_);
 
     left_v_splitter_->setStretchFactor(0, 2);
     left_v_splitter_->setStretchFactor(1, 8);
@@ -150,6 +114,8 @@ void DsaMediaControlKit::initWidgets()
 
     connect(sound_file_importer_, SIGNAL(folderImported(QList<DB::SoundFile> const&)),
             db_handler_, SLOT(insertSoundFilesAndCategories(QList<DB::SoundFile> const&)));
+    connect(sound_file_importer_, SIGNAL(folderImported()),
+            category_view_, SLOT(selectRoot()));
     connect(db_handler_, SIGNAL(progressChanged(int)),
             this, SLOT(onProgressChanged(int)));
     connect(category_view_, SIGNAL(categorySelected(DB::CategoryRecord*)),
@@ -164,12 +130,14 @@ void DsaMediaControlKit::initLayout()
 {
     QHBoxLayout* layout = new QHBoxLayout;
 
+    // left layout
     QVBoxLayout* l_layout = new QVBoxLayout;
-    l_layout->addWidget(left_v_splitter_, 1);
+    l_layout->addWidget(left_v_splitter_);
     left_box_->setLayout(l_layout);
 
+    // right layout
     QVBoxLayout* r_layout = new QVBoxLayout;
-    r_layout->addWidget(preset_view_, 1);
+    r_layout->addWidget(preset_view_);
     right_box_->setLayout(r_layout);
 
     layout->addWidget(center_h_splitter_);
@@ -183,8 +151,13 @@ void DsaMediaControlKit::initActions()
     actions_["Add Sound Folder..."]->setToolTip(tr("Imports a SoundFile folder into the database."));
     actions_["Add Sound Folder..."]->setShortcut(QKeySequence(tr("Ctrl+O")));
 
+    actions_["Delete Database Contents..."] = new QAction(tr("Delete Database Contents..."), this);
+    actions_["Delete Database Contents..."]->setToolTip(tr("Deletes all contents from application database."));
+
     connect(actions_["Add Sound Folder..."] , SIGNAL(triggered(bool)),
             sound_file_importer_, SLOT(startBrowserFolder(bool)));
+    connect(actions_["Delete Database Contents..."], SIGNAL(triggered()),
+            this, SLOT(onDeleteDatabase()));
 }
 
 void DsaMediaControlKit::initMenu()
@@ -193,6 +166,8 @@ void DsaMediaControlKit::initMenu()
 
     QMenu* add_menu = main_menu_->addMenu(tr("File"));
     add_menu->addAction(actions_["Add Sound Folder..."]);
+    add_menu->addSeparator();
+    add_menu->addAction(actions_["Delete Database Contents..."]);
 
     main_menu_->addMenu(add_menu);
 }
