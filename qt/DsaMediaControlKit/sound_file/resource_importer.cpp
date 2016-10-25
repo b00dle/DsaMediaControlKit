@@ -26,14 +26,14 @@ void ResourceImporter::parseFolder(const QUrl &url)
         }
     }
     emit folderImported(files);
+    emit folderImported();
 }
 
 void ResourceImporter::startBrowserFolder(bool)
 {
     QUrl url = QFileDialog::getExistingDirectoryUrl(0, tr("Open Sound File Directory"));
     qDebug() << url;
-    if(url.isValid())
-    {
+    if(url.isValid()) {
         parseFolder(url);
     }
 }

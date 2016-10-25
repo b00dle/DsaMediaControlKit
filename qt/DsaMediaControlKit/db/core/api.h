@@ -41,6 +41,11 @@ public:
     **/
     QList<int> const getRelatedIds(TableIndex get_table, TableIndex have_table, int have_id);
 
+    /*
+     * deletes all contents of the database
+    */
+    void deleteAll();
+
 signals:
 
 public slots:

@@ -28,6 +28,7 @@ public:
 
 signals:
     void folderImported(QList<DB::SoundFile> const&);
+    void folderImported();
     void statusMessageUpdated(QString const&);
 
 public slots:

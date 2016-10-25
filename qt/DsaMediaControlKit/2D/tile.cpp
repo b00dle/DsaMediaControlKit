@@ -3,6 +3,7 @@
 #include <QGraphicsScene>
 #include <QPropertyAnimation>
 #include <QGraphicsPixmapItem>
+#include <QMenu>
 
 #define OFFSET 5
 
@@ -11,21 +12,27 @@ namespace TwoD {
 Tile::Tile(QGraphicsItem* parent)
     : QObject(0)
     , QGraphicsItem(parent)
+    , name_()
     , long_click_timer_()
     , long_click_duration_(300)
     , mode_(IDLE)
     , size_(1)
-    , name_()
+    , context_menu_(0)
 {    
-    long_click_timer_ = new QTimer;
+    long_click_timer_ = new QTimer(this);
     connect(long_click_timer_, SIGNAL(timeout()),
             this, SLOT(onLongClick()));
 
     setAcceptHoverEvents(true);
+    setAcceptDrops(true);
+
+    createContextMenu();
 }
 
 Tile::~Tile()
-{}
+{
+    context_menu_->deleteLater();
+}
 
 QRectF Tile::boundingRect() const
 {
@@ -34,8 +41,6 @@ QRectF Tile::boundingRect() const
 
 void Tile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    scene()->update(scene()->sceneRect());
-
     setDefaultOpacity();
 
     QRectF paint_rect(getPaintRect());
@@ -44,110 +49,37 @@ void Tile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
     painter->drawRect(paint_rect);
 }
 
-void Tile::setSize(int size)
+void Tile::setSize(qreal size)
 {
-    int prev_size = size_;
     size_ = size;
-
-    if(prev_size > size_)
-        return;
-
-    QList<QGraphicsItem*> cols = collidingItems(Qt::IntersectsItemShape);
-    // no collision, keep layout
-    if(cols.size() == 0)
-        return;
-
-    // all movement animations will have to be perfromed
-    // after seting the psoitions statically for quick intersect computation
-    QMap<QGraphicsItem*,QPropertyAnimation*> animations;
-
-    // fix overlapping
-    qreal dist = abs(size_ * 100 - prev_size * 100);
-    bool collision = true;
-    QSet<QGraphicsItem*> items = scene()->items().toSet();
-    items.remove(this);
-    while(collision) {
-        collision = false;
-        QSet<QGraphicsItem*> remove_items;
-        foreach(QGraphicsItem* it, items) {
-            // cast necessary for property animation
-            Tile* c_it = dynamic_cast<Tile*>(it);
-
-            // skip non GraphicsItems
-            if(!c_it)
-                continue;
-
-            /*if(c_it->x() < x()-c_it->boundingRect().width() || c_it->y() < y()-c_it->boundingRect().height()) {
-                remove_items.insert(it);
-                continue;
-            }*/
-
-            // do not move non colliding
-            if(c_it->collidingItems(Qt::IntersectsItemShape).size() == 0)
-                continue;
-
-            // move item along extension of sized item
-            QPointF start = c_it->pos();
-            QPointF end(c_it->pos().x()+dist, c_it->pos().y()+dist);
-
-            // start and end might be same for started animations
-            //if((start - end).manhattanLength() < 0.0001)
-            //    continue;
-
-            // actual new collsion found
-            collision = true;
-
-            if(!animations.contains(it)) {
-                // store positional change animation
-                QPropertyAnimation* anim = new QPropertyAnimation(c_it, "pos");
-                anim->setDuration(300);
-                anim->setStartValue(start);
-                anim->setEndValue(end);
-                anim->setEasingCurve(QEasingCurve::InOutQuad);
-                animations[it] = anim;
-            }
-
-            // set final pos statically for now
-            // overlap computation will be easier that way
-            // after all final positions are reached
-            // position change will be animated again
-            c_it->setPos(end);
-
-            // add to list of moved items
-            // (use 'it' since 'c_it' is casted)
-            remove_items.insert(it);
-
-            // extend scene bounds if item gets pushed out of screen
-            // x
-            qreal max_x = scene()->width() - c_it->boundingRect().width();
-            if (end.x() > max_x) {
-                qreal screen_ext = max_x - end.x();
-                QRectF rect = scene()->sceneRect();
-                rect.setWidth(rect.width() + abs(screen_ext));
-                scene()->setSceneRect(rect);
-            }
-            // y
-            qreal max_y = scene()->height() - c_it->boundingRect().height();
-            if (end.y() > max_y) {
-                qreal screen_ext = max_y - end.y();
-                QRectF rect = scene()->sceneRect();
-                rect.setHeight(rect.height() + abs(screen_ext));
-                scene()->setSceneRect(rect);
-            }  
-        }
-
-        // limit items to the ones, which have not been moved
-        items.subtract(remove_items);
-    }
-
-    // trigger transitions
-    foreach(QPropertyAnimation* anim, animations.values())
-        anim->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
-int Tile::getSize() const
+qreal Tile::getSize() const
 {
     return size_;
+}
+
+void Tile::setSizeAnimated(qreal size)
+{
+    qreal prev_size = size_;
+
+    setSizeLayoutAware(size);
+
+    QPropertyAnimation* anim = new QPropertyAnimation(this, "size");
+    anim->setStartValue(prev_size);
+    anim->setEndValue(size);
+    anim->setDuration(300);
+    anim->start(QAbstractAnimation::DeleteWhenStopped);
+    anim->setEasingCurve(QEasingCurve::InOutQuad);
+}
+
+void Tile::setSizeLayoutAware(qreal size)
+{
+    qreal prev_size = size_;
+    size_ = size;
+    fixOverlapsAfterResize(prev_size);
+
+    scene()->update(scene()->sceneRect());
 }
 
 void Tile::setName(const QString &str)
@@ -158,6 +90,11 @@ void Tile::setName(const QString &str)
 const QString &Tile::getName() const
 {
     return name_;
+}
+
+const QMenu *Tile::getContextMenu() const
+{
+    return context_menu_;
 }
 
 void Tile::mousePressEvent(QGraphicsSceneMouseEvent* e)
@@ -244,6 +181,7 @@ void Tile::hoverEnterEvent(QGraphicsSceneHoverEvent* e)
 {
     if(mode_ == IDLE)
         setMode(HOVER);
+    emit hoverEntered(e);
     e->accept();
 }
 
@@ -251,7 +189,111 @@ void Tile::hoverLeaveEvent(QGraphicsSceneHoverEvent* e)
 {
     if(mode_ == HOVER)
         setMode(IDLE);
+    emit hoverLeft(e);
     e->accept();
+}
+
+void Tile::contextMenuEvent(QGraphicsSceneContextMenuEvent *e)
+{
+    context_menu_->popup(e->screenPos());
+}
+
+void Tile::fixOverlapsAfterResize(qreal prev_size)
+{
+    if(prev_size >= size_)
+        return;
+
+    QList<QGraphicsItem*> cols = collidingItems(Qt::IntersectsItemShape);
+    // no collision, keep layout
+    if(cols.size() == 0)
+        return;
+
+    // all movement animations will have to be perfromed
+    // after seting the psoitions statically for quick intersect computation
+    QMap<QGraphicsItem*,QPropertyAnimation*> animations;
+
+    // fix overlapping
+    qreal dist = abs(size_ * 100 - prev_size * 100);
+    bool collision = true;
+    QSet<QGraphicsItem*> items = scene()->items().toSet();
+    items.remove(this);
+    while(collision) {
+        collision = false;
+        QSet<QGraphicsItem*> remove_items;
+        foreach(QGraphicsItem* it, items) {
+            // cast necessary for property animation
+            Tile* c_it = dynamic_cast<Tile*>(it);
+
+            // skip non GraphicsItems
+            if(!c_it)
+                continue;
+
+            /*if(c_it->x() < x()-c_it->boundingRect().width() || c_it->y() < y()-c_it->boundingRect().height()) {
+                remove_items.insert(it);
+                continue;
+            }*/
+
+            // do not move non colliding
+            if(c_it->collidingItems(Qt::IntersectsItemShape).size() == 0)
+                continue;
+
+            // move item along extension of sized item
+            QPointF start = c_it->pos();
+            QPointF end(c_it->pos().x()+dist, c_it->pos().y()+dist);
+
+            // start and end might be same for started animations
+            //if((start - end).manhattanLength() < 0.0001)
+            //    continue;
+
+            // actual new collsion found
+            collision = true;
+
+            if(!animations.contains(it)) {
+                // store positional change animation
+                QPropertyAnimation* anim = new QPropertyAnimation(c_it, "pos");
+                anim->setDuration(300);
+                anim->setStartValue(start);
+                anim->setEndValue(end);
+                anim->setEasingCurve(QEasingCurve::InOutQuad);
+                animations[it] = anim;
+            }
+
+            // set final pos statically for now
+            // overlap computation will be easier that way
+            // after all final positions are reached
+            // position change will be animated again
+            c_it->setPos(end);
+
+            // add to list of moved items
+            // (use 'it' since 'c_it' is casted)
+            remove_items.insert(it);
+
+            // extend scene bounds if item gets pushed out of screen
+            // x
+            qreal max_x = scene()->width() - c_it->boundingRect().width();
+            if (end.x() > max_x) {
+                qreal screen_ext = max_x - end.x();
+                QRectF rect = scene()->sceneRect();
+                rect.setWidth(rect.width() + abs(screen_ext));
+                scene()->setSceneRect(rect);
+            }
+            // y
+            qreal max_y = scene()->height() - c_it->boundingRect().height();
+            if (end.y() > max_y) {
+                qreal screen_ext = max_y - end.y();
+                QRectF rect = scene()->sceneRect();
+                rect.setHeight(rect.height() + abs(screen_ext));
+                scene()->setSceneRect(rect);
+            }
+        }
+
+        // limit items to the ones, which have not been moved
+        items.subtract(remove_items);
+    }
+
+    // trigger transitions
+    foreach(QPropertyAnimation* anim, animations.values())
+        anim->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 const QRectF Tile::getPaintRect() const
@@ -305,9 +347,30 @@ void Tile::setMode(Tile::ItemMode mode)
     update(boundingRect());
 }
 
+void Tile::setSmallSize()
+{
+    setSizeAnimated(1);
+}
+
+void Tile::setMediumSize()
+{
+    setSizeAnimated(2);
+}
+
+void Tile::setLargeSize()
+{
+    setSizeAnimated(3);
+}
+
 void Tile::onLongClick()
 {
     setMode(MOVE);
+}
+
+void Tile::onDelete()
+{
+    scene()->removeItem(this);
+    deleteLater();
 }
 
 qreal Tile::distance(const QPointF &p, const QLineF &l)
@@ -368,6 +431,39 @@ Tile::BOX_SIDE Tile::closestSide(const QPointF &p, const QRectF &rect)
     }
 
     return side;
+}
+
+void Tile::createContextMenu()
+{
+    // create size actions
+    QAction* small_size_action = new QAction(tr("Small"), this);
+    QAction* medium_size_action = new QAction(tr("Medium"), this);
+    QAction* large_size_action = new QAction(tr("Large"), this);
+
+    connect(small_size_action, SIGNAL(triggered()),
+            this, SLOT(setSmallSize()));
+    connect(medium_size_action, SIGNAL(triggered()),
+            this, SLOT(setMediumSize()));
+    connect(large_size_action, SIGNAL(triggered()),
+            this, SLOT(setLargeSize()));
+
+    // create size menu
+    QMenu* size_menu = new QMenu(tr("Size"));
+    size_menu->addAction(small_size_action);
+    size_menu->addAction(medium_size_action);
+    size_menu->addAction(large_size_action);
+
+    // create delete action
+    QAction* delete_action = new QAction(tr("Delete"), this);
+
+    connect(delete_action, SIGNAL(triggered()),
+            this, SLOT(onDelete()));
+
+    // create context menu
+    context_menu_ = new QMenu;
+    context_menu_->addMenu(size_menu);
+    context_menu_->addSeparator();
+    context_menu_->addAction(delete_action);
 }
 
 } // namespace TwoD

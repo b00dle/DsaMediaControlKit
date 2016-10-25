@@ -38,6 +38,11 @@ signals:
 
 public slots:
     /*
+    * deletes all contents of database
+    */
+    void deleteAll();
+
+    /*
      * Add SoundFile to DB
     */
     void addSoundFile(QFileInfo const&);

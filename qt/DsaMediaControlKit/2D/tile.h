@@ -17,7 +17,9 @@ namespace TwoD {
 class Tile : public QObject, public QGraphicsItem
 {
     Q_OBJECT
+    Q_INTERFACES(QGraphicsItem) // so instances can be casted using qobject_cast
     Q_PROPERTY(QPointF pos READ pos WRITE setPos)
+    Q_PROPERTY(qreal size MEMBER size_ READ getSize WRITE setSize)
 
 protected:
     /*
@@ -47,20 +49,44 @@ public:
     virtual QRectF boundingRect() const;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
-    virtual void setSize(int);
-    virtual int getSize() const;
+    /* set size member (not layout aware) */
+    virtual void setSize(qreal size);
+    virtual qreal getSize() const;
+
+    /* animated change of tile size (layout aware) */
+    virtual void setSizeAnimated(qreal size);
+
+    /* change size of tile taking into account any overlapping with other Tiles */
+    virtual void setSizeLayoutAware(qreal size);
 
     virtual void setName(const QString& str);
     virtual const QString& getName() const;
+
+    virtual const QMenu* getContextMenu() const;
 
 signals:
     void mousePressed(QGraphicsSceneMouseEvent* e);
     void mouseReleased(QGraphicsSceneMouseEvent* e);
     void mouseMoved(QGraphicsSceneMouseEvent* e);
+    void hoverEntered(QGraphicsSceneHoverEvent *e);
+    void hoverLeft(QGraphicsSceneHoverEvent *e);
+
+public slots:
+    /* sets small size for tile */
+    virtual void setSmallSize();
+
+    /* sets medium size for tile */
+    virtual void setMediumSize();
+
+    /* sets large size for tile */
+    virtual void setLargeSize();
 
 protected slots:
     /* slot to enable move mode after timer */
     virtual void onLongClick();
+
+    /* removes this item from the scene and schedules deletion (see deleteLater) */
+    virtual void onDelete();
 
 protected:
     /*
@@ -71,6 +97,12 @@ protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* e);
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *e);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *e);
+    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent* e);
+
+    /*
+    * relayouts all other tiles based on overlaps created by resize operation
+    */
+    virtual void fixOverlapsAfterResize(qreal prev_size);
 
     /*
     * Returns QRectF definition for draw area
@@ -102,11 +134,17 @@ protected:
     */
     static BOX_SIDE closestSide(const QPointF& p, const QRectF& rect);
 
+    /*
+     * creates context menu
+    */
+    virtual void createContextMenu();
+
     QString name_;
     QTimer* long_click_timer_;
     int long_click_duration_;
     ItemMode mode_;
-    int size_;
+    qreal size_;
+    QMenu* context_menu_;
 };
 
 } // namespace TwoD
