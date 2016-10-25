@@ -77,12 +77,12 @@ void GraphicsView::dropEvent(QDropEvent *event)
 
     // set position
     QPoint p(event->pos());
-    p.setX(p.x()-(tile->boundingRect().width()/2.0));
-    p.setY(p.y()-(tile->boundingRect().height()/2.0));
     tile->setPos(p);
+    tile->setSize(0);
 
     // add to scene
     scene()->addItem(tile);
+    tile->setSmallSize();
 
     // except event
     event->setDropAction(Qt::CopyAction);

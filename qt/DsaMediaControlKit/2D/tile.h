@@ -49,10 +49,14 @@ public:
     virtual QRectF boundingRect() const;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
-    // does not take overlap into account
+    /* set size member (not layout aware) */
     virtual void setSize(qreal size);
     virtual qreal getSize() const;
 
+    /* animated change of tile size (layout aware) */
+    virtual void setSizeAnimated(qreal size);
+
+    /* change size of tile taking into account any overlapping with other Tiles */
     virtual void setSizeLayoutAware(qreal size);
 
     virtual void setName(const QString& str);
@@ -67,10 +71,7 @@ signals:
     void hoverEntered(QGraphicsSceneHoverEvent *e);
     void hoverLeft(QGraphicsSceneHoverEvent *e);
 
-protected slots:
-    /* slot to enable move mode after timer */
-    virtual void onLongClick();
-
+public slots:
     /* sets small size for tile */
     virtual void setSmallSize();
 
@@ -79,6 +80,10 @@ protected slots:
 
     /* sets large size for tile */
     virtual void setLargeSize();
+
+protected slots:
+    /* slot to enable move mode after timer */
+    virtual void onLongClick();
 
     /* removes this item from the scene and schedules deletion (see deleteLater) */
     virtual void onDelete();

@@ -41,8 +41,6 @@ QRectF Tile::boundingRect() const
 
 void Tile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    scene()->update(scene()->sceneRect());
-
     setDefaultOpacity();
 
     QRectF paint_rect(getPaintRect());
@@ -61,11 +59,27 @@ qreal Tile::getSize() const
     return size_;
 }
 
+void Tile::setSizeAnimated(qreal size)
+{
+    qreal prev_size = size_;
+
+    setSizeLayoutAware(size);
+
+    QPropertyAnimation* anim = new QPropertyAnimation(this, "size");
+    anim->setStartValue(prev_size);
+    anim->setEndValue(size);
+    anim->setDuration(300);
+    anim->start(QAbstractAnimation::DeleteWhenStopped);
+    anim->setEasingCurve(QEasingCurve::InOutQuad);
+}
+
 void Tile::setSizeLayoutAware(qreal size)
 {
     qreal prev_size = size_;
     size_ = size;
     fixOverlapsAfterResize(prev_size);
+
+    scene()->update(scene()->sceneRect());
 }
 
 void Tile::setName(const QString &str)
@@ -333,51 +347,24 @@ void Tile::setMode(Tile::ItemMode mode)
     update(boundingRect());
 }
 
-void Tile::onLongClick()
-{
-    setMode(MOVE);
-}
-
 void Tile::setSmallSize()
 {
-    qreal prev_size = size_;
-
-    setSizeLayoutAware(1);
-
-    QPropertyAnimation* anim = new QPropertyAnimation(this, "size");
-    anim->setStartValue(prev_size);
-    anim->setEndValue(1);
-    anim->setDuration(300);
-    anim->start(QAbstractAnimation::DeleteWhenStopped);
-    anim->setEasingCurve(QEasingCurve::InOutQuad);
+    setSizeAnimated(1);
 }
 
 void Tile::setMediumSize()
 {
-    qreal prev_size = size_;
-
-    setSizeLayoutAware(2);
-
-    QPropertyAnimation* anim = new QPropertyAnimation(this, "size");
-    anim->setStartValue(prev_size);
-    anim->setEndValue(2);
-    anim->setDuration(300);
-    anim->start(QAbstractAnimation::DeleteWhenStopped);
-    anim->setEasingCurve(QEasingCurve::InOutQuad);
+    setSizeAnimated(2);
 }
 
 void Tile::setLargeSize()
 {
-    qreal prev_size = size_;
+    setSizeAnimated(3);
+}
 
-    setSizeLayoutAware(3);
-
-    QPropertyAnimation* anim = new QPropertyAnimation(this, "size");
-    anim->setStartValue(prev_size);
-    anim->setEndValue(3);
-    anim->setDuration(300);
-    anim->start(QAbstractAnimation::DeleteWhenStopped);
-    anim->setEasingCurve(QEasingCurve::InOutQuad);
+void Tile::onLongClick()
+{
+    setMode(MOVE);
 }
 
 void Tile::onDelete()
