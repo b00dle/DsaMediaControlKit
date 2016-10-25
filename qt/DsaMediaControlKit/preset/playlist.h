@@ -9,6 +9,7 @@ class Playlist : public QMediaPlaylist
 {
 public:
     Playlist(QString name = "Playlist");
+
 private:
     QString name_;
 };

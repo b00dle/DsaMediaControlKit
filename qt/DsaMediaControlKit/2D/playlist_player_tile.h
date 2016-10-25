@@ -23,7 +23,10 @@ public:
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
+    virtual void receiveExternalData(const QMimeData* data);
+
     void addMedia(const QMediaContent& c);
+
 
 public slots:
     virtual void setMedia(const QMediaContent& c);

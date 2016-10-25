@@ -33,7 +33,28 @@ void PlaylistPlayerTile::paint(QPainter *painter, const QStyleOptionGraphicsItem
     painter->fillRect(p_rect, getBackgroundBrush());
     painter->drawPixmap((int) p_rect.x(), (int)p_rect.y(), getPlayStatePixmap());
     painter->drawRect(p_rect);
-    painter->drawText(QPointF(p_rect.x(), p_rect.y()-5), name_);
+    int y= 0;
+    /*foreach(const QMediaContent* media,playlist_)
+    {
+        y += 5;
+        painter->drawText(QPointF(p_rect.x(), p_rect.y()-y), name_);
+    }*/
+
+}
+
+void PlaylistPlayerTile::receiveExternalData(const QMimeData *data)
+{
+    // extract DB::TableRecord from mime data
+    DB::TableRecord* temp_rec = Misc::JsonMimeDataParser::toTableRecord(data);
+
+    // validate parsing
+    if(temp_rec == 0 || temp_rec->index != DB::SOUND_FILE) {
+        return;
+    }
+
+    // create graphics item
+    DB::SoundFileRecord* rec = (DB::SoundFileRecord*) temp_rec;
+    addMedia(QMediaContent(QUrl("file:///" + rec->path)));
 }
 
 void PlaylistPlayerTile::addMedia(const QMediaContent &c)
