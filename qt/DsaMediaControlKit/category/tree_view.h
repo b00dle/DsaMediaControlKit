@@ -22,6 +22,7 @@ signals:
     void categorySelected(DB::CategoryRecord* rec);
 
 public slots:
+    void selectRoot();
 
 private slots:
     void onClicked(QModelIndex const&);

@@ -188,6 +188,11 @@ bool SoundFileTableModel::removeRows(int row, int count, const QModelIndex&)
     return false;
 }
 
+void SoundFileTableModel::update()
+{
+    select();
+}
+
 void SoundFileTableModel::select()
 {
     if(api_ == 0) {

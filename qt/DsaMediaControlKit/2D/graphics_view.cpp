@@ -19,35 +19,21 @@ GraphicsView::GraphicsView(QWidget *parent)
     : QGraphicsView(parent)
 {
     setScene(new QGraphicsScene(QRectF(0,0,100,100),this));
-    scene()->setSceneRect(0,0,100, 100);
+    scene()->setSceneRect(0,0, 100, 100);
     setAcceptDrops(true);
-}
-
-void GraphicsView::resize(const QSize &size)
-{
-    resize(size.width(), size.height());
-}
-
-void GraphicsView::resize(int w, int h)
-{
-    QWidget::resize(w, h);
-
-    if(!scene())
-        return;
-
-    // don't scale down, so no items get lost behind scene frame
-    QRectF r = scene()->sceneRect();
-    if(w-20 > r.width())
-        r.setWidth(w-20);
-    if(h-20 > r.height())
-        r.setHeight(h-20);
-
-    scene()->setSceneRect(r);
 }
 
 void GraphicsView::resizeEvent(QResizeEvent *e)
 {
-    resize(e->size());
+    QGraphicsView::resizeEvent(e);
+    if(e->isAccepted()) {
+        QRectF r = scene()->sceneRect();
+        if(e->size().width() > r.width())
+            r.setWidth(e->size().width());
+        if(e->size().height() > r.height())
+            r.setHeight(e->size().height());
+        scene()->setSceneRect(r);
+    }
 }
 
 void GraphicsView::dragEnterEvent(QDragEnterEvent *event)
@@ -86,7 +72,7 @@ void GraphicsView::dropEvent(QDropEvent *event)
     DB::SoundFileRecord* rec = (DB::SoundFileRecord*) temp_rec;
     PlayerTile* tile = new PlayerTile;
     tile->setFlag(QGraphicsItem::ItemIsMovable, true);
-    tile->setMedia(QMediaContent(QUrl(rec->path)));
+    tile->setMedia(QMediaContent(QUrl("file:///" + rec->path)));
     tile->setName(rec->name);
 
     // set position

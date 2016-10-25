@@ -30,6 +30,8 @@ public:
 
     void insertQuery(TableIndex index, QString const& value_block);
 
+    void deleteQuery(TableIndex index, QString const& WHERE);
+
     void open();
     void close();
 

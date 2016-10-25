@@ -74,6 +74,12 @@ void SqliteWrapper::insertQuery(TableIndex index, const QString &value_block)
     executeQuery(qry_str);
 }
 
+void SqliteWrapper::deleteQuery(TableIndex index, const QString &WHERE)
+{
+    QString qry = "DELETE FROM " + toString(index) + " WHERE " + WHERE;
+    executeQuery(qry);
+}
+
 void SqliteWrapper::open()
 {
     if(db_.isOpen()) {
