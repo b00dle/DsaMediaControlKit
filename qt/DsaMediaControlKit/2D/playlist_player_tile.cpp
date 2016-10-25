@@ -9,11 +9,25 @@ namespace TwoD {
 PlaylistPlayerTile::PlaylistPlayerTile(QGraphicsItem *parent)
     : Tile(parent)
     , player_(0)
+    , playlist_(0)
     , is_playing_(false)
 {
     player_ = new QMediaPlayer(this);
     setAcceptDrops(true);
-    qDebug() << "setup playlist-tile" << acceptDrops();
+}
+
+PlaylistPlayerTile::PlaylistPlayerTile(const QMediaContent &c, QGraphicsItem *parent)
+    : Tile(parent)
+    , player_(0)
+    , playlist_(0)
+    , is_playing_(false)
+{
+    player_ = new QMediaPlayer(this);
+    playlist_ = new Preset::Playlist("Playlist");
+    playlist_->addMedia(c);
+    playlist_->setCurrentIndex(1);
+    player_->setPlaylist(playlist_);
+    setAcceptDrops(true);
 }
 
 PlaylistPlayerTile::~PlaylistPlayerTile()
@@ -59,8 +73,8 @@ void PlaylistPlayerTile::receiveExternalData(const QMimeData *data)
 
 void PlaylistPlayerTile::addMedia(const QMediaContent &c)
 {
-    playlist_.addMedia(c);
-    qDebug() << "Test?";
+    playlist_->addMedia(c);
+    qDebug() << "added song to Tile" << name_<< ":" << playlist_->mediaCount();
 }
 
 

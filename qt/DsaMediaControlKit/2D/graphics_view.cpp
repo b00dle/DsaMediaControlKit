@@ -64,7 +64,6 @@ void GraphicsView::dropEvent(QDropEvent *event)
     QPoint p(event->pos());
 
     foreach(QGraphicsItem* item, scene()->items()){
-        qDebug() <<"p:"<< p << "| item:" << item->pos();
         if (item->contains(item->mapFromScene(p))){
             QObject *selected_object = dynamic_cast<QObject*>(item);
             if(selected_object)
@@ -88,12 +87,10 @@ void GraphicsView::dropEvent(QDropEvent *event)
 
     // create graphics item
     DB::SoundFileRecord* rec = (DB::SoundFileRecord*) temp_rec;
-    PlaylistPlayerTile* tile = new PlaylistPlayerTile();
+    PlaylistPlayerTile* tile = new PlaylistPlayerTile(QMediaContent(QUrl("file:///" + rec->path)));
     tile->setFlag(QGraphicsItem::ItemIsMovable, true);
-    tile->setMedia(QMediaContent(QUrl("file:///" + rec->path)));
-    qDebug() << rec->path;
+    //tile->addMedia(QMediaContent(QUrl("file:///" + rec->path)));
     tile->setName(rec->name);
-
 
     // set position
     p.setX(p.x()-(tile->boundingRect().width()/2.0));

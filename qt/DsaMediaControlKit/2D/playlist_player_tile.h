@@ -19,6 +19,7 @@ namespace TwoD {
 
 public:
     PlaylistPlayerTile(QGraphicsItem* parent = 0);
+    PlaylistPlayerTile( const QMediaContent &c, QGraphicsItem* parent = 0);
     virtual ~PlaylistPlayerTile();
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -49,7 +50,7 @@ protected:
     virtual const QPixmap getPlayStatePixmap() const;
 
     QMediaPlayer* player_;
-    Preset::Playlist playlist_;
+    Preset::Playlist* playlist_;
     bool is_playing_;
 };
 
