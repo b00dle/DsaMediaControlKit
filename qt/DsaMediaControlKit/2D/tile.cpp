@@ -1,5 +1,6 @@
 #include "tile.h"
 #include <QDebug>
+#include <QMimeData>
 #include <QGraphicsScene>
 #include <QPropertyAnimation>
 #include <QGraphicsPixmapItem>
@@ -22,6 +23,8 @@ Tile::Tile(QGraphicsItem* parent)
             this, SLOT(onLongClick()));
 
     setAcceptHoverEvents(true);
+    setAcceptDrops(true);
+    qDebug() << "setup tile" << acceptDrops();
 }
 
 Tile::~Tile()
@@ -160,6 +163,11 @@ const QString &Tile::getName() const
     return name_;
 }
 
+void Tile::receiveExternalData(const QMimeData *data)
+{
+    qDebug() << "Tile " << name_ <<" : Received Data "<< data->text();
+}
+
 void Tile::mousePressEvent(QGraphicsSceneMouseEvent* e)
 {
     if(e->button() == Qt::LeftButton) {
@@ -252,6 +260,21 @@ void Tile::hoverLeaveEvent(QGraphicsSceneHoverEvent* e)
     if(mode_ == HOVER)
         setMode(IDLE);
     e->accept();
+}
+
+void Tile::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
+{
+    QGraphicsItem::dragEnterEvent(event);
+}
+
+void Tile::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
+{
+    QGraphicsItem::dragMoveEvent(event);
+}
+
+void Tile::dropEvent(QGraphicsSceneDragDropEvent *event)
+{
+    QGraphicsItem::dropEvent(event);
 }
 
 const QRectF Tile::getPaintRect() const

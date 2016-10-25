@@ -4,6 +4,7 @@
 #include <QMimeData>
 
 #include "player_tile.h"
+#include "playlist_player_tile.h"
 #include "misc/json_mime_data_parser.h"
 
 namespace TwoD {
@@ -52,6 +53,7 @@ void GraphicsView::resizeEvent(QResizeEvent *e)
 
 void GraphicsView::dragEnterEvent(QDragEnterEvent *event)
 {
+    //qDebug() << "GraphicView: drag Enter Event ";
     GraphicsView *source = qobject_cast<GraphicsView*>(event->source());
     if (event->source() && source != this) {
         event->setDropAction(Qt::CopyAction);
@@ -61,6 +63,7 @@ void GraphicsView::dragEnterEvent(QDragEnterEvent *event)
 
 void GraphicsView::dragMoveEvent(QDragMoveEvent *event)
 {
+    //qDebug() << "GraphicView: drag Enter Move";
     GraphicsView *source = qobject_cast<GraphicsView*>(event->source());
     if (event->source() && source != this) {
         event->setDropAction(Qt::CopyAction);
@@ -72,7 +75,22 @@ void GraphicsView::dropEvent(QDropEvent *event)
 {
     if(!scene())
         return;
+    QPoint p(event->pos());
 
+    foreach(QGraphicsItem* item, scene()->items()){
+        qDebug() <<"p:"<< p << "| item:" << item->pos();
+        if (item->contains(item->mapFromScene(p))){
+            QObject *selected_object = dynamic_cast<QObject*>(item);
+            if(selected_object)
+            {
+                Tile* t = qobject_cast<Tile*>(selected_object);
+                if(t){
+                    t->receiveExternalData(event->mimeData());
+                    return;
+                }
+            }
+        }
+    }
     // extract DB::TableRecord from mime data
     DB::TableRecord* temp_rec = Misc::JsonMimeDataParser::toTableRecord(event->mimeData());
 
@@ -84,13 +102,13 @@ void GraphicsView::dropEvent(QDropEvent *event)
 
     // create graphics item
     DB::SoundFileRecord* rec = (DB::SoundFileRecord*) temp_rec;
-    PlayerTile* tile = new PlayerTile;
+    PlaylistPlayerTile* tile = new PlaylistPlayerTile();
     tile->setFlag(QGraphicsItem::ItemIsMovable, true);
-    tile->setMedia(QMediaContent(QUrl(rec->path)));
+    tile->setMedia(QMediaContent(QUrl("file:///" + rec->path)));
+    qDebug() << rec->path;
     tile->setName(rec->name);
 
     // set position
-    QPoint p(event->pos());
     p.setX(p.x()-(tile->boundingRect().width()/2.0));
     p.setY(p.y()-(tile->boundingRect().height()/2.0));
     tile->setPos(p);

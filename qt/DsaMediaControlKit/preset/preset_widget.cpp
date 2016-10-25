@@ -100,7 +100,7 @@ void PresetWidget::addPlaylist(QList<DB::SoundFileRecord *> sound_files)
     qDebug() << "Debug Preset Widget: adding playlist " << playlist_widget_id_iterator_<< "with sound files";
 }
 
-void PresetWidget::addPlaylist(Playlist *playlist)
+void PresetWidget::addPlaylist(PlaylistOld *playlist)
 {
     addPlaylistWidget(playlist_widget_id_iterator_,playlist);
     ++playlist_widget_id_iterator_;
@@ -115,7 +115,7 @@ void PresetWidget::removePlaylist(int id)
 void PresetWidget::loadPlaylistWidgets()
 {
     if (preset_->getPlaylists().count()> 0){
-        foreach (Playlist* playlist, preset_->getPlaylists()){
+        foreach (PlaylistOld* playlist, preset_->getPlaylists()){
             qDebug() << "DEBUG: PresetWidget - foreach loop "<< playlist->getID();
             addPlaylistWidget(playlist_widget_id_iterator_, playlist);
             ++playlist_widget_id_iterator_;
@@ -150,7 +150,7 @@ void PresetWidget::addPlaylistWidget(int id)
     }
 
     QString name = "Playlist"+QString::number(id);
-    Playlist* playlist = preset_->createPlaylist(name);
+    PlaylistOld* playlist = preset_->createPlaylist(name);
     PlaylistWidget* playlist_widget = new PlaylistWidget(playlist, this, id);
     playlists_widgets_.insert(id, playlist_widget);
 
@@ -167,7 +167,7 @@ void PresetWidget::addPlaylistWidget(int id, QList<DB::SoundFileRecord *> sound_
         return;
     }
 
-    Playlist* playlist = preset_->createPlaylist(sound_files);
+    PlaylistOld* playlist = preset_->createPlaylist(sound_files);
     PlaylistWidget* playlist_widget = new PlaylistWidget(playlist, this, id);
     playlists_widgets_.insert(id, playlist_widget);
 
@@ -177,7 +177,7 @@ void PresetWidget::addPlaylistWidget(int id, QList<DB::SoundFileRecord *> sound_
             this, SLOT(removePlaylist(int)));
 }
 
-void PresetWidget::addPlaylistWidget(int id, Playlist *playlist)
+void PresetWidget::addPlaylistWidget(int id, PlaylistOld *playlist)
 {
     if(playlists_widgets_.contains(id)) {
         qDebug() << "PresetWidget note: Playlist with ID" << id << "already exists.";

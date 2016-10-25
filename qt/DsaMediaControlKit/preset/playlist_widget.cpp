@@ -17,12 +17,12 @@ PlaylistWidget::PlaylistWidget(QString name, QWidget *parent, int id )
     , list_view_(0)
     , box_(0)
 {
-    playlist_ = new Playlist(name,this, id);
+    playlist_ = new PlaylistOld(name,this, id);
     initWidgets();
     initLayout();
 }
 
-PlaylistWidget::PlaylistWidget(Playlist *playlist, QWidget *parent, int id)
+PlaylistWidget::PlaylistWidget(PlaylistOld *playlist, QWidget *parent, int id)
     : QWidget(parent)
     , id_(id)
     , playlist_(playlist)
@@ -44,7 +44,7 @@ PlaylistWidget::PlaylistWidget(QList<DB::SoundFileRecord *> const& sound_files, 
     , list_view_(0)
     , box_(0)
 {
-    playlist_ = new Playlist(sound_files,this, id);
+    playlist_ = new PlaylistOld(sound_files,this, id);
     initWidgets();
     initLayout();
 }

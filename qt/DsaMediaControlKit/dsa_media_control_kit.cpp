@@ -15,8 +15,9 @@ DsaMediaControlKit::DsaMediaControlKit(QWidget *parent)
     , main_menu_(0)
     , sound_file_view_(0)
     , category_view_(0)
-    , multi_preset_controller_()
-    , preset_view_(0)
+    //, multi_preset_controller_()
+    //, preset_creator_()
+    //, preset_view_(0)
     , sound_file_importer_(0)
     , center_h_splitter_(0)
     , left_v_splitter_(0)
@@ -48,8 +49,8 @@ QProgressBar *DsaMediaControlKit::getProgressBar() const
 
 void DsaMediaControlKit::createPresetButtonClicked(bool)
 {
-    qDebug() << "create Preset Button clicked";
-    multi_preset_controller_->addCreator();
+    //qDebug() << "create Preset Button clicked";
+    //multi_preset_controller_->addCreator();
 }
 
 void DsaMediaControlKit::onProgressChanged(int value)
@@ -86,7 +87,7 @@ void DsaMediaControlKit::onPresetGroupReceivedDrop(QObject* source, const QMimeD
             if(rec != 0){
                 QList<DB::SoundFileRecord*> song_list({rec});
                 //multi_preset_controller_->addPreset(new Preset::Preset("New Preset", rec, multi_preset_controller_));
-                multi_preset_controller_->addPreset(song_list);
+                //multi_preset_controller_->addPreset(song_list);
             }
         }
 
@@ -117,7 +118,9 @@ void DsaMediaControlKit::initWidgets()
     progress_bar_->setValue(100);
     progress_bar_->hide();
 
-    multi_preset_controller_ = new Preset::MultiPresetController(this);
+    //multi_preset_controller_ = new Preset::MultiPresetController(this);
+    //preset_creator_ = new Preset::PresetCreator(this);
+    //preset_widget_ = new Preset::PresetWidget("Test",this);
 
     preset_view_ = new TwoD::GraphicsView(this);
 
@@ -130,8 +133,12 @@ void DsaMediaControlKit::initWidgets()
     right_box_ = new QGroupBox(this);
 
     left_v_splitter_ = new QSplitter(Qt::Vertical, this);
+    //left_v_splitter_->addWidget(preset_widget_);
     left_v_splitter_->addWidget(category_view_);
     left_v_splitter_->addWidget(sound_file_view_);
+    //left_v_splitter_->addWidget(multi_preset_controller_);
+    //left_v_splitter_->addWidget(preset_creator_);
+
     left_v_splitter_->setStretchFactor(0, 2);
     left_v_splitter_->setStretchFactor(1, 8);
 

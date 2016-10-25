@@ -19,7 +19,6 @@ PresetCreator::PresetCreator(QWidget *parent)
 
 PresetCreator::~PresetCreator()
 {
-
 }
 
 const QString PresetCreator::getText()

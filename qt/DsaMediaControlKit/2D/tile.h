@@ -6,6 +6,7 @@
 #include <QElapsedTimer>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsSceneDragDropEvent>
 #include <QGraphicsSceneHoverEvent>
 #include <QTimer>
 #include <QLineF>
@@ -17,6 +18,7 @@ namespace TwoD {
 class Tile : public QObject, public QGraphicsItem
 {
     Q_OBJECT
+    Q_INTERFACES(QGraphicsItem);
     Q_PROPERTY(QPointF pos READ pos WRITE setPos)
 
 protected:
@@ -53,6 +55,8 @@ public:
     virtual void setName(const QString& str);
     virtual const QString& getName() const;
 
+    virtual void receiveExternalData(const QMimeData* data);
+
 signals:
     void mousePressed(QGraphicsSceneMouseEvent* e);
     void mouseReleased(QGraphicsSceneMouseEvent* e);
@@ -71,6 +75,10 @@ protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* e);
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *e);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *e);
+
+    virtual void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
+    virtual void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
+    virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
 
     /*
     * Returns QRectF definition for draw area

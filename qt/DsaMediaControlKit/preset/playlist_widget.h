@@ -7,7 +7,7 @@
 #include <QPushButton>
 #include <QGroupBox>
 
-#include "playlist.h"
+#include "playlist_old.h"
 #include "playlist_settings_widget.h"
 #include "sound_file/list_view.h"
 
@@ -19,7 +19,7 @@ class PlaylistWidget : public QWidget
     Q_OBJECT
 public:
     explicit PlaylistWidget(QString name = "playlist", QWidget *parent = 0, int id = -1);
-    explicit PlaylistWidget(Playlist* playlist, QWidget *parent = 0, int id = -1);
+    explicit PlaylistWidget(PlaylistOld* playlist, QWidget *parent = 0, int id = -1);
     explicit PlaylistWidget(QList<DB::SoundFileRecord* > const& sound_files, QWidget *parent = 0, int id = -1);
     ~PlaylistWidget();
 
@@ -39,7 +39,7 @@ private:
 
 
     int id_;
-    Playlist* playlist_;
+    PlaylistOld* playlist_;
     PlaylistSettingsWidget* playlist_settings_widget_;
     QPushButton* close_button_;
     QPushButton* settings_button_;
