@@ -12,7 +12,7 @@ QString Resources::PLAYLIST_SETTINGS_IMG_PATH = "../../resources/images/hammer.p
 QString Resources::SOUND_FILE_DRAG_IMG_PATH = ":/images/dick.png";
 QString Resources::ICON_PLAY_PATH = ":/images/icon_play.png";
 QString Resources::ICON_PAUSE_PATH = ":/images/icon_pause.png";
-QString Resources::ICON_STOP_PATH = ":/resources/images/icon_stop.png";
+QString Resources::ICON_STOP_PATH = ":/images/icon_stop.png";
 
 /*
 * STYLE
