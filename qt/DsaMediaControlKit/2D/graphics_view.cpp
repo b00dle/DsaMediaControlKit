@@ -91,6 +91,7 @@ void GraphicsView::dropEvent(QDropEvent *event)
     tile->setFlag(QGraphicsItem::ItemIsMovable, true);
     //tile->addMedia(QMediaContent(QUrl("file:///" + rec->path)));
     tile->setName(rec->name);
+    tile->init();
 
     // set position
     p.setX(p.x()-(tile->boundingRect().width()/2.0));
