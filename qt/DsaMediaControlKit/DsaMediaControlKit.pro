@@ -35,7 +35,6 @@ SOURCES += main.cpp \
     preset/preset_player_widget.cpp \
     preset/preset_widget.cpp \
     dsa_media_control_kit.cpp \
-    preset/playlist_settings_widget.cpp \
     category/tree_view.cpp \
     resources/resources.cpp \
     misc/json_mime_data_parser.cpp \
@@ -50,7 +49,9 @@ SOURCES += main.cpp \
     2D/player_tile.cpp \
     2D/playlist_player_tile.cpp \
     preset/playlist_old.cpp \
-    preset/playlist.cpp
+    preset/playlist.cpp \
+    preset/playlist_settings_widget_old.cpp \
+    preset/playlist_settings_widget.cpp
 
 HEADERS  += main_window.h \
     _TEST/audio_widget.h \
@@ -66,14 +67,12 @@ HEADERS  += main_window.h \
     db/table_records.h \
     misc/drop_group_box.h \
     preset/multi_preset_controller.h \
-    preset/playlist_settings.h \
     preset/preset.h \
     preset/preset_creator.h \
     preset/preset_player_widget.h \
     preset/preset_widget.h \
     preset/ui_settings.h \
     dsa_media_control_kit.h \
-    preset/playlist_settings_widget.h \
     category/tree_view.h \
     resources/resources.h \
     misc/json_mime_data_parser.h \
@@ -88,4 +87,7 @@ HEADERS  += main_window.h \
     2D/player_tile.h \
     2D/playlist_player_tile.h \
     preset/playlist_old.h \
-    preset/playlist.h
+    preset/playlist.h \
+    preset/playlist_settings_old.h \
+    preset/playlist_settings_widget_old.h \
+    preset/playlist_settings_widget.h
