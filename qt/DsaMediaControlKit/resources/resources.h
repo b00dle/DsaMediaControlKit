@@ -8,7 +8,7 @@
 struct Resources
 {
     static void init();
-    static QString loadFileToString(QString const& path);
+    static const QString loadFileToString(QString const& path);
     /*
     * database path
     */

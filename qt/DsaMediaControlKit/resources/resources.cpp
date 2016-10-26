@@ -1,6 +1,8 @@
 #include "resources.h"
 
 #include <QFile>
+#include <QDebug>
+#include <QDir>
 
 /*
 * init function
@@ -21,11 +23,17 @@ void Resources::init()
         PX_SOUND_FILE_DRAG = new QPixmap(IMG_SOUND_FILE_DRAG_PATH);
 }
 
-QString Resources::loadFileToString(const QString &path)
+const QString Resources::loadFileToString(const QString &path)
 {
     QFile file(path);
-    file.open(QFile::ReadOnly);
-    return QLatin1String(file.readAll());
+    if(file.open(QFile::ReadOnly)){
+
+        return QLatin1String(file.readAll());
+    }
+    qDebug() << file.errorString();
+    qDebug() << " > " << path;
+    qDebug() << QDir::currentPath();
+    return QString("");
 }
 
 /*
@@ -53,4 +61,5 @@ QPixmap* Resources::PX_SOUND_FILE_DRAG = 0;
 /*
 * STYLE
 */
-QString Resources::DARK_STYLE = Resources::loadFileToString(":/styles/dark_style.css");
+//QString Resources::DARK_STYLE = Resources::loadFileToString(":/styles/dark_style.css");
+QString Resources::DARK_STYLE = Resources::loadFileToString("../DsaMediaControlKit/_RES/dark_style.css");
