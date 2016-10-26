@@ -1,7 +1,6 @@
 #ifndef TWO_D_PLAYLIST_PLAYER_TILE_H
 #define TWO_D_PLAYLIST_PLAYER_TILE_H
 
-
 #include <QMediaPlayer>
 #include <QGraphicsView>
 #include <QMimeData>
@@ -34,11 +33,15 @@ public slots:
     virtual void setMedia(const QMediaContent& c);
     virtual void play();
     virtual void stop();
+    /* adjust playing icon when the player stops playing*/
     void changePlayerState(QMediaPlayer::State state);
 
 protected slots:
     /* slot to open configuration */
     virtual void onConfigurePlaylist();
+    /* */
+    void closePlaylistSettings();
+    void savePlaylistSettings();
 
 
 protected:

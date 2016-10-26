@@ -118,12 +118,32 @@ void PlaylistPlayerTile::changePlayerState(QMediaPlayer::State state)
 
 void PlaylistPlayerTile::onConfigurePlaylist()
 {
+    playlist_settings_widget_ = new Preset::PlaylistSettingsWidget(playlist_);
+    //QPoint widget_size = QPoint(playlist_settings_widget_->geometry().size().width()/2,
+    //                            playlist_settings_widget_->geometry().size().height()/2);
+    //QPoint widget_pos = QCursor::pos() - widget_size;
+    playlist_settings_widget_->move(QCursor::pos() - QPoint(170,170));
+    playlist_settings_widget_->show();
+    connect(playlist_settings_widget_, SIGNAL(closed() ),
+            this, SLOT(closePlaylistSettings() ));
+    connect(playlist_settings_widget_, SIGNAL(saved() ),
+            this, SLOT(savePlaylistSettings() ));
+}
 
+void PlaylistPlayerTile::closePlaylistSettings()
+{
+    playlist_settings_widget_->hide();
+    playlist_settings_widget_->deleteLater();
+}
+
+void PlaylistPlayerTile::savePlaylistSettings()
+{
+    qDebug() << "saved";
 }
 
 void PlaylistPlayerTile::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 {
-    if(mode_ != MOVE) {
+    if(e->MouseButtonRelease != Qt::RightButton && mode_ != MOVE) {
         if(is_playing_)
             stop();
         else
