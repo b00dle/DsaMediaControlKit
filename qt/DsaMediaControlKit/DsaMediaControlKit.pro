@@ -35,7 +35,6 @@ SOURCES += main.cpp \
     preset/preset_player_widget.cpp \
     preset/preset_widget.cpp \
     dsa_media_control_kit.cpp \
-    preset/playlist.cpp \
     preset/playlist_settings_widget.cpp \
     category/tree_view.cpp \
     resources/resources.cpp \
@@ -48,7 +47,10 @@ SOURCES += main.cpp \
     sound_file/master_view.cpp \
     2D/graphics_view.cpp \
     2D/tile.cpp \
-    2D/player_tile.cpp
+    2D/player_tile.cpp \
+    2D/playlist_player_tile.cpp \
+    preset/playlist_old.cpp \
+    preset/playlist.cpp
 
 HEADERS  += main_window.h \
     _TEST/audio_widget.h \
@@ -71,7 +73,6 @@ HEADERS  += main_window.h \
     preset/preset_widget.h \
     preset/ui_settings.h \
     dsa_media_control_kit.h \
-    preset/playlist.h \
     preset/playlist_settings_widget.h \
     category/tree_view.h \
     resources/resources.h \
@@ -84,7 +85,10 @@ HEADERS  += main_window.h \
     sound_file/master_view.h \
     2D/graphics_view.h \
     2D/tile.h \
-    2D/player_tile.h
+    2D/player_tile.h \
+    2D/playlist_player_tile.h \
+    preset/playlist_old.h \
+    preset/playlist.h
 
 RESOURCES += \
     _RES/resources.qrc

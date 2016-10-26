@@ -19,7 +19,6 @@ PresetCreator::PresetCreator(QWidget *parent)
 
 PresetCreator::~PresetCreator()
 {
-
 }
 
 const QString PresetCreator::getText()
@@ -33,9 +32,8 @@ void PresetCreator::onClosedClicked(bool)
     emit closed();
 }
 
-void PresetCreator::onTestClicked(bool)
+void PresetCreator::onCreateClicked(bool)
 {
-    qDebug() << "Test A";
     if (getText().length() > 0){
         emit created(getText());
         emit closed();
@@ -58,7 +56,7 @@ void PresetCreator::initWidgets()
     connect(close_button_, SIGNAL(clicked(bool)),
             this, SLOT(onClosedClicked(bool)));
     connect(create_button_, SIGNAL(clicked(bool)),
-            this, SLOT(onTestClicked(bool)));
+            this, SLOT(onCreateClicked(bool)));
 }
 
 void PresetCreator::initLayout()

@@ -68,7 +68,6 @@ void MultiPresetController::addPresetWidget(int id, QString name)
         qDebug() << "NOTIFICATION: Widget with ID" << id << "already exists.";
         return;
     }
-
     // make sure player exists for connections below
     //if(!active_widgets_.contains(id))
     //    addPreset(id);
@@ -129,7 +128,7 @@ void MultiPresetController::addPresetCreator()
    preset_creator_ = new PresetCreator;
    preset_creator_->show();
 
-   //widget_layout_->addWidget(preset_creator_);
+   widget_layout_->addWidget(preset_creator_);
    connect(preset_creator_, SIGNAL(closed()),
            this, SLOT(removeCreator()));
    connect(preset_creator_, SIGNAL(created(QString)),

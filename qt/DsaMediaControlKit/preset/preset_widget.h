@@ -34,7 +34,7 @@ public slots:
     void onClosedClicked(bool);
     void addPlaylist();
     void addPlaylist(QList<DB::SoundFileRecord*> sound_files);
-    void addPlaylist(Playlist* playlist);
+    void addPlaylist(PlaylistOld* playlist);
     void removePlaylist(int id);
     void loadPlaylistWidgets();
 
@@ -45,7 +45,7 @@ protected slots:
 private:
     void addPlaylistWidget(int id);
     void addPlaylistWidget(int id, QList<DB::SoundFileRecord*> sound_files);
-    void addPlaylistWidget(int id, Playlist* playlist);
+    void addPlaylistWidget(int id, PlaylistOld* playlist);
     void removePresetPlaylist(int id);
 
     void initWidgets();

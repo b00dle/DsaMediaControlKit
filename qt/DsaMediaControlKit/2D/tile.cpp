@@ -1,5 +1,6 @@
 #include "tile.h"
 #include <QDebug>
+#include <QMimeData>
 #include <QGraphicsScene>
 #include <QPropertyAnimation>
 #include <QGraphicsPixmapItem>
@@ -25,13 +26,17 @@ Tile::Tile(QGraphicsItem* parent)
 
     setAcceptHoverEvents(true);
     setAcceptDrops(true);
-
-    createContextMenu();
+    context_menu_ = new QMenu;
 }
 
 Tile::~Tile()
 {
     context_menu_->deleteLater();
+}
+
+void Tile::init()
+{
+    createContextMenu();
 }
 
 QRectF Tile::boundingRect() const
@@ -90,6 +95,12 @@ void Tile::setName(const QString &str)
 const QString &Tile::getName() const
 {
     return name_;
+}
+
+
+void Tile::receiveExternalData(const QMimeData *data)
+{
+    qDebug() << "Tile " << name_ <<" : Received Data "<< data->text();
 }
 
 const QMenu *Tile::getContextMenu() const
@@ -193,6 +204,21 @@ void Tile::hoverLeaveEvent(QGraphicsSceneHoverEvent* e)
     e->accept();
 }
 
+void Tile::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
+{
+    QGraphicsItem::dragEnterEvent(event);
+}
+
+void Tile::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
+{
+    QGraphicsItem::dragMoveEvent(event);
+}
+
+void Tile::dropEvent(QGraphicsSceneDragDropEvent *event)
+{
+    QGraphicsItem::dropEvent(event);
+}
+
 void Tile::contextMenuEvent(QGraphicsSceneContextMenuEvent *e)
 {
     context_menu_->popup(e->screenPos());
@@ -294,6 +320,7 @@ void Tile::fixOverlapsAfterResize(qreal prev_size)
     // trigger transitions
     foreach(QPropertyAnimation* anim, animations.values())
         anim->start(QAbstractAnimation::DeleteWhenStopped);
+
 }
 
 const QRectF Tile::getPaintRect() const
@@ -435,6 +462,7 @@ Tile::BOX_SIDE Tile::closestSide(const QPointF &p, const QRectF &rect)
 
 void Tile::createContextMenu()
 {
+    qDebug() << "A";
     // create size actions
     QAction* small_size_action = new QAction(tr("Small"), this);
     QAction* medium_size_action = new QAction(tr("Medium"), this);
@@ -460,7 +488,7 @@ void Tile::createContextMenu()
             this, SLOT(onDelete()));
 
     // create context menu
-    context_menu_ = new QMenu;
+
     context_menu_->addMenu(size_menu);
     context_menu_->addSeparator();
     context_menu_->addAction(delete_action);

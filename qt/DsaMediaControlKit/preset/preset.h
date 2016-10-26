@@ -5,9 +5,14 @@
 #include <QMediaPlayer>
 #include <QMediaContent>
 #include "preset/playlist_settings.h"
-#include "preset/playlist.h"
+#include "preset/playlist_old.h"
 
 namespace Preset {
+
+/*
+ * A preset is a collection of different sound playlists. It allows to play
+ * all playlists with their own settings at once.
+*/
 
 class Preset : public QObject
 {
@@ -23,11 +28,14 @@ public:
     QString getName() const;
     void setName(const QString &name);
 
-    QMap<int, Playlist *> getPlaylists() const;
-    void setPlaylists(const QMap<int, Playlist *> &playlists);
+    QMap<int, PlaylistOld *> getPlaylists() const;
+    void setPlaylists(const QMap<int, PlaylistOld *> &playlists);
 
-    Playlist* createPlaylist(const QString &name);
-    Playlist* createPlaylist(const QList<DB::SoundFileRecord*> &sound_files);
+    /*
+     * creat a playlist and add it to the preset.
+    */
+    PlaylistOld* createPlaylist(const QString &name);
+    PlaylistOld* createPlaylist(const QList<DB::SoundFileRecord*> &sound_files);
 
 signals:
     void presetStart();
@@ -37,12 +45,12 @@ public slots:
 
 private:
     void initComponents();
-    void addPlaylist(int id, Playlist* playlist);
+    void addPlaylist(int id, PlaylistOld* playlist);
 
     int id_;
     int playlist_id_iterator_;
     QString name_;
-    QMap<int, Playlist*> playlists_;
+    QMap<int, PlaylistOld*> playlists_;
 
 };
 

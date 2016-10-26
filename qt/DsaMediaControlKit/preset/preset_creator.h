@@ -25,7 +25,7 @@ signals:
 public slots:
     //void onDoneClicked(bool);
     void onClosedClicked(bool);
-    void onTestClicked(bool);
+    void onCreateClicked(bool);
 
 private:
     void initWidgets();

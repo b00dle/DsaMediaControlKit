@@ -6,6 +6,7 @@
 #include <QElapsedTimer>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsSceneDragDropEvent>
 #include <QGraphicsSceneHoverEvent>
 #include <QTimer>
 #include <QLineF>
@@ -17,6 +18,7 @@ namespace TwoD {
 class Tile : public QObject, public QGraphicsItem
 {
     Q_OBJECT
+
     Q_INTERFACES(QGraphicsItem) // so instances can be casted using qobject_cast
     Q_PROPERTY(QPointF pos READ pos WRITE setPos)
     Q_PROPERTY(qreal size MEMBER size_ READ getSize WRITE setSize)
@@ -44,7 +46,9 @@ protected:
 
 public:
     Tile(QGraphicsItem* parent = 0);
-    virtual ~Tile();
+    ~Tile();
+
+    void init();
 
     virtual QRectF boundingRect() const;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -62,7 +66,10 @@ public:
     virtual void setName(const QString& str);
     virtual const QString& getName() const;
 
+    virtual void receiveExternalData(const QMimeData* data);
+
     virtual const QMenu* getContextMenu() const;
+
 
 signals:
     void mousePressed(QGraphicsSceneMouseEvent* e);
@@ -104,6 +111,10 @@ protected:
     */
     virtual void fixOverlapsAfterResize(qreal prev_size);
 
+    virtual void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
+    virtual void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
+    virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
+
     /*
     * Returns QRectF definition for draw area
     */
@@ -138,6 +149,7 @@ protected:
      * creates context menu
     */
     virtual void createContextMenu();
+
 
     QString name_;
     QTimer* long_click_timer_;

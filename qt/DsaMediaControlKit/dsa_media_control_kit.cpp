@@ -15,6 +15,8 @@ DsaMediaControlKit::DsaMediaControlKit(QWidget *parent)
     , main_menu_(0)
     , sound_file_view_(0)
     , category_view_(0)
+    //, multi_preset_controller_()
+    //, preset_creator_()
     , preset_view_(0)
     , sound_file_importer_(0)
     , center_h_splitter_(0)
@@ -44,6 +46,7 @@ QProgressBar *DsaMediaControlKit::getProgressBar() const
 {
     return progress_bar_;
 }
+
 
 void DsaMediaControlKit::onProgressChanged(int value)
 {
@@ -99,6 +102,7 @@ void DsaMediaControlKit::initWidgets()
     left_v_splitter_ = new QSplitter(Qt::Vertical, this);
     left_v_splitter_->addWidget(category_view_);
     left_v_splitter_->addWidget(sound_file_view_);
+
     left_v_splitter_->setStretchFactor(0, 2);
     left_v_splitter_->setStretchFactor(1, 8);
 
