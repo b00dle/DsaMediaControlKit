@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QMediaPlayer>
 #include <QMediaContent>
-#include "preset/playlist_settings.h"
+#include "preset/playlist_settings_old.h"
 #include "preset/playlist_old.h"
 
 namespace Preset {

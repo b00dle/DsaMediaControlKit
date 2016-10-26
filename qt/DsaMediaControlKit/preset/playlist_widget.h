@@ -8,7 +8,7 @@
 #include <QGroupBox>
 
 #include "playlist_old.h"
-#include "playlist_settings_widget.h"
+#include "playlist_settings_widget_old.h"
 #include "sound_file/list_view.h"
 
 
@@ -40,7 +40,7 @@ private:
 
     int id_;
     PlaylistOld* playlist_;
-    PlaylistSettingsWidget* playlist_settings_widget_;
+    PlaylistSettingsWidgetOld* playlist_settings_widget_;
     QPushButton* close_button_;
     QPushButton* settings_button_;
     QLineEdit* label_;

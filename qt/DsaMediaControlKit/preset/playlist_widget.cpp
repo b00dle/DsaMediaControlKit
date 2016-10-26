@@ -62,7 +62,7 @@ void PlaylistWidget::onClosedClicked(bool)
 void PlaylistWidget::onSettingsButtonClicked(bool)
 {
     //if (playlist_settings_widget_ == NULL){
-        playlist_settings_widget_ = new PlaylistSettingsWidget;
+        playlist_settings_widget_ = new PlaylistSettingsWidgetOld;
         playlist_settings_widget_->show();
     //} else {
 

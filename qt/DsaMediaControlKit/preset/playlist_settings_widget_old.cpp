@@ -1,11 +1,11 @@
-#include "playlist_settings_widget.h"
+#include "playlist_settings_widget_old.h"
 
 #include <QDebug>
 #include <QHBoxLayout>
 
 namespace Preset {
 
-PlaylistSettingsWidget::PlaylistSettingsWidget(QWidget *parent)
+PlaylistSettingsWidgetOld::PlaylistSettingsWidgetOld(QWidget *parent)
     : QWidget(parent)
     , playlist_settings_()
     , edit_(0)
@@ -17,24 +17,24 @@ PlaylistSettingsWidget::PlaylistSettingsWidget(QWidget *parent)
   initLayout();
 }
 
-PlaylistSettingsWidget::~PlaylistSettingsWidget()
+PlaylistSettingsWidgetOld::~PlaylistSettingsWidgetOld()
 {
 
 }
 
 
-void PlaylistSettingsWidget::onClosedClicked(bool)
+void PlaylistSettingsWidgetOld::onClosedClicked(bool)
 {
     emit closed();
 }
 
-void PlaylistSettingsWidget::onCreateClicked(bool)
+void PlaylistSettingsWidgetOld::onCreateClicked(bool)
 {
     qDebug() << "Please enter a Text";
 }
 
 
-void PlaylistSettingsWidget::initWidgets()
+void PlaylistSettingsWidgetOld::initWidgets()
 {
     edit_ = new QLineEdit(this);
     edit_->setPlaceholderText("Preset name");
@@ -50,7 +50,7 @@ void PlaylistSettingsWidget::initWidgets()
             this, SLOT(onCreateClicked(bool)));
 }
 
-void PlaylistSettingsWidget::initLayout()
+void PlaylistSettingsWidgetOld::initLayout()
 {
     QWidget::setWindowFlags(Qt::Tool);
     QWidget::setWindowTitle("Preset Creator");

@@ -3,7 +3,7 @@
 
 #include <QUrl>
 #include <QMediaPlayer>
-#include "playlist_settings.h"
+#include "playlist_settings_old.h"
 #include "ui_settings.h"
 #include "db/table_records.h"
 
@@ -47,7 +47,7 @@ private:
     QMediaPlayer* audio_player_;
     int id_;
     QString name_;
-    PlaylistSettings* playlist_settings_;
+    PlaylistSettingsOld* playlist_settings_;
     UISettings* ui_settings_;
     //QMap<DB::SoundFileRecord*, int> weighted_map_;
     QList<DB::SoundFileRecord*> sound_files_;

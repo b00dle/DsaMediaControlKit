@@ -19,7 +19,7 @@ enum PlayOrder{
 /*
  * Struct describing how a playlist should play its sound files.
 */
-struct PlaylistSettings{
+struct PlaylistSettingsOld{
 
     PlayOrder order;
     bool repeat;
@@ -27,7 +27,7 @@ struct PlaylistSettings{
     int volume;
 
 
-    PlaylistSettings()
+    PlaylistSettingsOld()
         :order(ORDERED)
         ,repeat(true)
         ,interval()
