@@ -85,3 +85,6 @@ HEADERS  += main_window.h \
     2D/graphics_view.h \
     2D/tile.h \
     2D/player_tile.h
+
+RESOURCES += \
+    _RES/resources.qrc
