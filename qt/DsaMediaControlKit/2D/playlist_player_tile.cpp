@@ -39,18 +39,21 @@ PlaylistPlayerTile::~PlaylistPlayerTile()
 }
 
 
-void PlaylistPlayerTile::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget*)
+void PlaylistPlayerTile::paint(QPainter *painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    scene()->update(scene()->sceneRect());
+    Tile::paint(painter, option, widget);
 
-    setDefaultOpacity();
+    QRectF p_rect(getPaintRect());
+    if(p_rect.width() > 0 && p_rect.height() > 0) {
+        painter->drawPixmap(
+            (int) p_rect.x(),
+            (int)p_rect.y(),
+            (int)p_rect.width(),
+            (int)p_rect.height(),
+            getPlayStatePixmap()
+        );
+    }
 
-    QRectF p_rect = getPaintRect();
-
-    // paint
-    painter->fillRect(p_rect, getBackgroundBrush());
-    painter->drawPixmap((int) p_rect.x(), (int)p_rect.y(), getPlayStatePixmap());
-    painter->drawRect(p_rect);
     int y= 0;
     //foreach(const QMediaContent* media,playlist_->media())
     for (int i = 0; i < playlist_->mediaCount(); i++)
@@ -199,23 +202,10 @@ void PlaylistPlayerTile::createContextMenu()
 
 const QPixmap PlaylistPlayerTile::getPlayStatePixmap() const
 {
-    QString icon_str;
     if(is_playing_)
-        icon_str  = Resources::ICON_STOP_PATH;
+        return *Resources::PX_STOP;
     else
-        icon_str = Resources::ICON_PLAY_PATH;
-
-    QRectF p_rect = getPaintRect();
-
-    QPixmap p(icon_str);
-    p = p.scaled(
-        (int)p_rect.width(),
-        (int)p_rect.height(),
-        Qt::IgnoreAspectRatio,
-        Qt::SmoothTransformation
-    );
-
-    return p;
+        return *Resources::PX_PLAY;
 }
 
 } // namespace TwoD
