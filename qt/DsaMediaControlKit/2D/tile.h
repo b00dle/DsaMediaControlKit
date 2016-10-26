@@ -46,7 +46,9 @@ protected:
 
 public:
     Tile(QGraphicsItem* parent = 0);
-    virtual ~Tile();
+    ~Tile();
+
+    void init();
 
     virtual QRectF boundingRect() const;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -147,6 +149,7 @@ protected:
      * creates context menu
     */
     virtual void createContextMenu();
+
 
     QString name_;
     QTimer* long_click_timer_;

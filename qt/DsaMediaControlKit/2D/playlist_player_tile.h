@@ -34,6 +34,11 @@ public slots:
     virtual void play();
     virtual void stop();
 
+protected slots:
+    /* slot to open configuration */
+    virtual void onConfigurePlaylist();
+
+
 protected:
     /*
      * BC overrides
@@ -43,6 +48,12 @@ protected:
     virtual void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     virtual void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
     virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
+
+
+    /*
+     * creates context menu
+    */
+    virtual void createContextMenu();
 
     /*
      * Returns the image based on the playback state

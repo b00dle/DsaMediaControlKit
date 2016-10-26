@@ -3,6 +3,7 @@
 
 #include <QGraphicsScene>
 #include <QDebug>
+#include <QMenu>
 
 namespace TwoD {
 
@@ -14,6 +15,7 @@ PlaylistPlayerTile::PlaylistPlayerTile(QGraphicsItem *parent)
 {
     player_ = new QMediaPlayer(this);
     setAcceptDrops(true);
+    //createContextMenu();
 }
 
 PlaylistPlayerTile::PlaylistPlayerTile(const QMediaContent &c, QGraphicsItem *parent)
@@ -99,6 +101,11 @@ void PlaylistPlayerTile::stop()
     }
 }
 
+void PlaylistPlayerTile::onConfigurePlaylist()
+{
+
+}
+
 void PlaylistPlayerTile::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 {
     if(mode_ != MOVE) {
@@ -158,6 +165,20 @@ void PlaylistPlayerTile::dropEvent(QGraphicsSceneDragDropEvent *event)
     event->setDropAction(Qt::CopyAction);
     event->accept();
     rec = 0;
+}
+
+void PlaylistPlayerTile::createContextMenu()
+{
+    qDebug() << "B";
+    // create configure action
+    QAction* configure_action = new QAction(tr("Configure"),this);
+
+    connect(configure_action, SIGNAL(triggered()),
+            this, SLOT(onConfigure()));
+
+    context_menu_->addAction(configure_action);
+
+    //Tile::createContextMenu();
 }
 
 const QPixmap PlaylistPlayerTile::getPlayStatePixmap() const

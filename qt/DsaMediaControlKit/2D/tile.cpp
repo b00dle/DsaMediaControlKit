@@ -26,13 +26,18 @@ Tile::Tile(QGraphicsItem* parent)
 
     setAcceptHoverEvents(true);
     setAcceptDrops(true);
-    createContextMenu();
-
+    context_menu_ = new QMenu;
+    init();
 }
 
 Tile::~Tile()
 {
     context_menu_->deleteLater();
+}
+
+void Tile::init()
+{
+    createContextMenu();
 }
 
 QRectF Tile::boundingRect() const
@@ -458,6 +463,7 @@ Tile::BOX_SIDE Tile::closestSide(const QPointF &p, const QRectF &rect)
 
 void Tile::createContextMenu()
 {
+    qDebug() << "A";
     // create size actions
     QAction* small_size_action = new QAction(tr("Small"), this);
     QAction* medium_size_action = new QAction(tr("Medium"), this);
@@ -483,7 +489,7 @@ void Tile::createContextMenu()
             this, SLOT(onDelete()));
 
     // create context menu
-    context_menu_ = new QMenu;
+
     context_menu_->addMenu(size_menu);
     context_menu_->addSeparator();
     context_menu_->addAction(delete_action);
