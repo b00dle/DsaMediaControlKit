@@ -2,9 +2,13 @@
 #define RESOURCES_RESOURCES_H
 
 #include <QString>
+#include <QPixmap>
+#include <QMap>
 
 struct Resources
 {
+    static void init();
+    static const QString loadFileToString(QString const& path);
     /*
     * database path
     */
@@ -13,11 +17,19 @@ struct Resources
     /*
     * ICONS
     */
-    static QString SOUND_FILE_DRAG_IMG_PATH;
-    static QString PLAYLIST_SETTINGS_IMG_PATH;
-    static QString ICON_PLAY_PATH;
-    static QString ICON_PAUSE_PATH;
-    static QString ICON_STOP_PATH;
+    static QString IMG_SOUND_FILE_DRAG_PATH;
+    static QString IMG_PLAY_PATH;
+    static QString IMG_PAUSE_PATH;
+    static QString IMG_STOP_PATH;
+    static QString IMG_CRACKED_STONE_PATH;
+    static QString IMG_CRACKED_STONE_INV_PATH;
+
+    static QPixmap* PX_CRACKED_STONE;
+    static QPixmap* PX_CRACKED_STONE_INV;
+    static QPixmap* PX_PLAY;
+    static QPixmap* PX_PAUSE;
+    static QPixmap* PX_STOP;
+    static QPixmap* PX_SOUND_FILE_DRAG;
 
     /*
     * STYLES

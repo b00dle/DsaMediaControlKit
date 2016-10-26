@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   inkscape:export-filename="C:\Users\Basti-Laptop\Documents\Qt\DsaMediaControlKit\resources\images\icon_play.png"
+   inkscape:export-filename="C:\Users\Basti-Laptop\Documents\Qt\DsaMediaControlKit\qt\DsaMediaControlKit\_RES\icon_stop.png"
    inkscape:export-xdpi="65.828575"
    inkscape:export-ydpi="65.828575"
    sodipodi:docname="icon_stop.svg">
@@ -29,7 +29,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.48082305"
-     inkscape:cx="-41.020834"
+     inkscape:cx="-662.87122"
      inkscape:cy="-7.3903309"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -61,18 +61,14 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-102.14288,-168.79077)">
-    <circle
-       style="fill:none;fill-opacity:1;stroke:#969696;stroke-width:30;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="path4142"
-       cx="277.14288"
-       cy="343.79077"
-       r="160" />
     <rect
-       style="fill:none;fill-opacity:1;stroke:#969696;stroke-width:27.58611107;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:none;fill-opacity:1;stroke:#373738;stroke-width:27.58611107;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4144"
        width="162.55597"
        height="162.55597"
        x="196.52547"
-       y="261.69272" />
+       y="261.69272"
+       inkscape:export-xdpi="121.17"
+       inkscape:export-ydpi="121.17" />
   </g>
 </svg>

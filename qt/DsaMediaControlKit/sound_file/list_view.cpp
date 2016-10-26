@@ -157,7 +157,7 @@ void ListView::performDrag()
     // create Drag
     QDrag *drag = new QDrag(this);
     drag->setMimeData(mime_data);
-    drag->setPixmap(QPixmap(Resources::SOUND_FILE_DRAG_IMG_PATH));
+    drag->setPixmap(*Resources::PX_SOUND_FILE_DRAG);
 
     // will block until drag done
     drag->exec(Qt::CopyAction);

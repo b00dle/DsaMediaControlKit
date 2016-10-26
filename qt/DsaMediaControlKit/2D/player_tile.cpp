@@ -27,8 +27,15 @@ void PlayerTile::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidg
 
     // paint
     painter->fillRect(p_rect, getBackgroundBrush());
-    painter->drawPixmap((int) p_rect.x(), (int)p_rect.y(), getPlayStatePixmap());
-    painter->drawRect(p_rect);
+    if(p_rect.width() > 0 && p_rect.height() > 0) {
+        painter->drawPixmap(
+            (int) p_rect.x(),
+            (int)p_rect.y(),
+            (int)p_rect.width(),
+            (int)p_rect.height(),
+            getPlayStatePixmap()
+        );
+    }
     if(mode_ == HOVER)
         painter->drawText(QPointF(p_rect.x(), p_rect.y()-5), name_);
 }
@@ -68,23 +75,10 @@ void PlayerTile::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 
 const QPixmap PlayerTile::getPlayStatePixmap() const
 {
-    QString icon_str;
     if(is_playing_)
-        icon_str  = Resources::ICON_STOP_PATH;
+        return *Resources::PX_STOP;
     else
-        icon_str = Resources::ICON_PLAY_PATH;
-
-    QRectF p_rect = getPaintRect();
-
-    QPixmap p(icon_str);
-    p = p.scaled(
-        (int)p_rect.width(),
-        (int)p_rect.height(),
-        Qt::IgnoreAspectRatio,
-        Qt::SmoothTransformation
-    );
-
-    return p;
+        return *Resources::PX_PLAY;
 }
 
 } // namespace TwoD

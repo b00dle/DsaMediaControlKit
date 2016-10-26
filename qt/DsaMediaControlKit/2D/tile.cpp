@@ -1,10 +1,13 @@
 #include "tile.h"
+
 #include <QDebug>
 #include <QMimeData>
 #include <QGraphicsScene>
 #include <QPropertyAnimation>
 #include <QGraphicsPixmapItem>
 #include <QMenu>
+
+#include "resources/resources.h"
 
 #define OFFSET 5
 
@@ -46,12 +49,20 @@ QRectF Tile::boundingRect() const
 
 void Tile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
+    scene()->update(scene()->sceneRect());
+
+    painter->setRenderHint(QPainter::SmoothPixmapTransform);
+
     setDefaultOpacity();
 
-    QRectF paint_rect(getPaintRect());
+    QRectF p_rect(getPaintRect());
 
-    painter->fillRect(paint_rect, getBackgroundBrush());
-    painter->drawRect(paint_rect);
+    painter->fillRect(p_rect, getBackgroundBrush());
+    if(p_rect.width() > 0 && p_rect.height() > 0) {
+        painter->setOpacity(0.6);
+        painter->drawPixmap((int) p_rect.x(), (int)p_rect.y(), (int) p_rect.width(), (int) p_rect.height(), getOverlayPixmap());
+        painter->setOpacity(1.0);
+    }
 }
 
 void Tile::setSize(qreal size)
@@ -335,16 +346,11 @@ const QRectF Tile::getPaintRect() const
 
 const QBrush Tile::getBackgroundBrush() const
 {
-    QBrush b(Qt::blue);
+    QBrush b(Qt::gray);
 
     switch(mode_) {
         case SELECTED:
-        case MOVE:
             b.setColor(Qt::green);
-            break;
-
-        case HOVER:
-            b.setColor(Qt::red);
             break;
 
         default:
@@ -352,6 +358,14 @@ const QBrush Tile::getBackgroundBrush() const
     }
 
     return b;
+}
+
+const QPixmap Tile::getOverlayPixmap() const
+{
+    if(mode_ == SELECTED)
+        return *Resources::PX_CRACKED_STONE_INV;
+    else
+        return *Resources::PX_CRACKED_STONE;
 }
 
 void Tile::setDefaultOpacity()
