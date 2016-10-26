@@ -10,6 +10,7 @@ struct Resources
     static QString ICON_PLAY_PATH;
     static QString ICON_PAUSE_PATH;
     static QString ICON_STOP_PATH;
+    static QString DARK_STYLE;
 };
 
 #endif // RESOURCES_H
