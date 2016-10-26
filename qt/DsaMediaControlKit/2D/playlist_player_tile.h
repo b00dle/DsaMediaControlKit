@@ -9,6 +9,7 @@
 
 #include "tile.h"
 #include "preset/playlist.h"
+#include "preset/playlist_settings_widget.h"
 #include "misc/json_mime_data_parser.h"
 
 namespace TwoD {
@@ -46,11 +47,6 @@ protected:
     */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* e);
 
-    virtual void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
-    virtual void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
-    virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
-
-
     /*
      * creates context menu
     */
@@ -63,6 +59,7 @@ protected:
 
     QMediaPlayer* player_;
     Preset::Playlist* playlist_;
+    Preset::PlaylistSettingsWidget* playlist_settings_widget_;
     bool is_playing_;
 };
 
