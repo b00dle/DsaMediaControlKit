@@ -126,6 +126,11 @@ protected:
     virtual const QBrush getBackgroundBrush() const;
 
     /*
+    * returns tile background overlay pixmap
+    */
+    const QPixmap getOverlayPixmap() const;
+
+    /*
     * Sets default opacity value based on ItemState
     */
     virtual void setDefaultOpacity();

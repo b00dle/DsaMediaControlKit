@@ -12,8 +12,6 @@ MainWindow::MainWindow(QWidget *parent)
     , kit_(0)
     , actions_()
 {
-    setStyleSheet(Resources::DARK_STYLE);
-
     initCentralWidget();
     initActions();
     initMenuBar();

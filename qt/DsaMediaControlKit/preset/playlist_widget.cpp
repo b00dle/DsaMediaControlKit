@@ -76,11 +76,6 @@ void PlaylistWidget::initWidgets()
     close_button_ = new QPushButton("x", this);
     settings_button_ = new QPushButton(this);
 
-    QPixmap pixmap(Resources::PLAYLIST_SETTINGS_IMG_PATH);
-    QIcon button_icon(pixmap);
-    settings_button_->setIcon(QIcon(Resources::PLAYLIST_SETTINGS_IMG_PATH));
-    settings_button_->setIconSize(pixmap.rect().size());
-
     box_ = new QGroupBox(playlist_->getName(), this);
     box_->setMaximumSize(QSize(box_->maximumWidth(), 150));
 

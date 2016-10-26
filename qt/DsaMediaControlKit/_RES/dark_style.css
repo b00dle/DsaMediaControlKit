@@ -1,0 +1,97 @@
+QMainWindow {
+   background-color: #373738;
+}
+
+QMenuBar {
+   background-color: #545556;
+}
+
+QMenuBar::item {
+   background : transparent;
+   color : white;
+}
+
+QMenuBar::item:selected {
+   background : #198e09;
+}
+
+QGroupBox {
+   border: 1px solid gray;
+   background-color: #373738;
+}
+
+QTreeView {
+   background-color : #545556;
+   color : white;
+   margin-bottom : 5px;
+}
+
+QTreeView::item {
+   margin : 3px;
+}
+
+QHeaderView::section {
+   background-color : #373738;
+   color : white;
+   border : none;
+   padding : 5px;
+}
+
+QListView {
+   background-color : #545556;
+   color : white;
+   margin-top : 5px;
+}
+
+QListView::item {
+   margin : 3px;
+}
+
+QGraphicsView {
+   background-color : #545556;
+}
+
+QSplitter::handle {
+   height : 5px;
+   background-color : #373738;
+}
+
+QScrollBar::vertical {
+   border-left: 1px solid #373738;
+   background: #545556;
+   width: 20px;
+   margin: 0 0 0 0;
+}
+
+QScrollBar::handle:vertical {
+   background: #373738;
+   border-left: 4px solid #545556;
+   border-right: 3px solid #545556;
+   min-height: 10px;
+}
+
+QScrollBar::horizontal {
+   border-top: 1px solid #373738;
+   background: #545556;
+   height: 20px;
+   margin: 0 0 0 0;
+}
+
+QScrollBar::handle:horizontal {
+   background: #373738;
+   border-top: 4px solid #545556;
+   border-bottom: 3px solid #545556;
+   min-width: 10px;
+}
+
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal, QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+   background: none;
+   border : none;
+   color : none;
+}
+
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal, QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+   background: none;
+   border : none;
+   color : none;
+}                           
