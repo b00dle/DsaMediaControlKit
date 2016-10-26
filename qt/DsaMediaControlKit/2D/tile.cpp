@@ -27,7 +27,6 @@ Tile::Tile(QGraphicsItem* parent)
     setAcceptHoverEvents(true);
     setAcceptDrops(true);
     context_menu_ = new QMenu;
-    init();
 }
 
 Tile::~Tile()
