@@ -91,3 +91,7 @@ HEADERS  += main_window.h \
     preset/playlist_settings_old.h \
     preset/playlist_settings_widget_old.h \
     preset/playlist_settings_widget.h
+
+RESOURCES += \
+    _RES/resources.qrc
+

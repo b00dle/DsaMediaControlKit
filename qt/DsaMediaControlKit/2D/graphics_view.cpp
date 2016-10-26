@@ -61,7 +61,8 @@ void GraphicsView::dropEvent(QDropEvent *event)
 {
     if(!scene())
         return;
-    QPoint p(event->pos());
+
+    QPointF p(mapToScene(event->pos()));
 
     foreach(QGraphicsItem* item, scene()->items()){
         if (item->contains(item->mapFromScene(p))){
@@ -92,11 +93,6 @@ void GraphicsView::dropEvent(QDropEvent *event)
     //tile->addMedia(QMediaContent(QUrl("file:///" + rec->path)));
     tile->setName(rec->name);
     tile->init();
-
-    // set position
-    p.setX(p.x()-(tile->boundingRect().width()/2.0));
-    p.setY(p.y()-(tile->boundingRect().height()/2.0));
-
     tile->setPos(p);
     tile->setSize(0);
 

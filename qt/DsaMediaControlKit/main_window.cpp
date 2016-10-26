@@ -5,11 +5,15 @@
 #include <QProgressBar>
 #include <QKeySequence>
 
+#include "resources/resources.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , kit_(0)
     , actions_()
 {
+    setStyleSheet(Resources::DARK_STYLE);
+
     initCentralWidget();
     initActions();
     initMenuBar();

@@ -1,8 +1,116 @@
 #include "resources.h"
 
-QString Resources::SOUND_FILE_DRAG_IMG_PATH = "../../resources/images/dick.png";
-QString Resources::PLAYLIST_SETTINGS_IMG_PATH = "../../resources/images/hammer.png";
+/*
+* DATABASE
+*/
 QString Resources::DATABASE_PATH = "../../db/dsamediacontrolkit.db";
-QString Resources::ICON_PLAY_PATH = "../../resources/images/icon_play.png";
-QString Resources::ICON_PAUSE_PATH = "../../resources/images/icon_pause.png";
-QString Resources::ICON_STOP_PATH = "../../resources/images/icon_stop.png";
+
+/*
+* ICONS
+*/
+QString Resources::PLAYLIST_SETTINGS_IMG_PATH = "../../resources/images/hammer.png";
+QString Resources::SOUND_FILE_DRAG_IMG_PATH = ":/images/dick.png";
+QString Resources::ICON_PLAY_PATH = ":/images/icon_play.png";
+QString Resources::ICON_PAUSE_PATH = ":/images/icon_pause.png";
+QString Resources::ICON_STOP_PATH = ":/resources/images/icon_stop.png";
+
+/*
+* STYLE
+*/
+QString Resources::DARK_STYLE = "QMainWindow {"
+                                "   background-color: #373738;"
+                                "}"
+                                ""
+                                "QMenuBar {"
+                                "   background-color: #545556;"
+                                "}"
+                                ""
+                                "QMenuBar::item {"
+                                "   background : transparent;"
+                                "   color : white;"
+                                "}"
+                                ""
+                                "QMenuBar::item:selected {"
+                                "   background : #198e09;"
+                                "}"
+                                ""
+                                "QGroupBox {"
+                                "   border: 1px solid gray;"
+                                "   background-color: #373738;"
+                                "}"
+                                ""
+                                "QTreeView {"
+                                "   background-color : #545556;"
+                                "   color : white;"
+                                "   margin-bottom : 5px;"
+                                "}"
+                                ""
+                                "QTreeView::item {"
+                                "   margin : 3px;"
+                                "}"
+                                ""
+                                ""
+                                "QHeaderView::section {"
+                                "   background-color : #373738;"
+                                "   color : white;"
+                                "   border : none;"
+                                "   padding : 5px;"
+                                "}"
+                                ""
+                                "QListView {"
+                                "   background-color : #545556;"
+                                "   color : white;"
+                                "   margin-top : 5px;"
+                                "}"
+                                ""
+                                "QListView::item {"
+                                "   margin : 3px;"
+                                "}"
+                                ""
+                                "QGraphicsView {"
+                                "   background-color : #545556;"
+                                "}"
+                                ""
+                                "QSplitter::handle {"
+                                "   height : 5px;"
+                                "   background-color : #373738;"
+                                "}"
+                                ""
+                                "QScrollBar::vertical {"
+                                "   border: none;"
+                                "   background: #545556;"
+                                "   width: 20px;"
+                                "   margin: 0 0 0 0;"
+                                "}"
+                                ""
+                                "QScrollBar::handle:vertical {"
+                                "   background: #373738;"
+                                "   border: 3px solid #545556;"
+                                "   min-height: 10px;"
+                                "}"
+                                ""
+                                "QScrollBar::horizontal {"
+                                "   border: none;"
+                                "   background: #545556;"
+                                "   height: 20px;"
+                                "   margin: 0 0 0 0;"
+                                "}"
+                                ""
+                                "QScrollBar::handle:horizontal {"
+                                "   background: #373738;"
+                                "   border: 3px solid #545556;"
+                                "   min-width: 10px;"
+                                "}"
+                                ""
+                                "QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal, QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {"
+                                "   background: none;"
+                                "   border : none;"
+                                "   color : none;"
+                                "}"
+                                "QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal, QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {"
+                                "   background: none;"
+                                "   border : none;"
+                                "   color : none;"
+                                "}"
+                                "";
+
