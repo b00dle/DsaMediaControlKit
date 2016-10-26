@@ -1,12 +1,27 @@
-#ifndef PLAYLISTSETTINGSWIDGET_H
-#define PLAYLISTSETTINGSWIDGET_H
+#ifndef PRESET_PLAYLIST_SETTINGS_WIDGET_H
+#define PRESET_PLAYLIST_SETTINGS_WIDGET_H
 
 #include <QWidget>
+#include <QLineEdit>
+#include <QPushButton>
 
-class PlaylistSettingsWidget
+namespace Preset{
+
+class PlaylistSettingsWidget : public QWidget
 {
+    Q_OBJECT
 public:
     PlaylistSettingsWidget();
+    ~PlaylistSettingsWidget();
+
+private:
+    void initWidgets();
+    void initLayout();
+
+    QLineEdit* name_edit_;
+    QPushButton* close_button_;
 };
 
-#endif // PLAYLISTSETTINGSWIDGET_H
+} // namespace Preset
+
+#endif // PRESET_PLAYLIST_SETTINGS_WIDGET_H

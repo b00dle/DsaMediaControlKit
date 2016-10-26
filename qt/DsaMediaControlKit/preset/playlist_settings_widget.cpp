@@ -5,3 +5,13 @@ PlaylistSettingsWidget::PlaylistSettingsWidget()
 
 }
 
+void PlaylistSettingsWidget::initWidgets()
+{
+
+}
+
+void PlaylistSettingsWidget::initLayout()
+{
+
+}
+
