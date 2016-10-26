@@ -25,6 +25,8 @@ PlaylistPlayerTile::PlaylistPlayerTile(const QMediaContent &c, QGraphicsItem *pa
     , is_playing_(false)
 {
     player_ = new QMediaPlayer(this);
+    connect(player_, SIGNAL(stateChanged(QMediaPlayer::State)),
+            this, SLOT(changePlayerState(QMediaPlayer::State)));
     playlist_ = new Preset::Playlist("Playlist");
     playlist_->addMedia(c);
     playlist_->setCurrentIndex(1);
@@ -50,11 +52,14 @@ void PlaylistPlayerTile::paint(QPainter *painter, const QStyleOptionGraphicsItem
     painter->drawPixmap((int) p_rect.x(), (int)p_rect.y(), getPlayStatePixmap());
     painter->drawRect(p_rect);
     int y= 0;
-    /*foreach(const QMediaContent* media,playlist_)
+    //foreach(const QMediaContent* media,playlist_->media())
+    for (int i = 0; i < playlist_->mediaCount(); i++)
     {
-        y += 5;
-        painter->drawText(QPointF(p_rect.x(), p_rect.y()-y), name_);
-    }*/
+        QMediaContent c =playlist_->media(i);
+        QUrl url = c.canonicalUrl();
+        painter->drawText(QPointF(p_rect.x(), p_rect.y()+size_+y),url.fileName());
+        y += 10;
+    }
 
 }
 
@@ -97,6 +102,16 @@ void PlaylistPlayerTile::stop()
 {
     if(!player_->media().isNull() && is_playing_) {
         player_->stop();
+        is_playing_ = false;
+    }
+}
+
+void PlaylistPlayerTile::changePlayerState(QMediaPlayer::State state)
+{
+    qDebug() << "STATE CHANGED"<<state ;
+    if (state == QMediaPlayer::PlayingState){
+        is_playing_ = true;
+    } else if (state == QMediaPlayer::StoppedState){
         is_playing_ = false;
     }
 }
@@ -174,11 +189,12 @@ void PlaylistPlayerTile::createContextMenu()
     QAction* configure_action = new QAction(tr("Configure"),this);
 
     connect(configure_action, SIGNAL(triggered()),
-            this, SLOT(onConfigure()));
+            this, SLOT(onConfigurePlaylist()));
 
     context_menu_->addAction(configure_action);
+    context_menu_->addSeparator();
 
-    //Tile::createContextMenu();
+    Tile::createContextMenu();
 }
 
 const QPixmap PlaylistPlayerTile::getPlayStatePixmap() const
