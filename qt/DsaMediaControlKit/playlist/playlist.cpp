@@ -1,6 +1,6 @@
 #include "playlist.h"
 
-namespace Preset {
+namespace Playlist {
 
 Playlist::Playlist(QString name)
     : QMediaPlaylist()
@@ -9,4 +9,5 @@ Playlist::Playlist(QString name)
 
 }
 
-} // namespace Preset
+} // namespace Playlist
+

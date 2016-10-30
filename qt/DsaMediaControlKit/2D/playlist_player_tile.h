@@ -8,7 +8,8 @@
 #include <QDrag>
 
 #include "tile.h"
-#include "preset/playlist.h"
+#include "playlist/playlist.h"
+#include "playlist/settings.h"
 #include "misc/json_mime_data_parser.h"
 
 namespace TwoD {
@@ -62,7 +63,8 @@ protected:
     virtual const QPixmap getPlayStatePixmap() const;
 
     QMediaPlayer* player_;
-    Preset::Playlist* playlist_;
+    Playlist::Playlist* playlist_;
+    Playlist::Settings* settings_;
     bool is_playing_;
 };
 

@@ -1,9 +1,9 @@
-#ifndef PRESET_PLAYLIST_H
-#define PRESET_PLAYLIST_H
+#ifndef PLAYLIST_PLAYLIST_H
+#define PLAYLIST_PLAYLIST_H
 
 #include <QMediaPlaylist>
 
-namespace Preset {
+namespace Playlist {
 
 class Playlist : public QMediaPlaylist
 {
@@ -14,6 +14,6 @@ private:
     QString name_;
 };
 
-} // end namespace
+} // end namespace playlist
 
-#endif // PRESET_PLAYLIST_H
+#endif // PLAYLIST_PLAYLIST_H
