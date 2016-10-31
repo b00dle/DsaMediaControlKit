@@ -457,7 +457,7 @@ void Tile::onDelete()
 
 void Tile::onSetKey()
 {
-    CharInputDialog d;
+    Misc::CharInputDialog d;
     if(d.exec()) {
         setActivateKey(d.getChar());
         activate_action_->setShortcut(QKeySequence(QString(d.getChar())));

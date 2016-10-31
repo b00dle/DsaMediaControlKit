@@ -7,6 +7,8 @@
 #include <QLineEdit>
 #include <QPushButton>
 
+namespace Misc {
+
 class CharInputDialog : public QDialog
 {
     Q_OBJECT
@@ -37,5 +39,7 @@ private:
     QPushButton* ok_;
     QPushButton* cancel_;
 };
+
+} // namespace Misc
 
 #endif // MISC_CHAR_INPUT_DIALOG_H

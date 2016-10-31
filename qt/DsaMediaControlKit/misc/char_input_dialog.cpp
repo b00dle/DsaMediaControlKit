@@ -3,6 +3,8 @@
 #include <QHBoxLayout>
 #include <QRegExp>
 
+namespace Misc {
+
 CharInputDialog::CharInputDialog(QWidget *parent)
     : QDialog(parent)
     , selected_char_(' ')
@@ -94,3 +96,5 @@ void CharInputDialog::initLayout()
 
     setLayout(layout);
 }
+
+} // namespace Misc
