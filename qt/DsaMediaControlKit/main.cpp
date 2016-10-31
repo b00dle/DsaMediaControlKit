@@ -15,5 +15,9 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.showMaximized();
 
-    return a.exec();
+    int ret_code = a.exec();
+
+    Resources::cleanup();
+
+    return ret_code;
 }

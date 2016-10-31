@@ -8,6 +8,7 @@
 #include <QMenu>
 
 #include "resources/resources.h"
+#include "misc/char_input_dialog.h"
 
 #define OFFSET 5
 
@@ -86,6 +87,9 @@ void Tile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
         painter->setOpacity(0.6);
         painter->drawPixmap((int) p_rect.x(), (int)p_rect.y(), (int) p_rect.width(), (int) p_rect.height(), getOverlayPixmap());
         painter->setOpacity(1.0);
+        QPixmap act_px = getActivatePixmap();
+        if(!act_px.isNull())
+            painter->drawPixmap((int) p_rect.x()+5, (int) p_rect.y()+5, (int) p_rect.width() / 4, (int) p_rect.height() / 4, act_px);
     }
 }
 
@@ -141,6 +145,11 @@ void Tile::receiveExternalData(const QMimeData *data)
 const QMenu *Tile::getContextMenu() const
 {
     return context_menu_;
+}
+
+bool Tile::hasActivateKey() const
+{
+    return activate_key_ != ' ';
 }
 
 void Tile::mousePressEvent(QGraphicsSceneMouseEvent* e)
@@ -392,6 +401,14 @@ const QPixmap Tile::getOverlayPixmap() const
         return *Resources::PX_CRACKED_STONE;
 }
 
+const QPixmap Tile::getActivatePixmap() const
+{
+    QPixmap* px = Resources::getKeyPixmap(activate_key_);
+    if(px == 0)
+        return QPixmap();
+    return *px;
+}
+
 void Tile::setDefaultOpacity()
 {
     switch(mode_) {
@@ -436,6 +453,15 @@ void Tile::onDelete()
 {
     scene()->removeItem(this);
     deleteLater();
+}
+
+void Tile::onSetKey()
+{
+    CharInputDialog d;
+    if(d.exec()) {
+        setActivateKey(d.getChar());
+        activate_action_->setShortcut(QKeySequence(QString(d.getChar())));
+    }
 }
 
 qreal Tile::distance(const QPointF &p, const QLineF &l)
@@ -500,7 +526,6 @@ Tile::BOX_SIDE Tile::closestSide(const QPointF &p, const QRectF &rect)
 
 void Tile::createContextMenu()
 {
-    qDebug() << "A";
     // create size actions
     QAction* small_size_action = new QAction(tr("Small"), this);
     QAction* medium_size_action = new QAction(tr("Medium"), this);
@@ -525,8 +550,15 @@ void Tile::createContextMenu()
     connect(delete_action, SIGNAL(triggered()),
             this, SLOT(onDelete()));
 
+    // change activate button
+    QAction* activate_button_action = new QAction(tr("Set Key..."), this);
+
+    connect(activate_button_action, SIGNAL(triggered()),
+            this, SLOT(onSetKey()));
+
     // create context menu
-    context_menu_->addAction(activate_action_);
+    //context_menu_->addAction(activate_action_);
+    context_menu_->addAction(activate_button_action);
     context_menu_->addMenu(size_menu);
     context_menu_->addSeparator();
     context_menu_->addAction(delete_action);

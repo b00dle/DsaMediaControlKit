@@ -80,6 +80,7 @@ public:
 
     virtual const QMenu* getContextMenu() const;
 
+    bool hasActivateKey() const;
 
 signals:
     void mousePressed(QGraphicsSceneMouseEvent* e);
@@ -104,6 +105,9 @@ protected slots:
 
     /* removes this item from the scene and schedules deletion (see deleteLater) */
     virtual void onDelete();
+
+    /* sets the activation key using char input dialog */
+    void onSetKey();
 
 protected:
     /*
@@ -141,6 +145,11 @@ protected:
     const QPixmap getOverlayPixmap() const;
 
     /*
+    * returns activate shortcut pixamp
+    */
+    const QPixmap getActivatePixmap() const;
+
+    /*
     * Sets default opacity value based on ItemState
     */
     virtual void setDefaultOpacity();
@@ -164,7 +173,6 @@ protected:
      * creates context menu
     */
     virtual void createContextMenu();
-
 
     QString name_;
     QTimer* long_click_timer_;

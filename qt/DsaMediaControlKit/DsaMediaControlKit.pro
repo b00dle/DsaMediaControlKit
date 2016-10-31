@@ -50,7 +50,8 @@ SOURCES += main.cpp \
     2D/player_tile.cpp \
     2D/playlist_player_tile.cpp \
     preset/playlist_old.cpp \
-    preset/playlist.cpp
+    preset/playlist.cpp \
+    misc/char_input_dialog.cpp
 
 HEADERS  += main_window.h \
     _TEST/audio_widget.h \
@@ -88,7 +89,8 @@ HEADERS  += main_window.h \
     2D/player_tile.h \
     2D/playlist_player_tile.h \
     preset/playlist_old.h \
-    preset/playlist.h
+    preset/playlist.h \
+    misc/char_input_dialog.h
 
 RESOURCES += \
     _RES/resources.qrc

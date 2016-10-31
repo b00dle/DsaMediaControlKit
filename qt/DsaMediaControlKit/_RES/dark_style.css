@@ -2,6 +2,25 @@ QMainWindow {
    background-color: #373738;
 }
 
+QDialog {
+   background-color: #545556;
+   color: white;
+}
+
+QLabel {
+    color: white;
+}
+
+QPushButton {
+    background-color: #373738;
+    color: white;
+}
+
+QPushButton:hover {
+    background-color: rgba(50, 152, 253, 80);
+    color: white;
+}
+
 QMenuBar {
    background-color: #545556;
 }
