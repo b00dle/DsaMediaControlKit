@@ -14,6 +14,7 @@ GraphicsView::GraphicsView(QGraphicsScene *scene, QWidget *parent)
 {
     setScene(scene);
     setAcceptDrops(true);
+    setFocusPolicy(Qt::ClickFocus);
 }
 
 GraphicsView::GraphicsView(QWidget *parent)
@@ -104,6 +105,23 @@ void GraphicsView::dropEvent(QDropEvent *event)
     event->setDropAction(Qt::CopyAction);
     event->accept();
     rec = 0;
+}
+
+void GraphicsView::keyPressEvent(QKeyEvent*)
+{
+    //qDebug() << event->key();
+}
+
+void GraphicsView::keyReleaseEvent(QKeyEvent *event)
+{
+    foreach(QGraphicsItem* it, scene()->items()) {
+        QObject* o = dynamic_cast<QObject*>(it);
+        if(o) {
+            Tile* t = qobject_cast<Tile*>(o);
+            if(t->getActivateKey() == event->key())
+                t->onActivate();
+        }
+    }
 }
 
 } // namespace TwoD

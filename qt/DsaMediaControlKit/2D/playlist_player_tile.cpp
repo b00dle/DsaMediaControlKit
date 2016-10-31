@@ -109,6 +109,16 @@ void PlaylistPlayerTile::stop()
     }
 }
 
+void PlaylistPlayerTile::onActivate()
+{
+    if(is_playing_)
+        stop();
+    else
+        play();
+
+    Tile::onActivate();
+}
+
 void PlaylistPlayerTile::changePlayerState(QMediaPlayer::State state)
 {
     qDebug() << "STATE CHANGED"<<state ;
@@ -126,7 +136,7 @@ void PlaylistPlayerTile::onConfigurePlaylist()
 
 void PlaylistPlayerTile::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 {
-    if(mode_ != MOVE) {
+    if(mode_ != MOVE && e->button() == Qt::LeftButton) {
         if(is_playing_)
             stop();
         else

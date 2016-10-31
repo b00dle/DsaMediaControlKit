@@ -33,6 +33,7 @@ public slots:
     virtual void setMedia(const QMediaContent& c);
     virtual void play();
     virtual void stop();
+    virtual void onActivate();
     void changePlayerState(QMediaPlayer::State state);
 
 protected slots:

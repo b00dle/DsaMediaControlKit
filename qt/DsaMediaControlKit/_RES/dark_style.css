@@ -12,7 +12,7 @@ QMenuBar::item {
 }
 
 QMenuBar::item:selected {
-   background : #198e09;
+   background : rgba(50, 152, 253, 80);
 }
 
 QGroupBox {
@@ -49,6 +49,11 @@ QListView::item {
 
 QGraphicsView {
    background-color : #545556;
+}
+
+QGraphicsView:focus {
+   background-color : #545556;
+   border: 3px solid rgba(50, 152, 253, 80);
 }
 
 QSplitter::handle {
@@ -94,4 +99,13 @@ QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal, QScrollBar::ad
    background: none;
    border : none;
    color : none;
-}                           
+}
+
+QMenu {
+    background-color: #545556;
+    color: white;
+}
+
+QMenu::item:selected {
+    background : rgba(50, 152, 253, 80);
+}

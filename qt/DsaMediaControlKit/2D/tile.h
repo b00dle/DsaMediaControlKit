@@ -12,6 +12,7 @@
 #include <QLineF>
 #include <QMouseEvent>
 #include <QMediaPlayer>
+#include <QShortcut>
 
 namespace TwoD {
 
@@ -44,9 +45,18 @@ protected:
         LOWER
     };
 
+signals:
+    void activated();
+
+public slots:
+    virtual void onActivate();
+
 public:
     Tile(QGraphicsItem* parent = 0);
     ~Tile();
+
+    void setActivateKey(const QChar& c);
+    const QChar& getActivateKey() const;
 
     void init();
 
@@ -162,6 +172,8 @@ protected:
     ItemMode mode_;
     qreal size_;
     QMenu* context_menu_;
+    QAction* activate_action_;
+    QChar activate_key_;
 };
 
 } // namespace TwoD

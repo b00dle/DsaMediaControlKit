@@ -22,6 +22,8 @@ Tile::Tile(QGraphicsItem* parent)
     , mode_(IDLE)
     , size_(1)
     , context_menu_(0)
+    , activate_action_(0)
+    , activate_key_(' ')
 {    
     long_click_timer_ = new QTimer(this);
     connect(long_click_timer_, SIGNAL(timeout()),
@@ -29,7 +31,13 @@ Tile::Tile(QGraphicsItem* parent)
 
     setAcceptHoverEvents(true);
     setAcceptDrops(true);
+
     context_menu_ = new QMenu;
+
+    activate_action_ = new QAction("Activate", this);
+
+    connect(activate_action_, SIGNAL(triggered()),
+            this, SLOT(onActivate()));
 }
 
 Tile::~Tile()
@@ -37,9 +45,25 @@ Tile::~Tile()
     context_menu_->deleteLater();
 }
 
+void Tile::setActivateKey(const QChar &c)
+{
+    activate_key_ = c;
+}
+
+const QChar &Tile::getActivateKey() const
+{
+    return activate_key_;
+}
+
 void Tile::init()
 {
     createContextMenu();
+}
+
+
+void Tile::onActivate()
+{
+    emit activated();
 }
 
 QRectF Tile::boundingRect() const
@@ -502,7 +526,7 @@ void Tile::createContextMenu()
             this, SLOT(onDelete()));
 
     // create context menu
-
+    context_menu_->addAction(activate_action_);
     context_menu_->addMenu(size_menu);
     context_menu_->addSeparator();
     context_menu_->addAction(delete_action);
