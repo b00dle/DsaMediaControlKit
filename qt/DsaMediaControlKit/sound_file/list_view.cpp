@@ -28,6 +28,7 @@ ListView::ListView(QList<DB::SoundFileRecord*> const& sound_files, QWidget *pare
     setModel(model_);
     setAcceptDrops(true);
     setEditable(false);
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
 }
 
 ListView::~ListView()
@@ -49,6 +50,14 @@ void ListView::setEditable(bool is_editable)
 bool ListView::getEditable()
 {
     return model_->getColumnEditable(0);
+}
+
+QItemSelectionModel::SelectionFlags ListView::selectionCommand(const QModelIndex &index, const QEvent *event) const
+{
+    if (event != 0 && event->type() == QEvent::MouseMove)
+        return QItemSelectionModel::Select;
+    else
+        return QAbstractItemView::selectionCommand(index, event);
 }
 
 void ListView::mousePressEvent(QMouseEvent *event)
@@ -91,28 +100,30 @@ void ListView::dropEvent(QDropEvent *event)
     ListView *source = qobject_cast<ListView*>(event->source());
     if (source && source != this) {
         // extract DB::TableRecord from mime data
-        DB::TableRecord* temp_rec = Misc::JsonMimeDataParser::toTableRecord(event->mimeData());
+        QList<DB::TableRecord*> records = Misc::JsonMimeDataParser::toTableRecordList(event->mimeData());
 
         // validate parsing
-        if(temp_rec == 0) {
+        if(records.size() == 0) {
             event->ignore();
             return;
         }
 
         // handle extracted data
-        if(temp_rec->index == DB::SOUND_FILE) {
-            DB::SoundFileRecord* rec = (DB::SoundFileRecord*) temp_rec;
-            addSoundFile(rec->id, rec->name, rec->path);
-            event->setDropAction(Qt::CopyAction);
-            event->accept();
-            rec = 0;
-        }
-        else {
-            event->ignore();
+        foreach(DB::TableRecord* rec, records) {
+            if(rec->index == DB::SOUND_FILE) {
+                DB::SoundFileRecord* sound_rec = (DB::SoundFileRecord*) rec;
+                addSoundFile(sound_rec->id, sound_rec->name, sound_rec->path);
+            }
         }
 
-        delete temp_rec;
-        temp_rec = 0;
+        // delete temp records
+        while(records.size() > 0) {
+            delete records[0];
+            records.pop_front();
+        }
+
+        event->setDropAction(Qt::CopyAction);
+        event->accept();
     }
 }
 
@@ -138,21 +149,26 @@ void ListView::addSoundFile(int id, const QString &name, const QString &path)
 
 void ListView::performDrag()
 {
-    QModelIndex index = currentIndex();
-    if(!index.isValid())
+    QList<DB::TableRecord*> records;
+    foreach(QModelIndex idx, selectionModel()->selectedIndexes()) {
+        DB::SoundFileRecord* temp_rec = new DB::SoundFileRecord;
+        temp_rec->id = model_->data(model_->index(idx.row(), 0), Qt::UserRole).toInt();
+        temp_rec->name = model_->data(model_->index(idx.row(), 0)).toString();
+        temp_rec->path = model_->data(model_->index(idx.row(), 1)).toString();
+        records.append(temp_rec);
+    }
+
+    if(records.size() == 0)
         return;
 
-    // create temporary SoundFileRecord for QMimeData generation
-    DB::SoundFileRecord* temp_rec = new DB::SoundFileRecord;
-    temp_rec->id = model_->data(model_->index(index.row(), 0), Qt::UserRole).toInt();
-    temp_rec->name = model_->data(model_->index(index.row(), 0)).toString();
-    temp_rec->path = model_->data(model_->index(index.row(), 1)).toString();
-
     // create QMimeData
-    QMimeData* mime_data = Misc::JsonMimeDataParser::toJsonMimeData(temp_rec);
+    QMimeData* mime_data = Misc::JsonMimeDataParser::toJsonMimeData(records);
 
-    // delete temporary TableRecord
-    delete temp_rec;
+    // delete temporary TableRecords
+    while(records.size() > 0) {
+        delete records[0];
+        records.pop_front();
+    }
 
     // create Drag
     QDrag *drag = new QDrag(this);

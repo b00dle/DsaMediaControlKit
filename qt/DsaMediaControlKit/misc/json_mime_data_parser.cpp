@@ -1,5 +1,7 @@
 #include "json_mime_data_parser.h"
 
+#include <QJsonArray>
+
 namespace Misc {
 
 JsonMimeDataParser::JsonMimeDataParser()
@@ -23,6 +25,28 @@ QMimeData* JsonMimeDataParser::toJsonMimeData(DB::TableRecord* rec)
     return data;
 }
 
+QMimeData *JsonMimeDataParser::toJsonMimeData(const QList<DB::TableRecord *>& records)
+{
+    QMimeData* data = 0;
+    if(records.size() == 0)
+        return data;
+
+    QJsonArray arr;
+    foreach(DB::TableRecord* rec, records) {
+        QJsonObject obj(toJsonObject(rec));
+        if(obj.isEmpty())
+            continue;
+        arr.append(obj);
+    }
+
+    QJsonDocument doc(arr);
+
+    data = new QMimeData;
+    data->setText(QString(doc.toJson()));
+
+    return data;
+}
+
 DB::TableRecord *JsonMimeDataParser::toTableRecord(const QMimeData* mime)
 {
     if(mime == 0 || !mime->hasText())
@@ -33,6 +57,37 @@ DB::TableRecord *JsonMimeDataParser::toTableRecord(const QMimeData* mime)
         return 0;
 
     return toTableRecord(doc.object());
+}
+
+QList<DB::TableRecord *> JsonMimeDataParser::toTableRecordList(const QMimeData* mime)
+{
+    QList<DB::TableRecord*> records;
+    if(mime == 0 || !mime->hasText())
+        return records;
+
+    QJsonDocument doc = QJsonDocument::fromJson(mime->text().toUtf8());
+    if(doc.isNull() || doc.isEmpty())
+        return records;
+
+    if(doc.isObject()) {
+        DB::TableRecord* rec = toTableRecord(mime);
+        if(rec == 0)
+            return records;
+        records.append(rec);
+    }
+    else if(doc.isArray()) {
+        foreach(QJsonValue val, doc.array()) {
+            if(!val.isObject())
+                continue;
+
+            DB::TableRecord* rec = toTableRecord(val.toObject());
+            if(rec == 0)
+                continue;
+            records.append(rec);
+        }
+    }
+
+    return records;
 }
 
 DB::TableRecord *JsonMimeDataParser::toTableRecord(const QJsonObject& obj)

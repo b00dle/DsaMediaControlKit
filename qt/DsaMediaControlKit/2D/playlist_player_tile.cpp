@@ -69,16 +69,25 @@ void PlaylistPlayerTile::paint(QPainter *painter, const QStyleOptionGraphicsItem
 void PlaylistPlayerTile::receiveExternalData(const QMimeData *data)
 {
     // extract DB::TableRecord from mime data
-    DB::TableRecord* temp_rec = Misc::JsonMimeDataParser::toTableRecord(data);
+    QList<DB::TableRecord*> records = Misc::JsonMimeDataParser::toTableRecordList(data);
 
     // validate parsing
-    if(temp_rec == 0 || temp_rec->index != DB::SOUND_FILE) {
+    if(records.size() == 0)
         return;
+
+    // add media for each sound file record
+    foreach(DB::TableRecord* rec, records) {
+        if(rec->index != DB::SOUND_FILE)
+            continue;
+        DB::SoundFileRecord* r = (DB::SoundFileRecord*) rec;
+        addMedia(QMediaContent(QUrl("file:///" + r->path)));
     }
 
-    // create graphics item
-    DB::SoundFileRecord* rec = (DB::SoundFileRecord*) temp_rec;
-    addMedia(QMediaContent(QUrl("file:///" + rec->path)));
+    // delete temp records
+    while(records.size() > 0) {
+        delete records[0];
+        records.pop_front();
+    }
 }
 
 void PlaylistPlayerTile::addMedia(const QMediaContent &c)

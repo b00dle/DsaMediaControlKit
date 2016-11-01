@@ -4,6 +4,7 @@
 #include <QJsonDocument>
 #include <QMimeData>
 #include <QJsonObject>
+#include <QList>
 
 #include "db/table_records.h"
 
@@ -31,6 +32,14 @@ public:
     static QMimeData* toJsonMimeData(DB::TableRecord*);
 
     /*
+     * creates QMimeData with text set to a string
+     * wrapping a json serialized object, referencing
+     * given all given TableRecords.
+     * returns 0 if parsing fails.
+    */
+    static QMimeData* toJsonMimeData(const QList<DB::TableRecord*>&);
+
+    /*
      * Extracts DB::TableRecord from given QMimeData.
      * Parser assumes text in QMimeData is in Json format and.
      * (see toJsonMimeData(...))
@@ -39,6 +48,16 @@ public:
      * elements and should therefore be deleted after use.
     */
     static DB::TableRecord* toTableRecord(const QMimeData*);
+
+    /*
+     * Extracts list of DB::TableRecord from given QMimeData.
+     * Parser assumes text in QMimeData is in Json format and.
+     * (see toJsonMimeData(...))
+     * Returns 0 if parsing fails.
+     * Note: None of the returned pointers reference any DB::Model::...
+     * elements and should therefore be deleted after use.
+    */
+    static QList<DB::TableRecord*> toTableRecordList(const QMimeData*);
 
     /*
     * Extracts DB::TableRecord from given QJsonObject.

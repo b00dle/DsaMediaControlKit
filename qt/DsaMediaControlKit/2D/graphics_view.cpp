@@ -79,16 +79,16 @@ void GraphicsView::dropEvent(QDropEvent *event)
         }
     }
     // extract DB::TableRecord from mime data
-    DB::TableRecord* temp_rec = Misc::JsonMimeDataParser::toTableRecord(event->mimeData());
+    QList<DB::TableRecord*> records = Misc::JsonMimeDataParser::toTableRecordList(event->mimeData());
 
     // validate parsing
-    if(temp_rec == 0 || temp_rec->index != DB::SOUND_FILE) {
+    if(records.size() == 0 || records[0]->index != DB::SOUND_FILE) {
         event->ignore();
         return;
     }
 
     // create graphics item
-    DB::SoundFileRecord* rec = (DB::SoundFileRecord*) temp_rec;
+    DB::SoundFileRecord* rec = (DB::SoundFileRecord*) records[0];
     PlaylistPlayerTile* tile = new PlaylistPlayerTile(QMediaContent(QUrl("file:///" + rec->path)));
     tile->setFlag(QGraphicsItem::ItemIsMovable, true);
     //tile->addMedia(QMediaContent(QUrl("file:///" + rec->path)));
@@ -96,6 +96,11 @@ void GraphicsView::dropEvent(QDropEvent *event)
     tile->init();
     tile->setPos(p);
     tile->setSize(0);
+
+    for(int i = 1; i < records.size(); ++i) {
+        rec = (DB::SoundFileRecord*) records[i];
+        tile->addMedia(QMediaContent(QUrl("file:///" + rec->path)));
+    }
 
     // add to scene
     scene()->addItem(tile);
@@ -105,6 +110,12 @@ void GraphicsView::dropEvent(QDropEvent *event)
     event->setDropAction(Qt::CopyAction);
     event->accept();
     rec = 0;
+
+    // delete temp records
+    while(records.size() > 0) {
+        delete records[0];
+        records.pop_front();
+    }
 }
 
 void GraphicsView::keyPressEvent(QKeyEvent*)
