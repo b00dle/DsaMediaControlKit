@@ -1,57 +1,48 @@
-#include "preset_creator.h"
+#include "playlist_settings_widget_old.h"
 
-#include <QHBoxLayout>
 #include <QDebug>
+#include <QHBoxLayout>
 
 namespace Preset {
 
-PresetCreator::PresetCreator(QWidget *parent)
+PlaylistSettingsWidgetOld::PlaylistSettingsWidgetOld(QWidget *parent)
     : QWidget(parent)
+    , playlist_settings_()
     , edit_(0)
     , close_button_(0)
     , create_button_(0)
     , box_(0)
 {
-    initWidgets();
-    initLayout();
+  initWidgets();
+  initLayout();
 }
 
-
-PresetCreator::~PresetCreator()
+PlaylistSettingsWidgetOld::~PlaylistSettingsWidgetOld()
 {
-}
 
-const QString PresetCreator::getText()
-{
-    return edit_->text();
 }
 
 
-void PresetCreator::onClosedClicked(bool)
+void PlaylistSettingsWidgetOld::onClosedClicked(bool)
 {
     emit closed();
 }
 
-void PresetCreator::onCreateClicked(bool)
+void PlaylistSettingsWidgetOld::onCreateClicked(bool)
 {
-    if (getText().length() > 0){
-        emit created(getText());
-        emit closed();
-    } else {
-        qDebug() << "Please enter a Text";
-        edit_->setPlaceholderText("Preset name, please");
-    }
+    qDebug() << "Please enter a Text";
 }
 
-void PresetCreator::initWidgets()
+
+void PlaylistSettingsWidgetOld::initWidgets()
 {
     edit_ = new QLineEdit(this);
     edit_->setPlaceholderText("Preset name");
-    close_button_ = new QPushButton("Cancel", this);
-    create_button_ = new QPushButton("Create Preset", this);
+    close_button_ = new QPushButton("X", this);
+    create_button_ = new QPushButton("Change Settings", this);
 
     box_ = new QGroupBox(this);
-    box_->setTitle(tr("Preset Creator"));
+    box_->setTitle(tr("Playlist Settings"));
 
     connect(close_button_, SIGNAL(clicked(bool)),
             this, SLOT(onClosedClicked(bool)));
@@ -59,7 +50,7 @@ void PresetCreator::initWidgets()
             this, SLOT(onCreateClicked(bool)));
 }
 
-void PresetCreator::initLayout()
+void PlaylistSettingsWidgetOld::initLayout()
 {
     QWidget::setWindowFlags(Qt::Tool);
     QWidget::setWindowTitle("Preset Creator");
@@ -78,4 +69,6 @@ void PresetCreator::initLayout()
     setLayout(layout);
 }
 
-} // namespace UI
+
+} // namespace Preset
+

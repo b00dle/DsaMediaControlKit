@@ -9,7 +9,7 @@ struct Resources
 {
     static void init();
     static void cleanup();
-    static QString loadFileToString(QString const& path);
+    static const QString loadFileToString(QString const& path);
 
     static QPixmap* getKeyPixmap(const QChar& k);
 

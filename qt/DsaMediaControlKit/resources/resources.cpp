@@ -1,6 +1,8 @@
 #include "resources.h"
 
 #include <QFile>
+#include <QDebug>
+#include <QDir>
 
 /*
 * init function
@@ -224,11 +226,17 @@ void Resources::cleanup()
     PX_Z_KEY = 0;
 }
 
-QString Resources::loadFileToString(const QString &path)
+const QString Resources::loadFileToString(const QString &path)
 {
     QFile file(path);
-    file.open(QFile::ReadOnly);
-    return QLatin1String(file.readAll());
+    if(file.open(QFile::ReadOnly)){
+
+        return QLatin1String(file.readAll());
+    }
+    qDebug() << file.errorString();
+    qDebug() << " > " << path;
+    qDebug() << QDir::currentPath();
+    return QString("");
 }
 
 QPixmap *Resources::getKeyPixmap(const QChar &k)
@@ -319,6 +327,7 @@ QString Resources::DATABASE_PATH = "../../db/dsamediacontrolkit.db";
 /*
 * ICONS
 */
+
 QString Resources::IMG_SOUND_FILE_DRAG_PATH = ":/images/dick.png";
 QString Resources::IMG_PLAY_PATH = ":/images/icon_play.png";
 QString Resources::IMG_PAUSE_PATH = ":/images/icon_pause.png";
@@ -410,4 +419,5 @@ QPixmap* Resources::PX_Z_KEY = 0;
 /*
 * STYLE
 */
-QString Resources::DARK_STYLE = Resources::loadFileToString(":/styles/dark_style.css");
+//QString Resources::DARK_STYLE = Resources::loadFileToString(":/styles/dark_style.css");
+QString Resources::DARK_STYLE = Resources::loadFileToString("../DsaMediaControlKit/_RES/dark_style.css");

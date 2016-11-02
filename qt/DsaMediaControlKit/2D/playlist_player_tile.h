@@ -1,15 +1,19 @@
 #ifndef TWO_D_PLAYLIST_PLAYER_TILE_H
 #define TWO_D_PLAYLIST_PLAYER_TILE_H
 
-
 #include <QMediaPlayer>
 #include <QGraphicsView>
 #include <QMimeData>
 #include <QDrag>
 
+#include "custom_media_player.h"
 #include "tile.h"
-#include "preset/playlist.h"
+#include "playlist/settings_widget.h"
+#include "playlist/playlist.h"
+#include "playlist/settings.h"
 #include "misc/json_mime_data_parser.h"
+
+using namespace Playlist;
 
 namespace TwoD {
 
@@ -34,11 +38,16 @@ public slots:
     virtual void play();
     virtual void stop();
     virtual void onActivate();
+
+    /* adjust playing icon when the player stops playing*/
     void changePlayerState(QMediaPlayer::State state);
 
 protected slots:
     /* slot to open configuration */
     virtual void onConfigurePlaylist();
+    /* */
+    void closePlaylistSettings();
+    void savePlaylistSettings(Settings* settings);
 
     /* clot to open contents view */
     virtual void onContents();
@@ -59,8 +68,11 @@ protected:
     */
     virtual const QPixmap getPlayStatePixmap() const;
 
-    QMediaPlayer* player_;
-    Preset::Playlist* playlist_;
+    CustomMediaPlayer* player_;
+
+    Playlist::SettingsWidget* playlist_settings_widget_;
+    Playlist::Playlist* playlist_;
+
     bool is_playing_;
 };
 

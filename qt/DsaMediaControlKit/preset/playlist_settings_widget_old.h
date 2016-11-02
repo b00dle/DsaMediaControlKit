@@ -6,16 +6,16 @@
 #include <QGroupBox>
 #include <QPushButton>
 #include <QLineEdit>
-#include "playlist_settings.h"
+#include "playlist_settings_old.h"
 
 namespace Preset {
 
-class PlaylistSettingsWidget : public QWidget
+class PlaylistSettingsWidgetOld : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PlaylistSettingsWidget(QWidget *parent = 0);
-    ~PlaylistSettingsWidget();
+    explicit PlaylistSettingsWidgetOld(QWidget *parent = 0);
+    ~PlaylistSettingsWidgetOld();
 
 signals:
     void closed();
@@ -29,7 +29,7 @@ private:
     void initWidgets();
     void initLayout();
 
-    PlaylistSettings* playlist_settings_;
+    PlaylistSettingsOld* playlist_settings_;
     QLineEdit* edit_;
     QPushButton* close_button_;
     QPushButton* create_button_;
