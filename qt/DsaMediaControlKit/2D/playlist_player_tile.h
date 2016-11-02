@@ -68,7 +68,7 @@ protected:
 
     Playlist::SettingsWidget* playlist_settings_widget_;
     Playlist::Playlist* playlist_;
-    Playlist::Settings* settings_;
+
     bool is_playing_;
 };
 

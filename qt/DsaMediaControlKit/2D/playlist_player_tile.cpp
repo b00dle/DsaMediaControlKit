@@ -12,8 +12,8 @@ namespace TwoD {
 PlaylistPlayerTile::PlaylistPlayerTile(QGraphicsItem *parent)
     : Tile(parent)
     , player_(0)
-    , playlist_(0)
     , playlist_settings_widget_(0)
+    , playlist_(0)
     , is_playing_(false)
 {
     player_ = new CustomMediaPlayer(this);
@@ -23,8 +23,8 @@ PlaylistPlayerTile::PlaylistPlayerTile(QGraphicsItem *parent)
 PlaylistPlayerTile::PlaylistPlayerTile(const QMediaContent &c, QGraphicsItem *parent)
     : Tile(parent)
     , player_(0)
-    , playlist_(0)
     , playlist_settings_widget_(0)
+    , playlist_(0)
     , is_playing_(false)
 {
     player_ = new CustomMediaPlayer(this);
