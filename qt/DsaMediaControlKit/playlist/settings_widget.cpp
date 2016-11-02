@@ -104,30 +104,55 @@ void SettingsWidget::initWidgets()
     name_edit_ = new QLineEdit(this);
     name_edit_->setPlaceholderText("Playlist Name");
     loop_checkbox_ = new QCheckBox(tr("Loop this shit"),this);
-    loop_checkbox_->setChecked(false);
+    if (playlist_->getSettings()->loop_flag){
+        loop_checkbox_->setChecked(true);
+    } else {
+        loop_checkbox_->setChecked(false);
+    }
     interval_checkbox_ = new QCheckBox(tr("Intervals"),this);
-    interval_checkbox_->setChecked(false);
+    if (playlist_->getSettings()->interval_flag){
+        interval_checkbox_->setChecked(true);
+    } else {
+        interval_checkbox_->setChecked(false);
+    }
+
     min_interval_slider_ = new QSlider(Qt::Horizontal,this);
     min_interval_slider_->setMinimum(0);
     min_interval_slider_->setMaximum(60);
-    min_interval_slider_->setValue(0);
     max_interval_slider_ = new QSlider(Qt::Horizontal,this);
+    interval_label_ = new QLabel(this);
+
+    connect(min_interval_slider_, SIGNAL(valueChanged(int)),
+            this, SLOT(onMinIntervalSliderChanged(int)));
+    connect(max_interval_slider_, SIGNAL(valueChanged(int)),
+            this, SLOT(onMaxIntervalSliderChanged(int)));
+
+    min_interval_slider_->setValue(playlist_->getSettings()->min_delay_interval);
     max_interval_slider_->setMinimum(0);
     max_interval_slider_->setMaximum(60);
-    max_interval_slider_->setValue(0);
-    interval_label_ = new QLabel(this);
-    interval_label_->setText("0 - 0 sec");
+    max_interval_slider_->setValue(playlist_->getSettings()->max_delay_interval);
 
     volume_slider_ = new QSlider(Qt::Horizontal,this);
-    volume_slider_->setValue(100);
+    volume_label_ = new QLabel(this);
     volume_slider_->setMinimum(0);
     volume_slider_->setMaximum(100);
-    volume_label_ = new QLabel(this);
-    volume_label_->setText("100 %");
+
+    connect(volume_slider_, SIGNAL(valueChanged(int)),
+            this, SLOT(onVolumeSliderChanged(int)));
+
+    volume_slider_->setValue(playlist_->getSettings()->volume);
 
     normal_radio_button_ = new QRadioButton(tr("Normal"),this);
     shuffle_radio_button_ = new QRadioButton(tr("Random"),this);
     weighted_radio_button_ = new QRadioButton(tr("Weighted"),this);
+
+    if (playlist_->getSettings()->order == PlayOrder::ORDERED){
+        normal_radio_button_->setChecked(true);
+    } else if (playlist_->getSettings()->order == PlayOrder::SHUFFLE){
+        shuffle_radio_button_->setChecked(true);
+    } else if (playlist_->getSettings()->order == PlayOrder::SHUFFLE){
+        weighted_radio_button_->setChecked(true);
+    }
 
     save_button_ = new QPushButton("Save", this);
     close_button_ = new QPushButton("X", this);
@@ -136,12 +161,6 @@ void SettingsWidget::initWidgets()
             this, SLOT(onCloseClicked(bool)));
     connect(save_button_, SIGNAL(clicked(bool)),
             this, SLOT(onSaveClicked(bool)));
-    connect(min_interval_slider_, SIGNAL(valueChanged(int)),
-            this, SLOT(onMinIntervalSliderChanged(int)));
-    connect(max_interval_slider_, SIGNAL(valueChanged(int)),
-            this, SLOT(onMaxIntervalSliderChanged(int)));
-    connect(volume_slider_, SIGNAL(valueChanged(int)),
-            this, SLOT(onVolumeSliderChanged(int)));
 }
 
 void SettingsWidget::initLayout()
