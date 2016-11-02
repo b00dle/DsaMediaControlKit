@@ -15,7 +15,7 @@ void Playlist::setSettings(Settings *settings)
     settings_ = new Settings(settings);
 }
 
-Settings *Playlist::settings()
+Settings *Playlist::getSettings()
 {
     return settings_;
 }

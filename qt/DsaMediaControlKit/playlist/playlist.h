@@ -14,7 +14,7 @@ public:
     Playlist(QString name = "Playlist");
 
     void setSettings(Settings* settings);
-    Settings* settings();
+    Settings* getSettings();
 
 private:
     QString name_;
