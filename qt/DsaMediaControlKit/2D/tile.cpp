@@ -46,25 +46,9 @@ Tile::~Tile()
     context_menu_->deleteLater();
 }
 
-void Tile::setActivateKey(const QChar &c)
-{
-    activate_key_ = c;
-}
-
-const QChar &Tile::getActivateKey() const
-{
-    return activate_key_;
-}
-
 void Tile::init()
 {
     createContextMenu();
-}
-
-
-void Tile::onActivate()
-{
-    emit activated();
 }
 
 QRectF Tile::boundingRect() const
@@ -91,6 +75,16 @@ void Tile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
         if(!act_px.isNull())
             painter->drawPixmap((int) p_rect.x()+5, (int) p_rect.y()+5, (int) p_rect.width() / 4, (int) p_rect.height() / 4, act_px);
     }
+}
+
+void Tile::setActivateKey(const QChar &c)
+{
+    activate_key_ = c;
+}
+
+const QChar &Tile::getActivateKey() const
+{
+    return activate_key_;
 }
 
 void Tile::setSize(qreal size)
@@ -136,12 +130,6 @@ const QString &Tile::getName() const
     return name_;
 }
 
-
-void Tile::receiveExternalData(const QMimeData *data)
-{
-    qDebug() << "Tile " << name_ <<" : Received Data "<< data->text();
-}
-
 const QMenu *Tile::getContextMenu() const
 {
     return context_menu_;
@@ -150,6 +138,16 @@ const QMenu *Tile::getContextMenu() const
 bool Tile::hasActivateKey() const
 {
     return activate_key_ != ' ';
+}
+
+void Tile::receiveExternalData(const QMimeData *data)
+{
+    qDebug() << "Tile " << name_ <<" : Received Data "<< data->text();
+}
+
+void Tile::onActivate()
+{
+    emit activated();
 }
 
 void Tile::mousePressEvent(QGraphicsSceneMouseEvent* e)
