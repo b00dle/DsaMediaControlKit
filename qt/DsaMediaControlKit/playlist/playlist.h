@@ -3,15 +3,22 @@
 
 #include <QMediaPlaylist>
 
+#include "settings.h"
+
 namespace Playlist {
 
 class Playlist : public QMediaPlaylist
 {
+    Q_OBJECT
 public:
     Playlist(QString name = "Playlist");
 
+    void setSettings(Settings* settings);
+    Settings* settings();
+
 private:
     QString name_;
+    Settings* settings_;
 };
 
 } // end namespace playlist
