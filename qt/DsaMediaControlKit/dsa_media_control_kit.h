@@ -15,9 +15,7 @@
 #include <QSplitter>
 #include <QScrollArea>
 
-#include "preset/multi_preset_controller.h"
-#include "preset/preset_creator.h"
-#include "preset/preset_widget.h"
+
 #include "misc/drop_group_box.h"
 #include "sound_file/resource_importer.h"
 #include "sound_file/master_view.h"
@@ -63,10 +61,6 @@ private:
     // WIDGETS
     SoundFile::MasterView* sound_file_view_;
     Category::TreeView* category_view_;
-
-    //Preset::MultiPresetController* multi_preset_controller_;
-    //Preset::PresetCreator* preset_creator_;
-    //Preset::PresetWidget* preset_widget_;
 
     TwoD::GraphicsView* preset_view_;
     SoundFile::ResourceImporter* sound_file_importer_;
