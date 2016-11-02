@@ -12,6 +12,7 @@ namespace TwoD {
 
 GraphicsView::GraphicsView(QGraphicsScene *scene, QWidget *parent)
     : QGraphicsView(scene, parent)
+    , model_(0)
 {
     setScene(scene);
     setAcceptDrops(true);
@@ -20,6 +21,7 @@ GraphicsView::GraphicsView(QGraphicsScene *scene, QWidget *parent)
 
 GraphicsView::GraphicsView(QWidget *parent)
     : QGraphicsView(parent)
+    , model_(0)
 {
     setScene(new QGraphicsScene(QRectF(0,0,100,100),this));
     scene()->setSceneRect(0,0, 100, 100);
@@ -105,6 +107,16 @@ bool GraphicsView::setFromJsonObject(const QJsonObject &obj)
     return true;
 }
 
+void GraphicsView::setSoundFileModel(DB::Model::SoundFileTableModel *m)
+{
+    model_ = m;
+}
+
+DB::Model::SoundFileTableModel *GraphicsView::getSoundFileModel()
+{
+    return model_;
+}
+
 void GraphicsView::resizeEvent(QResizeEvent *e)
 {
     QGraphicsView::resizeEvent(e);
@@ -169,18 +181,17 @@ void GraphicsView::dropEvent(QDropEvent *event)
     }
 
     // create graphics item
-    DB::SoundFileRecord* rec = (DB::SoundFileRecord*) records[0];
-    PlaylistPlayerTile* tile = new PlaylistPlayerTile(QMediaContent(QUrl("file:///" + rec->path)));
+    PlaylistPlayerTile* tile = new PlaylistPlayerTile;
+    tile->setSoundFileModel(model_);
     tile->setFlag(QGraphicsItem::ItemIsMovable, true);
-    //tile->addMedia(QMediaContent(QUrl("file:///" + rec->path)));
-    tile->setName(rec->name);
+    tile->setName(records[0]->name);
     tile->init();
     tile->setPos(p);
     tile->setSize(0);
 
-    for(int i = 1; i < records.size(); ++i) {
-        rec = (DB::SoundFileRecord*) records[i];
-        tile->addMedia(QMediaContent(QUrl("file:///" + rec->path)));
+    foreach(DB::TableRecord* rec, records) {
+        if(rec->index == DB::SOUND_FILE)
+            tile->addMedia(*((DB::SoundFileRecord*) rec));
     }
 
     // add to scene
@@ -190,7 +201,6 @@ void GraphicsView::dropEvent(QDropEvent *event)
     // except event
     event->setDropAction(Qt::CopyAction);
     event->accept();
-    rec = 0;
 
     // delete temp records
     while(records.size() > 0) {

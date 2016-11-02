@@ -12,6 +12,7 @@
 #include "playlist/playlist.h"
 #include "playlist/settings.h"
 #include "misc/json_mime_data_parser.h"
+#include "db/model/sound_file_table_model.h"
 
 using namespace Playlist;
 
@@ -23,15 +24,17 @@ namespace TwoD {
 
 public:
     PlaylistPlayerTile(QGraphicsItem* parent = 0);
-    PlaylistPlayerTile( const QMediaContent &c, QGraphicsItem* parent = 0);
     virtual ~PlaylistPlayerTile();
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     virtual void receiveExternalData(const QMimeData* data);
 
-    void addMedia(const QMediaContent& c);
+    bool addMedia(const DB::SoundFileRecord& r);
+    bool addMedia(int record_id);
 
+    void setSoundFileModel(DB::Model::SoundFileTableModel* m);
+    DB::Model::SoundFileTableModel* getSoundFileModel();
 
 public slots:
     virtual void setMedia(const QMediaContent& c);
@@ -72,6 +75,7 @@ protected:
 
     Playlist::SettingsWidget* playlist_settings_widget_;
     Playlist::Playlist* playlist_;
+    DB::Model::SoundFileTableModel* model_;
 
     bool is_playing_;
 };

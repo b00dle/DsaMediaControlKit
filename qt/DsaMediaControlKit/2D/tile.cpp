@@ -11,7 +11,7 @@
 #include "resources/resources.h"
 #include "misc/char_input_dialog.h"
 
-#define OFFSET 5
+#define OFFSET 10
 
 namespace TwoD {
 

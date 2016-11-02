@@ -16,29 +16,13 @@ PlaylistPlayerTile::PlaylistPlayerTile(QGraphicsItem *parent)
     , player_(0)
     , playlist_settings_widget_(0)
     , playlist_(0)
+    , model_(0)
     , is_playing_(false)
 {
     player_ = new CustomMediaPlayer(this);
     connect(player_, SIGNAL(stateChanged(QMediaPlayer::State)),
             this, SLOT(changePlayerState(QMediaPlayer::State)));
     playlist_ = new Playlist::Playlist("Playlist");
-    player_->setPlaylist(playlist_);
-    setAcceptDrops(true);
-}
-
-PlaylistPlayerTile::PlaylistPlayerTile(const QMediaContent &c, QGraphicsItem *parent)
-    : Tile(parent)
-    , player_(0)
-    , playlist_settings_widget_(0)
-    , playlist_(0)
-    , is_playing_(false)
-{
-    player_ = new CustomMediaPlayer(this);
-    connect(player_, SIGNAL(stateChanged(QMediaPlayer::State)),
-            this, SLOT(changePlayerState(QMediaPlayer::State)));
-    playlist_ = new Playlist::Playlist("Playlist");
-    playlist_->addMedia(c);
-    playlist_->setCurrentIndex(1);
     player_->setPlaylist(playlist_);
     setAcceptDrops(true);
 }
@@ -63,6 +47,11 @@ void PlaylistPlayerTile::paint(QPainter *painter, const QStyleOptionGraphicsItem
         );
     }
 
+    QPen p(QColor(Qt::white));
+    painter->setPen(p);
+    painter->drawText(QPointF(p_rect.x(), p_rect.y() - 3), name_);
+
+    /*
     int y= 0;
     //foreach(const QMediaContent* media,playlist_->media())
     for (int i = 0; i < playlist_->mediaCount(); i++)
@@ -72,6 +61,7 @@ void PlaylistPlayerTile::paint(QPainter *painter, const QStyleOptionGraphicsItem
         painter->drawText(QPointF(p_rect.x(), p_rect.y()+size_+y),url.fileName());
         y += 10;
     }
+    */
 
 }
 
@@ -88,8 +78,7 @@ void PlaylistPlayerTile::receiveExternalData(const QMimeData *data)
     foreach(DB::TableRecord* rec, records) {
         if(rec->index != DB::SOUND_FILE)
             continue;
-        DB::SoundFileRecord* r = (DB::SoundFileRecord*) rec;
-        addMedia(QMediaContent(QUrl("file:///" + r->path)));
+        addMedia(*((DB::SoundFileRecord*) rec));
     }
 
     // delete temp records
@@ -99,10 +88,31 @@ void PlaylistPlayerTile::receiveExternalData(const QMimeData *data)
     }
 }
 
-void PlaylistPlayerTile::addMedia(const QMediaContent &c)
+bool PlaylistPlayerTile::addMedia(int record_id)
 {
-    playlist_->addMedia(c);
-    qDebug() << "added song to Tile" << name_<< ":" << playlist_->mediaCount();
+    if(model_ == 0)
+        return false;
+
+    return playlist_->addMedia(record_id);
+}
+
+bool PlaylistPlayerTile::addMedia(const DB::SoundFileRecord &r)
+{
+    if(model_ == 0)
+        return false;
+
+    return playlist_->addMedia(r);
+}
+
+void PlaylistPlayerTile::setSoundFileModel(DB::Model::SoundFileTableModel *m)
+{
+    model_ = m;
+    playlist_->setSoundFileModel(model_);
+}
+
+DB::Model::SoundFileTableModel *PlaylistPlayerTile::getSoundFileModel()
+{
+    return model_;
 }
 
 
@@ -164,7 +174,9 @@ void PlaylistPlayerTile::onConfigurePlaylist()
 
 void PlaylistPlayerTile::onContents()
 {
-    SoundFile::ListViewDialog d;
+    SoundFile::ListViewDialog d(playlist_->getSoundFileList());
+    d.setAcceptDrops(false);
+
     if(d.exec()) {
 
     }

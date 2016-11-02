@@ -7,6 +7,7 @@ MasterView::MasterView(QList<DB::SoundFileRecord*> const& sound_files, QWidget *
     , context_menu_(0)
 {
     setEditable(true);
+    setAcceptDrops(false);
     initContextMenu();
 }
 

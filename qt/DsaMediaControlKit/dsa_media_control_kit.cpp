@@ -149,6 +149,7 @@ void DsaMediaControlKit::initWidgets()
     progress_bar_->hide();
 
     preset_view_ = new TwoD::GraphicsView(this);
+    preset_view_->setSoundFileModel(db_handler_->getSoundFileTableModel());
 
     sound_file_importer_ = new SoundFile::ResourceImporter(this);
 

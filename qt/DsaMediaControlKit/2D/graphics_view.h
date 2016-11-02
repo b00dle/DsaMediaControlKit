@@ -5,6 +5,8 @@
 #include <QMouseEvent>
 #include <QJsonObject>
 
+#include "db/model/sound_file_table_model.h"
+
 // TODO: rename namespace to Tile
 namespace TwoD {
 
@@ -37,6 +39,9 @@ public:
     */
     bool setFromJsonObject(const QJsonObject& obj);
 
+    void setSoundFileModel(DB::Model::SoundFileTableModel* m);
+    DB::Model::SoundFileTableModel* getSoundFileModel();
+
 private:
     /*
      * Handle scene size when widget resizes.
@@ -66,6 +71,8 @@ private:
     void keyReleaseEvent(QKeyEvent *event);
 
     void clearTiles();
+
+    DB::Model::SoundFileTableModel* model_;
 };
 
 }
