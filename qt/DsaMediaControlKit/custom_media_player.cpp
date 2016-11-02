@@ -19,7 +19,7 @@ void CustomMediaPlayer::play()
 
     Playlist::Playlist* playlist = getCustomPlaylist();
     if(playlist){
-        Playlist::Settings* settings = playlist->settings();
+        Playlist::Settings* settings = playlist->getSettings();
 
         // if delay interval is turned on
         if (settings->order == Playlist::PlayOrder::ORDERED){
