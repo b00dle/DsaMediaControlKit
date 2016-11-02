@@ -192,13 +192,6 @@ bool Tile::setFromJsonObject(const QJsonObject &obj)
     return true;
 }
 
-void Tile::test()
-{
-    QJsonObject obj = toJsonObject();
-    qDebug() << "Tile as JsonObject:" << obj;
-    qDebug() << " > parse from this object success:" << setFromJsonObject(obj);
-}
-
 void Tile::onActivate()
 {
     emit activated();
@@ -608,20 +601,12 @@ void Tile::createContextMenu()
     connect(activate_button_action, SIGNAL(triggered()),
             this, SLOT(onSetKey()));
 
-    // test action TODO: remove
-    QAction* test_action = new QAction(tr("TEST"), this);
-
-    connect(test_action, SIGNAL(triggered()),
-            this, SLOT(test()));
-
     // create context menu
     //context_menu_->addAction(activate_action_);
     context_menu_->addAction(activate_button_action);
     context_menu_->addMenu(size_menu);
     context_menu_->addSeparator();
     context_menu_->addAction(delete_action);
-    context_menu_->addSeparator();
-    context_menu_->addAction(test_action);
 }
 
 } // namespace TwoD

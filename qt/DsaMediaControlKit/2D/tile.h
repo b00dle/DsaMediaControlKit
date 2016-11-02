@@ -154,9 +154,6 @@ signals:
     void activated();
 
 public slots:
-    // TODO: remove - only for test purposes
-    void test();
-
     /* interface for tile interaction */
     virtual void onActivate();
 
