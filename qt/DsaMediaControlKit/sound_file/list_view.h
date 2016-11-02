@@ -17,6 +17,7 @@ class ListView : public QListView
     Q_OBJECT
 public:
     explicit ListView(QList<DB::SoundFileRecord*> const& sound_files = QList<DB::SoundFileRecord*>(), QWidget *parent = 0);
+    explicit ListView(QWidget *parent = 0);
     ~ListView();
 
     void setSoundFiles(QList<DB::SoundFileRecord*> const&);

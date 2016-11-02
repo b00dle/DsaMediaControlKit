@@ -3,6 +3,9 @@
 #include <QDebug>
 #include <QDir>
 #include <QKeySequence>
+#include <QJsonDocument>
+#include <QFileDialog>
+#include <QMessageBox>
 
 #include "db/core/api.h"
 #include "resources/resources.h"
@@ -74,6 +77,64 @@ void DsaMediaControlKit::onDeleteDatabase()
 {
     db_handler_->deleteAll();
     category_view_->selectRoot();
+}
+
+void DsaMediaControlKit::onSaveProjectAs()
+{
+    QString file_name = QFileDialog::getSaveFileName(
+        this, tr("Save Project As..."),
+        "",
+        tr("JSON (*.json)")
+    );
+
+    if(file_name.size() > 0) {
+        QJsonDocument doc;
+
+        doc.setObject(preset_view_->toJsonObject());
+
+        QFile json_file(file_name);
+        json_file.open(QFile::WriteOnly);
+        json_file.write(doc.toJson());
+    }
+}
+
+void DsaMediaControlKit::onOpenProject()
+{
+    QString file_name = QFileDialog::getOpenFileName(
+        this, tr("Save Project As..."),
+        "",
+        tr("JSON (*.json)")
+    );
+
+    if(file_name.size() > 0) {
+        QFile json_file(file_name);
+
+        // opening failed
+        if(!json_file.open(QFile::ReadOnly)) {
+            QMessageBox b;
+            b.setText(tr("The selected file could not be opened."));
+            b.setInformativeText(tr("Do you wish to select a different file?"));
+            b.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            b.setDefaultButton(QMessageBox::Yes);
+            if(b.exec() == QMessageBox::Yes)
+                onOpenProject();
+            else
+                return;
+        }
+
+        QJsonDocument doc = QJsonDocument::fromJson(json_file.readAll());
+
+        // graphics view could not be set from json
+        if(!preset_view_->setFromJsonObject(doc.object())) {
+            QMessageBox b;
+            b.setText(tr("The selected file does not seem to contain valid project data."));
+            b.setInformativeText(tr("Do you wish to select a different file?"));
+            b.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            b.setDefaultButton(QMessageBox::Yes);
+            if(b.exec() == QMessageBox::Yes)
+                onOpenProject();
+        }
+    }
 }
 
 void DsaMediaControlKit::initWidgets()
@@ -149,15 +210,28 @@ void DsaMediaControlKit::initActions()
 {
     actions_["Add Sound Folder..."] = new QAction(tr("Add Sound Folder..."), this);
     actions_["Add Sound Folder..."]->setToolTip(tr("Imports a SoundFile folder into the database."));
-    actions_["Add Sound Folder..."]->setShortcut(QKeySequence(tr("Ctrl+O")));
+    actions_["Add Sound Folder..."]->setShortcut(QKeySequence(tr("Ctrl+Shift+O")));
 
     actions_["Delete Database Contents..."] = new QAction(tr("Delete Database Contents..."), this);
     actions_["Delete Database Contents..."]->setToolTip(tr("Deletes all contents from application database."));
+
+    actions_["Save Project As..."] = new QAction(tr("Save Project As..."), this);
+    actions_["Save Project As..."]->setToolTip(tr("Saves the current work state to a file."));
+    actions_["Save Project As..."]->setShortcut(QKeySequence(tr("Ctrl+S")));
+
+    actions_["Open Project..."] = new QAction(tr("Open Project..."), this);
+    actions_["Open Project..."]->setToolTip(tr("Opens a previously saved state from a file."));
+    actions_["Open Project..."]->setShortcut(QKeySequence(tr("Ctrl+O")));
+
 
     connect(actions_["Add Sound Folder..."] , SIGNAL(triggered(bool)),
             sound_file_importer_, SLOT(startBrowserFolder(bool)));
     connect(actions_["Delete Database Contents..."], SIGNAL(triggered()),
             this, SLOT(onDeleteDatabase()));
+    connect(actions_["Save Project As..."], SIGNAL(triggered()),
+            this, SLOT(onSaveProjectAs()));
+    connect(actions_["Open Project..."], SIGNAL(triggered()),
+            this, SLOT(onOpenProject()));
 }
 
 void DsaMediaControlKit::initMenu()
@@ -165,6 +239,9 @@ void DsaMediaControlKit::initMenu()
     main_menu_ = new QMenu(tr("DsaMediaControlKit"));
 
     QMenu* add_menu = main_menu_->addMenu(tr("File"));
+    add_menu->addAction(actions_["Save Project As..."]);
+    add_menu->addAction(actions_["Open Project..."]);
+    add_menu->addSeparator();
     add_menu->addAction(actions_["Add Sound Folder..."]);
     add_menu->addSeparator();
     add_menu->addAction(actions_["Delete Database Contents..."]);

@@ -31,6 +31,22 @@ ListView::ListView(QList<DB::SoundFileRecord*> const& sound_files, QWidget *pare
     setSelectionMode(QAbstractItemView::ExtendedSelection);
 }
 
+ListView::ListView(QWidget *parent)
+    : QListView(parent)
+    , start_pos_()
+    , model_(0)
+{
+    model_ = new Misc::StandardItemModel(this);
+    model_->setColumnCount(2);
+    model_->setHorizontalHeaderItem(0, new QStandardItem("Name"));
+    model_->setHorizontalHeaderItem(1, new QStandardItem("Path"));
+
+    setModel(model_);
+    setAcceptDrops(true);
+    setEditable(false);
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
+}
+
 ListView::~ListView()
 {}
 

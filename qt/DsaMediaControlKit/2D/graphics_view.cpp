@@ -1,6 +1,7 @@
 #include "graphics_view.h"
 
 #include <QDebug>
+#include <QJsonArray>
 #include <QMimeData>
 
 #include "player_tile.h"
@@ -23,6 +24,85 @@ GraphicsView::GraphicsView(QWidget *parent)
     setScene(new QGraphicsScene(QRectF(0,0,100,100),this));
     scene()->setSceneRect(0,0, 100, 100);
     setAcceptDrops(true);
+}
+
+const QJsonObject GraphicsView::toJsonObject() const
+{
+    QJsonObject obj;
+
+    // parse scene properties
+    QJsonObject scene_obj;
+    QJsonObject scene_rect_obj;
+    scene_rect_obj["x"] = sceneRect().x();
+    scene_rect_obj["y"] = sceneRect().y();
+    scene_rect_obj["width"] = sceneRect().width();
+    scene_rect_obj["height"] = sceneRect().height();
+    scene_obj["scene_rect"] = scene_rect_obj;
+
+    // parse all tiles in scene
+    QJsonArray arr_tiles;
+    foreach(QGraphicsItem* it, scene()->items()) {
+        QObject *obj = dynamic_cast<QObject*>(it);
+        if(obj) {
+            Tile* t = qobject_cast<Tile*>(obj);
+            QJsonObject obj_tile;
+            obj_tile["type"] = QJsonValue(t->metaObject()->className());
+            obj_tile["data"] = QJsonValue(t->toJsonObject());
+            arr_tiles.append(obj_tile);
+        }
+    }
+    scene_obj["tiles"] = QJsonValue(arr_tiles);
+
+    obj["scene"] = scene_obj;
+
+    return obj;
+}
+
+bool GraphicsView::setFromJsonObject(const QJsonObject &obj)
+{
+    if(obj.isEmpty() || !obj.contains("scene"))
+        return false;
+    if(!obj["scene"].isObject())
+        return false;
+
+    QJsonObject sc_obj = obj["scene"].toObject();
+    if(!sc_obj.contains("scene_rect") || !sc_obj["scene_rect"].isObject())
+        return false;
+    if(!sc_obj.contains("tiles") || !sc_obj["tiles"].isArray())
+        return false;
+
+    // scene rect
+    QJsonObject rc_obj = sc_obj["scene_rect"].toObject();
+    if(rc_obj.contains("x") && rc_obj.contains("y") && rc_obj.contains("width") && rc_obj.contains("height")) {
+        QRectF scene_rect = sceneRect();
+        scene_rect.setX((qreal) rc_obj["x"].toDouble());
+        scene_rect.setY((qreal) rc_obj["y"].toDouble());
+        scene_rect.setWidth((qreal) rc_obj["width"].toDouble());
+        scene_rect.setHeight((qreal) rc_obj["height"].toDouble());
+    }
+
+    clearTiles();
+
+    // tiles
+    QJsonArray arr_tiles = sc_obj["tiles"].toArray();
+    foreach(QJsonValue val, arr_tiles) {
+        if(!val.isObject())
+            continue;
+        QJsonObject t_obj = val.toObject();
+        if(!t_obj.contains("type") || !t_obj.contains("data") || !t_obj["data"].isObject())
+            continue;
+
+        // create tile, if type is TwoD::PlaylistPlayerTile
+        if(t_obj["type"].toString().compare("TwoD::PlaylistPlayerTile") == 0) {
+            PlaylistPlayerTile* tile = new PlaylistPlayerTile;
+            tile->setFlag(QGraphicsItem::ItemIsMovable, true);
+            tile->init();
+            tile->setFromJsonObject(t_obj["data"].toObject());
+            scene()->addItem(tile);
+        }
+    }
+
+    return true;
 }
 
 void GraphicsView::resizeEvent(QResizeEvent *e)
@@ -78,6 +158,7 @@ void GraphicsView::dropEvent(QDropEvent *event)
             }
         }
     }
+
     // extract DB::TableRecord from mime data
     QList<DB::TableRecord*> records = Misc::JsonMimeDataParser::toTableRecordList(event->mimeData());
 
@@ -131,6 +212,17 @@ void GraphicsView::keyReleaseEvent(QKeyEvent *event)
             Tile* t = qobject_cast<Tile*>(o);
             if(t->hasActivateKey() && t->getActivateKey() == event->key())
                 t->onActivate();
+        }
+    }
+}
+
+void GraphicsView::clearTiles()
+{
+    foreach(QGraphicsItem* it, scene()->items()) {
+        QObject* o = dynamic_cast<QObject*>(it);
+        if(o) {
+            Tile* t = qobject_cast<Tile*>(o);
+            t->onDelete();
         }
     }
 }

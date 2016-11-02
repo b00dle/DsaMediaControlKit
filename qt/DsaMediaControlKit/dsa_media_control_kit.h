@@ -44,6 +44,8 @@ private slots:
     void onProgressChanged(int);
     void onSelectedCategoryChanged(DB::CategoryRecord* rec);
     void onDeleteDatabase();
+    void onSaveProjectAs();
+    void onOpenProject();
 
 private:
     void initWidgets();

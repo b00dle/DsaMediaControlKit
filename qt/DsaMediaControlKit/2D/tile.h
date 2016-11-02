@@ -13,6 +13,7 @@
 #include <QMouseEvent>
 #include <QMediaPlayer>
 #include <QShortcut>
+#include <QJsonObject>
 
 #include "db/handler.h"
 
@@ -23,6 +24,7 @@ namespace TwoD {
  * Supports hover, onlick and drag handling.
  * Uses layout mechanism, so Multiple instances of the class cannot visually overlap.
  * Defines inteface for evaluating mime data and Setting activation shortscuts.
+ * Holds functionality to convert to JSON description and be set from JSON.
 */
 class Tile : public QObject, public QGraphicsItem
 {
@@ -132,6 +134,17 @@ public:
     */
     virtual void receiveExternalData(const QMimeData* data);
 
+    /*
+     * Returns a QJsonObject holding all information about the tile
+    */
+    virtual const QJsonObject toJsonObject() const;
+
+    /*
+     * Set all values held by JSON object.
+     * Returns success of parsing JsonObject.
+    */
+    virtual bool setFromJsonObject(const QJsonObject& obj);
+
 signals:
     void mousePressed(QGraphicsSceneMouseEvent* e);
     void mouseReleased(QGraphicsSceneMouseEvent* e);
@@ -141,7 +154,10 @@ signals:
     void activated();
 
 public slots:
+    // TODO: remove - only for test purposes
+    void test();
 
+    /* interface for tile interaction */
     virtual void onActivate();
 
     /* sets small size for tile */
@@ -153,12 +169,12 @@ public slots:
     /* sets large size for tile */
     virtual void setLargeSize();
 
+    /* removes this item from the scene and schedules deletion (see deleteLater) */
+    virtual void onDelete();
+
 protected slots:
     /* slot to enable move mode after timer */
     virtual void onLongClick();
-
-    /* removes this item from the scene and schedules deletion (see deleteLater) */
-    virtual void onDelete();
 
     /* sets the activation key using char input dialog */
     void onSetKey();

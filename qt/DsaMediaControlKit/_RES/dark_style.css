@@ -8,7 +8,7 @@ QDialog {
 }
 
 QLabel {
-    color: white;
+   color: white;
 }
 
 QPushButton {
@@ -26,58 +26,59 @@ QMenuBar {
 }
 
 QMenuBar::item {
-   background : transparent;
-   color : white;
+   background: transparent;
+   color: white;
 }
 
 QMenuBar::item:selected {
-   background : rgba(50, 152, 253, 80);
+   background: rgba(50, 152, 253, 80);
 }
 
 QGroupBox {
    border: 1px solid gray;
    background-color: #373738;
+   color: white;
 }
 
 QTreeView {
-   background-color : #545556;
-   color : white;
-   margin-bottom : 5px;
+   background-color: #545556;
+   color: white;
+   margin-bottom: 5px;
 }
 
 QTreeView::item {
-   margin : 3px;
+   margin: 3px;
 }
 
 QHeaderView::section {
-   background-color : #373738;
-   color : white;
-   border : none;
-   padding : 5px;
+   background-color: #373738;
+   color: white;
+   border: none;
+   padding: 5px;
 }
 
 QListView {
-   background-color : #545556;
-   color : white;
-   margin-top : 5px;
+   background-color: #545556;
+   color: white;
+   margin-top: 5px;
 }
 
 QListView::item {
-   margin : 3px;
+   margin: 3px;
 }
 
 QGraphicsView {
-   background-color : #545556;
+   background-color: #545556;
 }
 
 QGraphicsView:focus {
-   background-color : #545556;
+   background-color: #545556;
    border: 3px solid rgba(50, 152, 253, 80);
 }
 
 QSplitter::handle {
-   height : 5px;
-   background-color : #373738;
+   height: 5px;
+   background-color: #373738;
 }
 
 QScrollBar::vertical {
@@ -110,14 +111,14 @@ QScrollBar::handle:horizontal {
 
 QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal, QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
    background: none;
-   border : none;
-   color : none;
+   border: none;
+   color: none;
 }
 
 QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal, QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
    background: none;
-   border : none;
-   color : none;
+   border: none;
+   color: none;
 }
 
 QMenu {
@@ -126,5 +127,5 @@ QMenu {
 }
 
 QMenu::item:selected {
-    background : rgba(50, 152, 253, 80);
+    background: rgba(50, 152, 253, 80);
 }

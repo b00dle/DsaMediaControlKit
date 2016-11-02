@@ -6,6 +6,7 @@
 #include <QPropertyAnimation>
 #include <QGraphicsPixmapItem>
 #include <QMenu>
+#include <QJsonArray>
 
 #include "resources/resources.h"
 #include "misc/char_input_dialog.h"
@@ -143,6 +144,59 @@ bool Tile::hasActivateKey() const
 void Tile::receiveExternalData(const QMimeData *data)
 {
     qDebug() << "Tile " << name_ <<" : Received Data "<< data->text();
+}
+
+const QJsonObject Tile::toJsonObject() const
+{
+    QJsonObject obj;
+
+    obj["name"] = name_;
+    obj["size"] = size_;
+    QJsonArray arr_pos;
+    arr_pos.append(pos().x());
+    arr_pos.append(pos().y());
+    obj["position"] = arr_pos;
+    if(hasActivateKey())
+        obj["activate_key"] = QString(activate_key_);
+
+    return obj;
+}
+
+bool Tile::setFromJsonObject(const QJsonObject &obj)
+{
+    // check format
+    if(obj.isEmpty())
+        return false;
+    if(!(obj.contains("name") && obj.contains("size") && obj.contains("position")))
+        return false;
+    if(!(obj["name"].isString() && obj["size"].isDouble() && obj["position"].isArray()))
+        return false;
+
+    QJsonArray arr_pos = obj["position"].toArray();
+
+    if(obj["position"].toArray().size() != 2)
+        return false;
+
+    // set name, size and pos
+    setName(obj["name"].toString());
+    setSize((qreal) obj["size"].toDouble());
+    setPos(QPointF(arr_pos[0].toDouble(), arr_pos[1].toDouble()));
+
+    // set activate key
+    if(obj.contains("activate_key") && obj["activate_key"].isString()) {
+        QString k = obj["activate_key"].toString();
+        if(k.size() == 1)
+            setActivateKey(k.at(0));
+    }
+
+    return true;
+}
+
+void Tile::test()
+{
+    QJsonObject obj = toJsonObject();
+    qDebug() << "Tile as JsonObject:" << obj;
+    qDebug() << " > parse from this object success:" << setFromJsonObject(obj);
 }
 
 void Tile::onActivate()
@@ -554,12 +608,20 @@ void Tile::createContextMenu()
     connect(activate_button_action, SIGNAL(triggered()),
             this, SLOT(onSetKey()));
 
+    // test action TODO: remove
+    QAction* test_action = new QAction(tr("TEST"), this);
+
+    connect(test_action, SIGNAL(triggered()),
+            this, SLOT(test()));
+
     // create context menu
     //context_menu_->addAction(activate_action_);
     context_menu_->addAction(activate_button_action);
     context_menu_->addMenu(size_menu);
     context_menu_->addSeparator();
     context_menu_->addAction(delete_action);
+    context_menu_->addSeparator();
+    context_menu_->addAction(test_action);
 }
 
 } // namespace TwoD

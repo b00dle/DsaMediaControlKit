@@ -40,17 +40,14 @@ protected slots:
     /* slot to open configuration */
     virtual void onConfigurePlaylist();
 
+    /* clot to open contents view */
+    virtual void onContents();
 
 protected:
     /*
      * BC overrides
     */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* e);
-
-    virtual void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
-    virtual void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
-    virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
-
 
     /*
      * creates context menu

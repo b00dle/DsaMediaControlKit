@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <QMenu>
 
+#include "sound_file/list_view_dialog.h"
+
 namespace TwoD {
 
 PlaylistPlayerTile::PlaylistPlayerTile(QGraphicsItem *parent)
@@ -14,8 +16,11 @@ PlaylistPlayerTile::PlaylistPlayerTile(QGraphicsItem *parent)
     , is_playing_(false)
 {
     player_ = new QMediaPlayer(this);
+    connect(player_, SIGNAL(stateChanged(QMediaPlayer::State)),
+            this, SLOT(changePlayerState(QMediaPlayer::State)));
+    playlist_ = new Preset::Playlist("Playlist");
+    player_->setPlaylist(playlist_);
     setAcceptDrops(true);
-    //createContextMenu();
 }
 
 PlaylistPlayerTile::PlaylistPlayerTile(const QMediaContent &c, QGraphicsItem *parent)
@@ -143,6 +148,14 @@ void PlaylistPlayerTile::onConfigurePlaylist()
 
 }
 
+void PlaylistPlayerTile::onContents()
+{
+    SoundFile::ListViewDialog d;
+    if(d.exec()) {
+
+    }
+}
+
 void PlaylistPlayerTile::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 {
     if(mode_ != MOVE && e->button() == Qt::LeftButton) {
@@ -155,55 +168,6 @@ void PlaylistPlayerTile::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
     Tile::mouseReleaseEvent(e);
 }
 
-void PlaylistPlayerTile::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
-{
-    qDebug() << "PlaylistPlayerTile: Received drag enter";
-    PlaylistPlayerTile *source = qobject_cast<PlaylistPlayerTile*>(event->source());
-    if (event->source() && source != this) {
-        event->setDropAction(Qt::CopyAction);
-        event->accept();
-    }
-}
-
-void PlaylistPlayerTile::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
-{
-    qDebug() << "PlaylistPlayerTile: Received drag move";
-    PlaylistPlayerTile *source = qobject_cast<PlaylistPlayerTile*>(event->source());
-    if (event->source() && source != this) {
-        event->setDropAction(Qt::CopyAction);
-        event->accept();
-    }
-}
-
-void PlaylistPlayerTile::dropEvent(QGraphicsSceneDragDropEvent *event)
-{
-    qDebug() << "PlaylistPlayerTile: Received drop";
-    // extract DB::TableRecord from mime data
-    DB::TableRecord* temp_rec = Misc::JsonMimeDataParser::toTableRecord(event->mimeData());
-
-    // validate parsing
-    if(temp_rec == 0 || temp_rec->index != DB::SOUND_FILE) {
-        event->ignore();
-        return;
-    }
-
-    // create graphics item
-    DB::SoundFileRecord* rec = (DB::SoundFileRecord*) temp_rec;
-    if (!temp_rec){
-        event->ignore();
-        return;
-    }
-
-    QMediaContent sound_path = (QUrl("file://" + rec->path));
-    qDebug() << rec->path;
-    this->addMedia(sound_path);
-
-    // except event
-    event->setDropAction(Qt::CopyAction);
-    event->accept();
-    rec = 0;
-}
-
 void PlaylistPlayerTile::createContextMenu()
 {
     qDebug() << "B";
@@ -213,7 +177,13 @@ void PlaylistPlayerTile::createContextMenu()
     connect(configure_action, SIGNAL(triggered()),
             this, SLOT(onConfigurePlaylist()));
 
+    QAction* contents_action = new QAction(tr("Contents..."),this);
+
+    connect(contents_action, SIGNAL(triggered()),
+            this, SLOT(onContents()));
+
     context_menu_->addAction(configure_action);
+    context_menu_->addAction(contents_action);
     context_menu_->addSeparator();
 
     Tile::createContextMenu();

@@ -3,6 +3,7 @@
 
 #include <QGraphicsView>
 #include <QMouseEvent>
+#include <QJsonObject>
 
 // TODO: rename namespace to Tile
 namespace TwoD {
@@ -13,6 +14,8 @@ namespace TwoD {
  * Evaulates drops, instanciating derived Tile objects.
  * Implements bahavior for adapting screen size to widget resize.
  * Implements forwarding of drops to colliding Tile instances.
+ * Holds functionality to convert all tiles in scene to JSON description
+ * and be set from JSON.
 */
 class GraphicsView : public QGraphicsView
 {
@@ -21,6 +24,18 @@ class GraphicsView : public QGraphicsView
 public:
     GraphicsView(QGraphicsScene *scene, QWidget *parent);
     GraphicsView(QWidget *parent);
+
+    /*
+     * Parses all tiles in scene to JSON object.
+    */
+    const QJsonObject toJsonObject() const;
+
+    /*
+     * Creates all tiles in scene from JSON object.
+     * Deletes existing scene.
+     * Returns success of parsing.
+    */
+    bool setFromJsonObject(const QJsonObject& obj);
 
 private:
     /*
@@ -49,6 +64,8 @@ private:
     void dropEvent(QDropEvent *event);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
+
+    void clearTiles();
 };
 
 }
