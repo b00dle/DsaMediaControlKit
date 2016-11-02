@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <QMenu>
 
+using namespace Playlist;
+
 namespace TwoD {
 
 PlaylistPlayerTile::PlaylistPlayerTile(QGraphicsItem *parent)
@@ -14,7 +16,7 @@ PlaylistPlayerTile::PlaylistPlayerTile(QGraphicsItem *parent)
     , playlist_settings_widget_(0)
     , is_playing_(false)
 {
-    player_ = new QMediaPlayer(this);
+    player_ = new CustomMediaPlayer(this);
     setAcceptDrops(true);
 }
 
@@ -25,12 +27,13 @@ PlaylistPlayerTile::PlaylistPlayerTile(const QMediaContent &c, QGraphicsItem *pa
     , playlist_settings_widget_(0)
     , is_playing_(false)
 {
-    player_ = new QMediaPlayer(this);
+    player_ = new CustomMediaPlayer(this);
     connect(player_, SIGNAL(stateChanged(QMediaPlayer::State)),
             this, SLOT(changePlayerState(QMediaPlayer::State)));
-    playlist_ = new Preset::Playlist("Playlist");
+    playlist_ = new Playlist::Playlist("Playlist");
     playlist_->addMedia(c);
     playlist_->setCurrentIndex(1);
+    qDebug()<< "Setting Playlist"<< playlist_;
     player_->setPlaylist(playlist_);
     setAcceptDrops(true);
 }
@@ -121,16 +124,18 @@ void PlaylistPlayerTile::changePlayerState(QMediaPlayer::State state)
 
 void PlaylistPlayerTile::onConfigurePlaylist()
 {
-    playlist_settings_widget_ = new Preset::PlaylistSettingsWidget(playlist_);
+    playlist_settings_widget_ = new Playlist::SettingsWidget(playlist_);
     //QPoint widget_size = QPoint(playlist_settings_widget_->geometry().size().width()/2,
     //                            playlist_settings_widget_->geometry().size().height()/2);
     //QPoint widget_pos = QCursor::pos() - widget_size;
     playlist_settings_widget_->move(QCursor::pos() - QPoint(170,170));
     playlist_settings_widget_->show();
+
     connect(playlist_settings_widget_, SIGNAL(closed() ),
             this, SLOT(closePlaylistSettings() ));
-    connect(playlist_settings_widget_, SIGNAL(saved() ),
-            this, SLOT(savePlaylistSettings() ));
+
+    connect(playlist_settings_widget_, SIGNAL( saved(Settings*) ),
+            this, SLOT(savePlaylistSettings(Settings*) ));
 }
 
 void PlaylistPlayerTile::closePlaylistSettings()
@@ -139,9 +144,12 @@ void PlaylistPlayerTile::closePlaylistSettings()
     playlist_settings_widget_->deleteLater();
 }
 
-void PlaylistPlayerTile::savePlaylistSettings()
+void PlaylistPlayerTile::savePlaylistSettings(Settings* settings)
 {
     qDebug() << "saved";
+    playlist_->setSettings(settings);
+    playlist_settings_widget_->hide();
+    playlist_settings_widget_->deleteLater();
 }
 
 void PlaylistPlayerTile::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
@@ -161,7 +169,7 @@ void PlaylistPlayerTile::createContextMenu()
 {
     qDebug() << "B";
     // create configure action
-    QAction* configure_action = new QAction(tr("Configure"),this);
+    QAction* configure_action = new QAction(tr("Configure..."),this);
 
     connect(configure_action, SIGNAL(triggered()),
             this, SLOT(onConfigurePlaylist()));

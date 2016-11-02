@@ -6,10 +6,14 @@
 #include <QMimeData>
 #include <QDrag>
 
+#include "custom_media_player.h"
 #include "tile.h"
-#include "preset/playlist.h"
-#include "preset/playlist_settings_widget.h"
+#include "playlist/settings_widget.h"
+#include "playlist/playlist.h"
+#include "playlist/settings.h"
 #include "misc/json_mime_data_parser.h"
+
+using namespace Playlist;
 
 namespace TwoD {
 
@@ -41,7 +45,7 @@ protected slots:
     virtual void onConfigurePlaylist();
     /* */
     void closePlaylistSettings();
-    void savePlaylistSettings();
+    void savePlaylistSettings(Settings* settings);
 
 
 protected:
@@ -60,9 +64,11 @@ protected:
     */
     virtual const QPixmap getPlayStatePixmap() const;
 
-    QMediaPlayer* player_;
-    Preset::Playlist* playlist_;
-    Preset::PlaylistSettingsWidget* playlist_settings_widget_;
+    CustomMediaPlayer* player_;
+
+    Playlist::SettingsWidget* playlist_settings_widget_;
+    Playlist::Playlist* playlist_;
+    Playlist::Settings* settings_;
     bool is_playing_;
 };
 
