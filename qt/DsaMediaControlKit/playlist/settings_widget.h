@@ -1,5 +1,5 @@
-#ifndef PRESET_PLAYLIST_SETTINGS_WIDGET_H
-#define PRESET_PLAYLIST_SETTINGS_WIDGET_H
+#ifndef PLAYLIST_SETTINGS_WIDGET_H
+#define PLAYLIST_SETTINGS_WIDGET_H
 
 #include <QWidget>
 #include <QSlider>
@@ -7,28 +7,30 @@
 #include <QCheckBox>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QRadioButton>
 
 #include "playlist.h"
 
-namespace Preset{
+namespace Playlist{
 
-class PlaylistSettingsWidget : public QWidget
+class SettingsWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PlaylistSettingsWidget(Playlist* playlist,QWidget *parent = 0);
-    ~PlaylistSettingsWidget();
+    explicit SettingsWidget(Playlist* playlist, QWidget *parent = 0);
+    ~SettingsWidget();
 
 signals:
     void closed();
-    void saved();
+    void saved(Settings* settings);
 
 public slots:
     void onCloseClicked(bool);
     void onSaveClicked(bool);
 
 private slots:
-    void onIntervalSliderChanged(int val);
+    void onMinIntervalSliderChanged(int val);
+    void onMaxIntervalSliderChanged(int val);
     void onVolumeSliderChanged(int val);
 
 private:
@@ -39,14 +41,18 @@ private:
     QLineEdit* name_edit_;
     QCheckBox* loop_checkbox_;
     QCheckBox* interval_checkbox_;
-    QSlider* interval_slider_;
+    QSlider* min_interval_slider_;
+    QSlider* max_interval_slider_;
     QLabel* interval_label_;
     QSlider* volume_slider_;
     QLabel* volume_label_;
+    QRadioButton* normal_radio_button_;
+    QRadioButton* shuffle_radio_button_;
+    QRadioButton* weighted_radio_button_;
     QPushButton* save_button_;
     QPushButton* close_button_;
 };
 
 } // namespace Preset
 
-#endif // PRESET_PLAYLIST_SETTINGS_WIDGET_H
+#endif // PLAYLIST_SETTINGS_WIDGET_H

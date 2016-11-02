@@ -1,20 +1,24 @@
-#include "playlist_settings_widget.h"
+#include "settings_widget.h"
 
 
 #include <QHBoxLayout>
 #include <QGroupBox>
 #include <QRadioButton>
 
-namespace Preset{
+namespace Playlist{
 
-PlaylistSettingsWidget::PlaylistSettingsWidget(Playlist* playlist,QWidget *parent)
+SettingsWidget::SettingsWidget(Playlist* playlist,QWidget *parent)
     : QWidget(parent)
     , playlist_(playlist)
     , interval_checkbox_(0)
-    , interval_slider_(0)
+    , min_interval_slider_(0)
+    , max_interval_slider_(0)
     , interval_label_(0)
     , volume_slider_(0)
     , volume_label_(0)
+    , normal_radio_button_(0)
+    , shuffle_radio_button_(0)
+    , weighted_radio_button_(0)
     , name_edit_(0)
     , save_button_(0)
     , close_button_(0)
@@ -23,32 +27,79 @@ PlaylistSettingsWidget::PlaylistSettingsWidget(Playlist* playlist,QWidget *paren
     initLayout();
 }
 
-PlaylistSettingsWidget::~PlaylistSettingsWidget()
+SettingsWidget::~SettingsWidget()
 {
 }
 
-void PlaylistSettingsWidget::onCloseClicked(bool)
+void SettingsWidget::onCloseClicked(bool)
 {
     emit closed();
 }
 
-void PlaylistSettingsWidget::onSaveClicked(bool)
+void SettingsWidget::onSaveClicked(bool)
 {
-    qDebug() << "Test";
-    emit saved();
+    Settings* new_settings = new Settings();
+
+    //set loop settings
+    if (loop_checkbox_->isChecked()){
+        new_settings->loop_flag = true;
+    } else {
+        new_settings->loop_flag = false;
+    }
+
+    //set delay interval settings
+    if (interval_checkbox_->isChecked()){
+        new_settings->min_delay_interval = min_interval_slider_->value();
+        new_settings->max_delay_interval = max_interval_slider_->value();
+
+        if (new_settings->max_delay_interval == 0){
+            new_settings->interval_flag = false;
+        } else {
+            new_settings->interval_flag = true;
+        }
+    } else {
+        new_settings->interval_flag = false;
+        new_settings->min_delay_interval = 0;
+        new_settings->max_delay_interval = 0;
+    }
+
+    //set playorder settings
+    if (normal_radio_button_->isChecked())
+    {
+        new_settings->order = PlayOrder::ORDERED;
+    } else if (shuffle_radio_button_->isChecked())
+    {
+        new_settings->order = PlayOrder::SHUFFLE;
+    } else if (weighted_radio_button_->isChecked())
+    {
+        new_settings->order = PlayOrder::WEIGTHED;
+    }
+
+
+    qDebug()<< "Saving settings";
+
+    emit saved(new_settings);
 }
 
-void PlaylistSettingsWidget::onIntervalSliderChanged(int val)
+void SettingsWidget::onMinIntervalSliderChanged(int val)
 {
-    interval_label_->setText(QString::number(val) + " sec");
+    int max = max_interval_slider_->value();
+    interval_label_->setText(QString::number(val) + "-" + QString::number(max) + " sec");
 }
 
-void PlaylistSettingsWidget::onVolumeSliderChanged(int val)
+void SettingsWidget::onMaxIntervalSliderChanged(int val)
+{
+    int min = min_interval_slider_->value();
+    interval_label_->setText(QString::number(min) + "-" + QString::number(val) + " sec");
+}
+
+
+void SettingsWidget::onVolumeSliderChanged(int val)
 {
     volume_label_->setText(QString::number(val) + " %");
 }
 
-void PlaylistSettingsWidget::initWidgets()
+void SettingsWidget::initWidgets()
 {
     name_edit_ = new QLineEdit(this);
     name_edit_->setPlaceholderText("Playlist Name");
@@ -56,11 +107,16 @@ void PlaylistSettingsWidget::initWidgets()
     loop_checkbox_->setChecked(false);
     interval_checkbox_ = new QCheckBox(tr("Intervals"),this);
     interval_checkbox_->setChecked(false);
-    interval_slider_ = new QSlider(Qt::Horizontal,this);
-    interval_slider_->setMinimum(1);
-    interval_slider_->setMaximum(60);
+    min_interval_slider_ = new QSlider(Qt::Horizontal,this);
+    min_interval_slider_->setMinimum(0);
+    min_interval_slider_->setMaximum(60);
+    min_interval_slider_->setValue(0);
+    max_interval_slider_ = new QSlider(Qt::Horizontal,this);
+    max_interval_slider_->setMinimum(0);
+    max_interval_slider_->setMaximum(60);
+    max_interval_slider_->setValue(0);
     interval_label_ = new QLabel(this);
-    interval_label_->setText("1 sec");
+    interval_label_->setText("0 - 0 sec");
 
     volume_slider_ = new QSlider(Qt::Horizontal,this);
     volume_slider_->setValue(100);
@@ -69,6 +125,10 @@ void PlaylistSettingsWidget::initWidgets()
     volume_label_ = new QLabel(this);
     volume_label_->setText("100 %");
 
+    normal_radio_button_ = new QRadioButton(tr("Normal"),this);
+    shuffle_radio_button_ = new QRadioButton(tr("Random"),this);
+    weighted_radio_button_ = new QRadioButton(tr("Weighted"),this);
+
     save_button_ = new QPushButton("Save", this);
     close_button_ = new QPushButton("X", this);
 
@@ -76,13 +136,15 @@ void PlaylistSettingsWidget::initWidgets()
             this, SLOT(onCloseClicked(bool)));
     connect(save_button_, SIGNAL(clicked(bool)),
             this, SLOT(onSaveClicked(bool)));
-    connect(interval_slider_, SIGNAL(valueChanged(int)),
-            this, SLOT(onIntervalSliderChanged(int)));
+    connect(min_interval_slider_, SIGNAL(valueChanged(int)),
+            this, SLOT(onMinIntervalSliderChanged(int)));
+    connect(max_interval_slider_, SIGNAL(valueChanged(int)),
+            this, SLOT(onMaxIntervalSliderChanged(int)));
     connect(volume_slider_, SIGNAL(valueChanged(int)),
             this, SLOT(onVolumeSliderChanged(int)));
 }
 
-void PlaylistSettingsWidget::initLayout()
+void SettingsWidget::initLayout()
 {
     QWidget::setWindowFlags(Qt::Tool);
     QWidget::setWindowTitle("Playlist Settings");
@@ -96,13 +158,10 @@ void PlaylistSettingsWidget::initLayout()
     //playmode Settings
     QGroupBox *playmode_box = new QGroupBox(tr("Playmode Options"),this);
     QVBoxLayout *playmode_layout = new QVBoxLayout;
-    QRadioButton *radio1 = new QRadioButton(tr("Normal"),this);
-    QRadioButton *radio2 = new QRadioButton(tr("Random"),this);
-    QRadioButton *radio3 = new QRadioButton(tr("Weighted"),this);
-    radio1->setChecked(true);
-    playmode_layout->addWidget(radio1);
-    playmode_layout->addWidget(radio2);
-    playmode_layout->addWidget(radio3);
+    normal_radio_button_->setChecked(true);
+    playmode_layout->addWidget(normal_radio_button_);
+    playmode_layout->addWidget(shuffle_radio_button_);
+    playmode_layout->addWidget(weighted_radio_button_);
     playmode_layout->addStretch(1);
     playmode_box->setLayout(playmode_layout);
 
@@ -110,7 +169,8 @@ void PlaylistSettingsWidget::initLayout()
     QGroupBox *interval_box = new QGroupBox(tr("Playmode Options"),this);
     QVBoxLayout *interval_layout = new QVBoxLayout;
     interval_layout->addWidget(interval_checkbox_);
-    interval_layout->addWidget(interval_slider_);
+    interval_layout->addWidget(min_interval_slider_);
+    interval_layout->addWidget(max_interval_slider_);
     interval_layout->addWidget(interval_label_);
     interval_box->setLayout(interval_layout);
 
@@ -119,6 +179,7 @@ void PlaylistSettingsWidget::initLayout()
     volume_layout->addWidget(volume_slider_);
     volume_layout->addWidget(volume_label_);
     volume_box->setLayout(volume_layout);
+
 
     //Grid for all settings
     QGridLayout *grid_layout = new QGridLayout;
@@ -141,4 +202,4 @@ void PlaylistSettingsWidget::initLayout()
 
 }
 
-} //namespace Preset
+} //namespace Playlist
