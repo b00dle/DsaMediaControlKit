@@ -245,6 +245,8 @@ void PlaylistPlayerTile::closePlaylistSettings()
 
 void PlaylistPlayerTile::savePlaylistSettings(Settings* settings)
 {
+    if(settings->name.size() > 0 && name_.compare(settings->name) != 0)
+        setName(settings->name);
     qDebug() << "saved";
     playlist_->setSettings(settings);
     playlist_settings_widget_->hide();

@@ -78,6 +78,7 @@ void SettingsWidget::onSaveClicked(bool)
 
     //set volume
     new_settings->volume = volume_slider_->value();
+    new_settings->name = name_edit_->text();
 
     qDebug()<< "Saving settings";
 
