@@ -157,7 +157,7 @@ void SettingsWidget::initWidgets()
     }
 
     save_button_ = new QPushButton("Save", this);
-    close_button_ = new QPushButton("X", this);
+    close_button_ = new QPushButton("Cancel", this);
 
     connect(close_button_, SIGNAL(clicked(bool)),
             this, SLOT(onCloseClicked(bool)));
@@ -203,10 +203,10 @@ void SettingsWidget::initLayout()
 
     //Grid for all settings
     QGridLayout *grid_layout = new QGridLayout;
-    grid_layout->addWidget(name_box,0,0);
-    grid_layout->addWidget(interval_box,0,1);
-    grid_layout->addWidget(playmode_box,1,0);
-    grid_layout->addWidget(volume_box,1,1);
+    grid_layout->addWidget(name_box,0,0,1,1);
+    grid_layout->addWidget(interval_box,0,1,1,1);
+    grid_layout->addWidget(playmode_box,1,0,1,1);
+    grid_layout->addWidget(volume_box,1,1,1,1);
 
     //name,save, close button
     QGroupBox *bottom_box = new QGroupBox(this);
@@ -220,6 +220,8 @@ void SettingsWidget::initLayout()
     layout->addWidget(bottom_box);
     setLayout(layout);
 
+    setFixedHeight(300);
+    setFixedWidth(600);
 }
 
 } //namespace Playlist
