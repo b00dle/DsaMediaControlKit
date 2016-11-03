@@ -200,12 +200,10 @@ Playlist::Settings* JsonMimeDataParser::toPlaylistSettings(const QJsonObject& ob
         return set;
     }
     //set name
-    qDebug()<< "Setting name";
     set = new Playlist::Settings;
     set->name = obj["name"].toString();
 
     //set interval
-    qDebug()<< "Setting interval";
     if(obj["interval_flag"] == true) {
         set->interval_flag = true;
         set->min_delay_interval = obj["min_interval_val"].toInt();
@@ -217,14 +215,12 @@ Playlist::Settings* JsonMimeDataParser::toPlaylistSettings(const QJsonObject& ob
         set->max_delay_interval = obj["max_interval_val"].toInt();
     }
 
-    qDebug()<< "Setting volume";
     //set volume
     if(obj["volume"].toInt() <= 100 && obj["volume"].toInt() >= 0) {
         set->volume = obj["volume"].toInt();
     }
 
     // set loop_flag
-    qDebug()<< "Setting loop flag";
     if(obj["loop_flag"] == true) {
         set->loop_flag = true;
     } else if (obj["loop_flag"] == false) {
@@ -232,7 +228,6 @@ Playlist::Settings* JsonMimeDataParser::toPlaylistSettings(const QJsonObject& ob
     }
 
     // set order
-    qDebug()<< "Setting playorder";
     if(obj["order"] == 0) {
         set->order = Playlist::ORDERED;
     } else if (obj["order"] == 1) {
