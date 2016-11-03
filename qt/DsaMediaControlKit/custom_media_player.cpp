@@ -21,6 +21,7 @@ void CustomMediaPlayer::play()
     if(playlist){
         Playlist::Settings* settings = playlist->getSettings();
 
+        setVolume(settings->volume);
         // if delay interval is turned on
         if (settings->order == Playlist::PlayOrder::ORDERED){
             qDebug() << "Check loop";
@@ -56,7 +57,6 @@ void CustomMediaPlayer::play()
             delay_flag_ = true;
             //delay_ = min + (rand() % (int)(max - min + 1))
 
-            //playlist->setPlaybackMode(QM);
             QMediaPlayer::play();
             playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
         } else {
