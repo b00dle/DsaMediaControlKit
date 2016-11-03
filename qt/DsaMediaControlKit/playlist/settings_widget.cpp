@@ -76,6 +76,8 @@ void SettingsWidget::onSaveClicked(bool)
         new_settings->order = PlayOrder::WEIGTHED;
     }
 
+    //set volume
+    new_settings->volume = volume_slider_->value();
 
     qDebug()<< "Saving settings";
 
