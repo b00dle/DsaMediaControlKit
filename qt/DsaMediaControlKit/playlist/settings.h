@@ -39,7 +39,7 @@ struct Settings{
         , interval_flag(false)
         , min_delay_interval(0)
         , max_delay_interval(0)
-        , volume(-1)
+        , volume(100)
     {}
 
     Settings(QString n,PlayOrder ord, bool loop, bool interval, int min_interval, int max_interval, int vol)
