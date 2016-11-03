@@ -20,10 +20,13 @@ public slots:
     void play();
     void setPlaylist(Playlist::Playlist* playlist);
     void currentMediaIndexChanged(int position);
+    void mediaSettingsChanged();
     void delayIsOver();
 
 
 private:
+    int getRandomIntInRange(int min, int max);
+
     int current_content_index_;
     bool delay_flag_;
     int delay_;
