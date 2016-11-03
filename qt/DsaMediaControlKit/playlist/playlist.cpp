@@ -30,6 +30,7 @@ Playlist::~Playlist()
 void Playlist::setSettings(Settings *settings)
 {
     settings_ = new Settings(settings);
+    emit changedSettings();
 }
 
 Settings *Playlist::getSettings()

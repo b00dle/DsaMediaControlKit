@@ -28,6 +28,9 @@ public:
 
     const QList<DB::SoundFileRecord*> getSoundFileList(bool unique = false);
 
+signals:
+    void changedSettings();
+
 private slots:
     void onMediaAboutToBeRemoved(int start, int end);
 
