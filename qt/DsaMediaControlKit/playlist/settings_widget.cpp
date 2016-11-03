@@ -153,7 +153,8 @@ void SettingsWidget::initWidgets()
         normal_radio_button_->setChecked(true);
     } else if (playlist_->getSettings()->order == PlayOrder::SHUFFLE){
         shuffle_radio_button_->setChecked(true);
-    } else if (playlist_->getSettings()->order == PlayOrder::SHUFFLE){
+        normal_radio_button_->setChecked(false);
+    } else if (playlist_->getSettings()->order == PlayOrder::WEIGTHED){
         weighted_radio_button_->setChecked(true);
     }
 
@@ -180,7 +181,6 @@ void SettingsWidget::initLayout()
     //playmode Settings
     QGroupBox *playmode_box = new QGroupBox(tr("Playmode Options"),this);
     QVBoxLayout *playmode_layout = new QVBoxLayout;
-    normal_radio_button_->setChecked(true);
     playmode_layout->addWidget(normal_radio_button_);
     playmode_layout->addWidget(shuffle_radio_button_);
     playmode_layout->addWidget(weighted_radio_button_);
