@@ -7,6 +7,7 @@
 #include <QList>
 
 #include "db/table_records.h"
+#include "playlist/settings.h"
 
 namespace Misc {
 
@@ -72,6 +73,11 @@ public:
 
     /* Creates JsonObject from given DB::SoundFileRecord */
     static const QJsonObject toJsonObject(DB::SoundFileRecord*);
+
+    /* Creates JsonObject from given Playlist::Settings */
+    static const QJsonObject toJsonObject(Playlist::Settings*);
+
+    static Playlist::Settings* toPlaylistSettings(const QJsonObject&);
 
     /*
      * Creates JsonObject from given DB::CategoryRecord.

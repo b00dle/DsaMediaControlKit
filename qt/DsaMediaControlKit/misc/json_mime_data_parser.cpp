@@ -1,6 +1,7 @@
 #include "json_mime_data_parser.h"
 
 #include <QJsonArray>
+#include <QDebug>
 
 namespace Misc {
 
@@ -165,6 +166,77 @@ const QJsonObject JsonMimeDataParser::toJsonObject(DB::SoundFileRecord* rec)
     obj.insert("path", QJsonValue(rec->path));
 
     return obj;
+}
+
+const QJsonObject JsonMimeDataParser::toJsonObject(Playlist::Settings* settings)
+{
+    QJsonObject obj;
+
+    if (settings == 0)
+        return obj;
+
+    obj.insert("name", QJsonValue(settings->name));
+    obj.insert("order", QJsonValue(settings->order));
+    obj.insert("loop_flag", QJsonValue(settings->loop_flag));
+    obj.insert("interval_flag", QJsonValue(settings->interval_flag));
+    obj.insert("min_interval_val", QJsonValue(settings->min_delay_interval));
+    obj.insert("max_interval_val", QJsonValue(settings->max_delay_interval));
+    obj.insert("volume", QJsonValue(settings->volume));
+
+    return obj;
+
+}
+
+Playlist::Settings* JsonMimeDataParser::toPlaylistSettings(const QJsonObject& obj)
+{
+    Playlist::Settings* set = 0;
+    qDebug()<< "good to go";
+
+    if(!obj.contains("interval_flag") || !obj.contains("min_interval_val") ||
+       !obj.contains("max_interval_val") || !obj.contains("loop_flag") ||
+       !obj.contains("name") || !obj.contains("volume") ||
+       !obj.contains("order")) {
+        qDebug() << "JSON Parser failed";
+        return set;
+    }
+    //set name
+    set = new Playlist::Settings;
+    set->name = obj["name"].toString();
+
+    //set interval
+    if(obj["interval_flag"] == true) {
+        set->interval_flag = true;
+        set->min_delay_interval = obj["min_interval_val"].toInt();
+        set->max_delay_interval = obj["max_interval_val"].toInt();
+    }
+    else if(obj["interval_flag"] == false) {
+        set->interval_flag = true;
+        set->min_delay_interval = obj["min_interval_val"].toInt();
+        set->max_delay_interval = obj["max_interval_val"].toInt();
+    }
+
+    //set volume
+    if(obj["volume"].toInt() <= 100 && obj["volume"].toInt() >= 0) {
+        set->volume = obj["volume"].toInt();
+    }
+
+    // set loop_flag
+    if(obj["loop_flag"] == true) {
+        set->loop_flag = true;
+    } else if (obj["loop_flag"] == false) {
+        set->loop_flag = false;
+    }
+
+    // set order
+    if(obj["order"] == 0) {
+        set->order = Playlist::ORDERED;
+    } else if (obj["order"] == 1) {
+        set->order = Playlist::SHUFFLE;
+    } else if (obj["order"] == 2) {
+        set->order = Playlist::WEIGTHED;
+    }
+    qDebug() << "converted JSON to Playlist::Settings";
+    return set;
 }
 
 const QJsonObject JsonMimeDataParser::toJsonObject(DB::CategoryRecord* rec)

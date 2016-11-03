@@ -17,7 +17,7 @@ public:
     Playlist(QString name = "Playlist", QObject* parent = 0);
     virtual ~Playlist();
 
-    void setSettings(Settings* settings);
+    bool setSettings(Settings* settings);
     Settings* getSettings();
 
     void setSoundFileModel(DB::Model::SoundFileTableModel* m);

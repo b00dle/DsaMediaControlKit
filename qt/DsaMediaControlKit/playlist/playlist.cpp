@@ -27,10 +27,15 @@ Playlist::~Playlist()
     delete settings_;
 }
 
-void Playlist::setSettings(Settings *settings)
+bool Playlist::setSettings(Settings *settings)
 {
+    if (!settings){
+        return false;
+    }
+
     settings_ = new Settings(settings);
     emit changedSettings();
+    return true;
 }
 
 Settings *Playlist::getSettings()
