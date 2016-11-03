@@ -36,6 +36,18 @@ public:
     void setSoundFileModel(DB::Model::SoundFileTableModel* m);
     DB::Model::SoundFileTableModel* getSoundFileModel();
 
+    /*
+     * Returns a QJsonObject holding all information about the tile
+    */
+    virtual const QJsonObject toJsonObject() const;
+
+    /*
+     * Set all values held by JSON object.
+     * Returns success of parsing JsonObject.
+    */
+    virtual bool setFromJsonObject(const QJsonObject& obj);
+
+
 public slots:
     virtual void setMedia(const QMediaContent& c);
     virtual void play();

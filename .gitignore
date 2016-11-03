@@ -9,6 +9,7 @@ db/
 *.user
 
 TestSounds/
+TestProjects/
 *.mp3
 *.wav
 *.ogg

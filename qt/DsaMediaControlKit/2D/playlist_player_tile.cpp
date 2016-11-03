@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include <QDebug>
 #include <QMenu>
+#include <QJsonArray>
 
 #include "sound_file/list_view_dialog.h"
 
@@ -113,6 +114,47 @@ void PlaylistPlayerTile::setSoundFileModel(DB::Model::SoundFileTableModel *m)
 DB::Model::SoundFileTableModel *PlaylistPlayerTile::getSoundFileModel()
 {
     return model_;
+}
+
+const QJsonObject PlaylistPlayerTile::toJsonObject() const
+{
+    QJsonObject obj = Tile::toJsonObject();
+
+    // store playlist
+    QJsonArray arr_pl;
+    foreach(DB::SoundFileRecord* rec, playlist_->getSoundFileList())
+        arr_pl.append(Misc::JsonMimeDataParser::toJsonObject(rec));
+    obj["playlist"] = arr_pl;
+
+    return obj;
+}
+
+bool PlaylistPlayerTile::setFromJsonObject(const QJsonObject &obj)
+{
+    if(!Tile::setFromJsonObject(obj))
+        return false;
+
+    // parse playlist
+    if(obj.contains("playlist") && obj["playlist"].isArray()) {
+        foreach(QJsonValue val, obj["playlist"].toArray()) {
+            QJsonObject sound_obj = val.toObject();
+            if(sound_obj.isEmpty())
+                continue;
+            DB::TableRecord* rec = Misc::JsonMimeDataParser::toTableRecord(sound_obj);
+            if(rec->index != DB::SOUND_FILE) {
+                delete rec;
+                continue;
+            }
+            bool success = playlist_->addMedia(*((DB::SoundFileRecord*) rec));
+            if(!success) {
+                qDebug() << "Error: Failed to add SoundFile from JSON";
+                qDebug() << " > " << sound_obj;
+            }
+            delete rec;
+        }
+    }
+
+    return true;
 }
 
 

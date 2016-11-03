@@ -97,6 +97,7 @@ bool GraphicsView::setFromJsonObject(const QJsonObject &obj)
         // create tile, if type is TwoD::PlaylistPlayerTile
         if(t_obj["type"].toString().compare("TwoD::PlaylistPlayerTile") == 0) {
             PlaylistPlayerTile* tile = new PlaylistPlayerTile;
+            tile->setSoundFileModel(model_);
             tile->setFlag(QGraphicsItem::ItemIsMovable, true);
             tile->init();
             tile->setFromJsonObject(t_obj["data"].toObject());
