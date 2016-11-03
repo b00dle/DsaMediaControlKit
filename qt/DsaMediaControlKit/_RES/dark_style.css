@@ -2,8 +2,12 @@ QMainWindow {
    background-color: #373738;
 }
 
+QStatusBar {
+    background-color: #373738;
+}
+
 QDialog {
-   background-color: #545556;
+   background-color: #373738;
    color: white;
 }
 
@@ -11,8 +15,13 @@ QLabel {
    color: white;
 }
 
-QPushButton {
+QWidget#PlaylistSettingsWidget {
     background-color: #373738;
+    color: white;
+}
+
+QPushButton {
+    background-color: #545556;
     color: white;
 }
 
@@ -38,6 +47,24 @@ QGroupBox {
    border: 1px solid gray;
    background-color: #373738;
    color: white;
+   margin-top: 10px;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+}
+
+QCheckBox {
+    color: white;
+}
+
+QRadioButton {
+    color: white;
+}
+
+QLabel {
+    color: white;
 }
 
 QTreeView {

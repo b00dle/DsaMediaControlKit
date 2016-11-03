@@ -201,6 +201,7 @@ void PlaylistPlayerTile::changePlayerState(QMediaPlayer::State state)
 void PlaylistPlayerTile::onConfigurePlaylist()
 {
     playlist_settings_widget_ = new Playlist::SettingsWidget(playlist_);
+    playlist_settings_widget_->setObjectName("PlaylistSettingsWidget");
     //QPoint widget_size = QPoint(playlist_settings_widget_->geometry().size().width()/2,
     //                            playlist_settings_widget_->geometry().size().height()/2);
     //QPoint widget_pos = QCursor::pos() - widget_size;
