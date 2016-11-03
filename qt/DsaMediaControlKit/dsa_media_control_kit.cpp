@@ -80,7 +80,7 @@ void DsaMediaControlKit::onDeleteDatabase()
 void DsaMediaControlKit::onSaveProjectAs()
 {
     QString file_name = QFileDialog::getSaveFileName(
-        this, tr("Save Project As..."),
+        this, tr("Save Project"),
         "",
         tr("JSON (*.json)")
     );
@@ -99,7 +99,7 @@ void DsaMediaControlKit::onSaveProjectAs()
 void DsaMediaControlKit::onOpenProject()
 {
     QString file_name = QFileDialog::getOpenFileName(
-        this, tr("Save Project As..."),
+        this, tr("Open Project"),
         "",
         tr("JSON (*.json)")
     );
