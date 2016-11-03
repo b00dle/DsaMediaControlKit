@@ -126,6 +126,11 @@ const QJsonObject PlaylistPlayerTile::toJsonObject() const
         arr_pl.append(Misc::JsonMimeDataParser::toJsonObject(rec));
     obj["playlist"] = arr_pl;
 
+    //store settings
+    QJsonObject obj_settings;
+    obj_settings = Misc::JsonMimeDataParser::toJsonObject(playlist_->getSettings());
+    obj["settings"] = obj_settings;
+
     return obj;
 }
 
@@ -151,6 +156,19 @@ bool PlaylistPlayerTile::setFromJsonObject(const QJsonObject &obj)
                 qDebug() << " > " << sound_obj;
             }
             delete rec;
+        }
+    }
+
+    // parse playlist
+    if(obj.contains("settings") && obj["settings"].isObject() ) {
+        QJsonObject s_obj = obj["settings"].toObject();
+        if(s_obj.isEmpty())
+            return false;
+        Playlist::Settings* settings = Misc::JsonMimeDataParser::toPlaylistSettings(s_obj);
+        bool success = playlist_->setSettings(settings);
+        if(!success) {
+            qDebug() << "Error: Failed to set Playlist Settings from JSON";
+            qDebug() << " > " << s_obj;
         }
     }
 
