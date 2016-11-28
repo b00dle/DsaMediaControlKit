@@ -151,7 +151,10 @@ void DsaMediaControlKit::initWidgets()
     preset_view_ = new TwoD::GraphicsView(this);
     preset_view_->setSoundFileModel(db_handler_->getSoundFileTableModel());
 
-    sound_file_importer_ = new SoundFile::ResourceImporter(this);
+    sound_file_importer_ = new SoundFile::ResourceImporter(
+        db_handler_->getResourceDirTableModel(),
+        this
+    );
 
     category_view_ = new Category::TreeView(this);
     category_view_->setCategoryTreeModel(db_handler_->getCategoryTreeModel());
@@ -207,9 +210,9 @@ void DsaMediaControlKit::initLayout()
 
 void DsaMediaControlKit::initActions()
 {
-    actions_["Add Sound Folder..."] = new QAction(tr("Add Sound Folder..."), this);
-    actions_["Add Sound Folder..."]->setToolTip(tr("Imports a SoundFile folder into the database."));
-    actions_["Add Sound Folder..."]->setShortcut(QKeySequence(tr("Ctrl+Shift+O")));
+    actions_["Import Resource Folder..."] = new QAction(tr("Import Resource Folder..."), this);
+    actions_["Import Resource Folder..."]->setToolTip(tr("Imports a folder of resources into the program."));
+    actions_["Import Resource Folder..."]->setShortcut(QKeySequence(tr("Ctrl+Shift+O")));
 
     actions_["Delete Database Contents..."] = new QAction(tr("Delete Database Contents..."), this);
     actions_["Delete Database Contents..."]->setToolTip(tr("Deletes all contents from application database."));
@@ -223,8 +226,8 @@ void DsaMediaControlKit::initActions()
     actions_["Open Project..."]->setShortcut(QKeySequence(tr("Ctrl+O")));
 
 
-    connect(actions_["Add Sound Folder..."] , SIGNAL(triggered(bool)),
-            sound_file_importer_, SLOT(startBrowserFolder(bool)));
+    connect(actions_["Import Resource Folder..."] , SIGNAL(triggered(bool)),
+            sound_file_importer_, SLOT(startBrowseFolder(bool)));
     connect(actions_["Delete Database Contents..."], SIGNAL(triggered()),
             this, SLOT(onDeleteDatabase()));
     connect(actions_["Save Project As..."], SIGNAL(triggered()),
@@ -241,7 +244,7 @@ void DsaMediaControlKit::initMenu()
     add_menu->addAction(actions_["Save Project As..."]);
     add_menu->addAction(actions_["Open Project..."]);
     add_menu->addSeparator();
-    add_menu->addAction(actions_["Add Sound Folder..."]);
+    add_menu->addAction(actions_["Import Resource Folder..."]);
     add_menu->addSeparator();
     add_menu->addAction(actions_["Delete Database Contents..."]);
 

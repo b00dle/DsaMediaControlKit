@@ -209,6 +209,7 @@ void SoundFileTableModel::select()
     int c_id = source_model_->fieldIndex("id");
     int c_name = source_model_->fieldIndex("name");
     int c_path = source_model_->fieldIndex("path");
+    int c_rel_path = source_model_->fieldIndex("relative_path");
     for(int row = 0; row < source_model_->rowCount(); ++row) {
         SoundFileRecord* rec = new SoundFileRecord;
 
@@ -223,6 +224,10 @@ void SoundFileTableModel::select()
         // set path
         index = source_model_->index(row, c_path);
         rec->path = source_model_->data(index).toString();
+
+        // set relative path
+        index = source_model_->index(row, c_rel_path);
+        rec->relative_path = source_model_->data(index).toString();
 
         // add to list of records
         records_.append(rec);
@@ -270,6 +275,16 @@ SoundFileRecord *SoundFileTableModel::getSoundFileByRow(int row)
     return 0;
 }
 
+QList<SoundFileRecord *> const SoundFileTableModel::getSoundFilesByRelativePath(const QString &rel_path)
+{
+    QList<SoundFileRecord*> sound_files;
+    foreach(SoundFileRecord* rec, records_) {
+        if(rec->relative_path.compare(rel_path) == 0)
+            sound_files.append(rec);
+    }
+    return sound_files;
+}
+
 SoundFileRecord *SoundFileTableModel::getLastSoundFileRecord()
 {
     if(rowCount() > 0)
@@ -278,7 +293,7 @@ SoundFileRecord *SoundFileTableModel::getLastSoundFileRecord()
     return 0;
 }
 
-void SoundFileTableModel::addSoundFileRecord(const QFileInfo& info)
+void SoundFileTableModel::addSoundFileRecord(const QFileInfo& info, const ResourceDirRecord& resource_dir)
 {
     if(getSoundFileByPath(info.filePath()) != 0) {
         qDebug() << "FAILURE: cannot add SoundFileRecord.";
@@ -286,7 +301,13 @@ void SoundFileTableModel::addSoundFileRecord(const QFileInfo& info)
         return;
     }
 
-    api_->insertSoundFile(info);
+    if(!info.filePath().startsWith(resource_dir.path)) {
+        qDebug() << "FAILURE: cannot add SoundFileRecord.";
+        qDebug() << " > ResourceDir" << resource_dir.path << "does not contain SoundFile" << info.filePath();
+        return;
+    }
+
+    api_->insertSoundFile(info, resource_dir);
 
     int id = api_->getSoundFileId(info.filePath());
     if(id == -1) {
@@ -295,7 +316,10 @@ void SoundFileTableModel::addSoundFileRecord(const QFileInfo& info)
         return;
     }
 
-    records_.append(new SoundFileRecord(id, info.fileName(), info.filePath()));
+    QString rel_path = info.filePath();
+    rel_path.remove(0, resource_dir.path.size());
+
+    records_.append(new SoundFileRecord(id, info.fileName(), info.filePath(), rel_path));
 
     emit layoutAboutToBeChanged();
     emit layoutChanged();

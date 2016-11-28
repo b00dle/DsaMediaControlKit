@@ -25,12 +25,21 @@ QSqlRelationalTableModel *Api::getSoundFileCategoryTable()
     return db_wrapper_->getTable(SOUND_FILE_CATEGORY);
 }
 
-void Api::insertSoundFile(const QFileInfo &info)
+QSqlRelationalTableModel *Api::getResourceDirTable()
 {
+    return db_wrapper_->getTable(RESOURCE_DIRECTORY);
+}
+
+void Api::insertSoundFile(const QFileInfo &info, ResourceDirRecord const& resource_dir)
+{
+    QString rel_path = info.filePath();
+    rel_path.remove(0, resource_dir.path.size());
+
     QString value_block  = "";
-    value_block = "(name, path) VALUES (";
+    value_block = "(name, path, relative_path) VALUES (";
     value_block += "'" + SqliteWrapper::escape(info.fileName()) + "','";
-    value_block += SqliteWrapper::escape(info.filePath()) + "')";
+    value_block += SqliteWrapper::escape(info.filePath()) + "','";
+    value_block += SqliteWrapper::escape(rel_path) + "')";
 
     db_wrapper_->insertQuery(SOUND_FILE, value_block);
 }
@@ -58,11 +67,31 @@ void Api::insertSoundFileCategory(int sound_file_id, int category_id)
     db_wrapper_->insertQuery(SOUND_FILE_CATEGORY, value_block);
 }
 
+void Api::insertResourceDir(const QFileInfo &info)
+{
+    QString value_block  = "";
+    value_block = "(name, path) VALUES (";
+    value_block += "'" + SqliteWrapper::escape(info.fileName()) + "','";
+    value_block += SqliteWrapper::escape(info.filePath()) + "')";
+
+    db_wrapper_->insertQuery(RESOURCE_DIRECTORY, value_block);
+}
+
 int Api::getSoundFileId(const QString &path)
 {
     QString SELECT = "id";
     QString WHERE = "path = '" + SqliteWrapper::escape(path) + "'";
     QList<QSqlRecord> res = db_wrapper_->selectQuery(SELECT, SOUND_FILE, WHERE);
+    if(res.size() > 0)
+        return res[0].value(0).toInt();
+    return -1;
+}
+
+int Api::getResourceDirId(const QString &path)
+{
+    QString SELECT = "id";
+    QString WHERE = "path = '" + SqliteWrapper::escape(path) + "'";
+    QList<QSqlRecord> res = db_wrapper_->selectQuery(SELECT, RESOURCE_DIRECTORY, WHERE);
     if(res.size() > 0)
         return res[0].value(0).toInt();
     return -1;
@@ -109,11 +138,14 @@ void Api::deleteAll()
     // delete sound_files
     db_wrapper_->deleteQuery(SOUND_FILE, "id > 0");
 
-    // delete sound_files
+    // delete categories
     db_wrapper_->deleteQuery(CATEGORY, "id > 0");
 
-    // delete sound_files
+    // delete sound_file_categories
     db_wrapper_->deleteQuery(SOUND_FILE_CATEGORY, "id > 0");
+
+    // delete resource_dirs
+    db_wrapper_->deleteQuery(RESOURCE_DIRECTORY, "id > 0");
 }
 
 TableIndex Api::getRelationTable(TableIndex first, TableIndex second)

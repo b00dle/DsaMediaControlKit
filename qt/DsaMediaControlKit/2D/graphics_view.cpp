@@ -100,8 +100,16 @@ bool GraphicsView::setFromJsonObject(const QJsonObject &obj)
             tile->setSoundFileModel(model_);
             tile->setFlag(QGraphicsItem::ItemIsMovable, true);
             tile->init();
-            tile->setFromJsonObject(t_obj["data"].toObject());
-            scene()->addItem(tile);
+            if(tile->setFromJsonObject(t_obj["data"].toObject())) {
+               scene()->addItem(tile);
+            }
+            else {
+                qDebug() << "FAILURE: Could not set Tile data from JSON.";
+                qDebug() << " > data:" << t_obj["data"];
+                qDebug() << " > Aborting.";
+                delete tile;
+                return false;
+            }
         }
     }
 

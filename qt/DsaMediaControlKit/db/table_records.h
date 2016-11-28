@@ -11,7 +11,8 @@ enum TableIndex {
     NONE,
     SOUND_FILE,
     CATEGORY,
-    SOUND_FILE_CATEGORY
+    SOUND_FILE_CATEGORY,
+    RESOURCE_DIRECTORY
 };
 
 /* data transfer object encapsulating one row in a db table **/
@@ -37,6 +38,19 @@ struct TableRecord {
         , id(-1)
         , name("")
     {}
+
+    virtual ~TableRecord() {}
+
+    virtual bool copyFrom(TableRecord* rec)
+    {
+        if(rec->index != index)
+            return false;
+
+        id = rec->id;
+        name = rec->name;
+
+        return true;
+    }
 };
 
 /* Row in Category table **/
@@ -57,21 +71,94 @@ struct CategoryRecord : TableRecord {
         , parent_id(-1)
         , parent(0)
     {}
+
+    CategoryRecord(const CategoryRecord& rec)
+        : TableRecord(CATEGORY, rec.id, rec.name)
+        , parent_id(rec.parent_id)
+        , parent(rec.parent)
+    {}
+
+    virtual ~CategoryRecord() {}
+
+    virtual bool copyFrom(TableRecord* rec) {
+        if(!TableRecord::copyFrom(rec))
+            return false;
+
+        CategoryRecord* cat_rec = (CategoryRecord*) rec;
+        parent_id = cat_rec->parent_id;
+        parent = cat_rec->parent;
+
+        return true;
+    }
 };
 
 /* Row in SoundFile table **/
 struct SoundFileRecord : TableRecord {
     QString path;
+    QString relative_path;
 
-    SoundFileRecord(int i, QString const& n, QString const& p = "")
+    SoundFileRecord(int i, QString const& n, QString const& p = "", QString const& rel_p = "")
         : TableRecord(SOUND_FILE, i, n)
         , path(p)
+        , relative_path(rel_p)
     {}
 
     SoundFileRecord()
         : TableRecord(SOUND_FILE, -1, "")
         , path("")
+        , relative_path("")
     {}
+
+    SoundFileRecord(const SoundFileRecord& rec)
+        : TableRecord(SOUND_FILE, rec.id, rec.name)
+        , path(rec.path)
+        , relative_path(rec.relative_path)
+    {}
+
+    virtual ~SoundFileRecord() {}
+
+    virtual bool copyFrom(TableRecord* rec) {
+        if(!TableRecord::copyFrom(rec))
+            return false;
+
+        SoundFileRecord* sf_rec = (SoundFileRecord*) rec;
+        path = sf_rec->path;
+        relative_path = sf_rec->relative_path;
+
+        return true;
+    }
+};
+
+/* Row in ResourceDirectory table */
+struct ResourceDirRecord : TableRecord {
+    QString path;
+
+    ResourceDirRecord(int i, QString const& n, QString const& p)
+        : TableRecord(RESOURCE_DIRECTORY, i, n)
+        , path(p)
+    {}
+
+    ResourceDirRecord()
+        : TableRecord(RESOURCE_DIRECTORY, -1, "")
+        , path("")
+    {}
+
+    ResourceDirRecord(const ResourceDirRecord& rec)
+        : TableRecord(RESOURCE_DIRECTORY, rec.id, rec.name)
+        , path(rec.path)
+    {}
+
+    virtual ~ResourceDirRecord() {}
+
+    virtual bool copyFrom(TableRecord* rec) {
+        if(!TableRecord::copyFrom(rec))
+            return false;
+
+        ResourceDirRecord* rd_rec = (ResourceDirRecord*) rec;
+        path = rd_rec->path;
+
+        return true;
+    }
 };
 
 /*

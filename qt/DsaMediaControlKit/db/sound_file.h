@@ -4,6 +4,8 @@
 #include <QFileInfo>
 #include <QStringList>
 
+#include "db/table_records.h"
+
 namespace DB {
 
 
@@ -15,7 +17,7 @@ namespace DB {
 class SoundFile
 {
 public:
-    SoundFile(QFileInfo const&);
+    SoundFile(QFileInfo const&, ResourceDirRecord const&);
 
     /*
      * Gets the category tree path of this instance.
@@ -27,17 +29,21 @@ public:
     /* Gets the file info of this instance. */
     QFileInfo const& getFileInfo() const;
 
+    /* Gets the resource directory of this instace. */
+    ResourceDirRecord const& getResourceDir() const;
+
+private:
     /*
      * Determines the category tree path based on
      * relative folder structure the file resides in.
-     * Given the ressource folder as a root directory.
+     * Given the resource folder as a root directory.
      * Root folder will not be used as a Category.
     */
-    void computeCategoryPath(QString const& ressource_dir);
+    void computeCategoryPath();
 
-private:
     QFileInfo file_info_;
     QStringList category_path_;
+    ResourceDirRecord resource_dir_;
 };
 
 } // namespace DB

@@ -102,14 +102,17 @@ DB::TableRecord *JsonMimeDataParser::toTableRecord(const QJsonObject& obj)
         int id = -1;
         QString name = "";
         QString path = "";
+        QString relative_path = "";
         if(obj.contains("id"))
             id = obj["id"].toInt();
         if(obj.contains("name") || obj["name"].isString())
             name = obj["name"].toString();
         if(obj.contains("path") || obj["path"].isString())
             path = obj["path"].toString();
+        if(obj.contains("relative_path") || obj["relative_path"].isString())
+            relative_path = obj["relative_path"].toString();
 
-        rec = new DB::SoundFileRecord(id, name, path);
+        rec = new DB::SoundFileRecord(id, name, path, relative_path);
     }
     else if(obj["type"] == DB::CATEGORY) {
         int id = -1;
@@ -164,6 +167,7 @@ const QJsonObject JsonMimeDataParser::toJsonObject(DB::SoundFileRecord* rec)
     obj.insert("id", QJsonValue(rec->id));
     obj.insert("name", QJsonValue(rec->name));
     obj.insert("path", QJsonValue(rec->path));
+    obj.insert("relative_path", QJsonValue(rec->relative_path));
 
     return obj;
 }
@@ -190,15 +194,16 @@ const QJsonObject JsonMimeDataParser::toJsonObject(Playlist::Settings* settings)
 Playlist::Settings* JsonMimeDataParser::toPlaylistSettings(const QJsonObject& obj)
 {
     Playlist::Settings* set = 0;
-    qDebug()<< "good to go";
 
     if(!obj.contains("interval_flag") || !obj.contains("min_interval_val") ||
        !obj.contains("max_interval_val") || !obj.contains("loop_flag") ||
        !obj.contains("name") || !obj.contains("volume") ||
        !obj.contains("order")) {
-        qDebug() << "JSON Parser failed";
+        qDebug() << "FAILURE: Could not parse playlist settings from JSON";
+        qDebug() << " > Missing attribute description.";
         return set;
     }
+
     //set name
     set = new Playlist::Settings;
     set->name = obj["name"].toString();
@@ -235,7 +240,7 @@ Playlist::Settings* JsonMimeDataParser::toPlaylistSettings(const QJsonObject& ob
     } else if (obj["order"] == 2) {
         set->order = Playlist::WEIGTHED;
     }
-    qDebug() << "converted JSON to Playlist::Settings";
+
     return set;
 }
 

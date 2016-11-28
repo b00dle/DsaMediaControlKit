@@ -9,6 +9,7 @@
 #include "sound_file.h"
 #include "model/category_tree_model.h"
 #include "model/sound_file_table_model.h"
+#include "model/resource_dir_table_model.h"
 
 namespace DB {
 
@@ -26,6 +27,7 @@ public:
 
     Model::CategoryTreeModel* getCategoryTreeModel();
     Model::SoundFileTableModel* getSoundFileTableModel();
+    Model::ResourceDirTableModel* getResourceDirTableModel();
 
     /*
      * Gets a list of SoundFileRecords,
@@ -45,7 +47,7 @@ public slots:
     /*
      * Add SoundFile to DB
     */
-    void addSoundFile(QFileInfo const&);
+    void addSoundFile(QFileInfo const&, ResourceDirRecord const&);
 
     /*
      * Add Category to DB
@@ -71,6 +73,7 @@ private:
 
     Model::CategoryTreeModel* category_tree_model_;
     Model::SoundFileTableModel* sound_file_table_model_;
+    Model::ResourceDirTableModel* resource_dir_table_model_;
 };
 
 } // namespace DB
