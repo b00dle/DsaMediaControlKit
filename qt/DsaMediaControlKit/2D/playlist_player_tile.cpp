@@ -21,8 +21,12 @@ PlaylistPlayerTile::PlaylistPlayerTile(QGraphicsItem *parent)
     , is_playing_(false)
 {
     player_ = new CustomMediaPlayer(this);
-    connect(player_, SIGNAL(stateChanged(QMediaPlayer::State)),
-            this, SLOT(changePlayerState(QMediaPlayer::State)));
+    //connect(player_, SIGNAL(stateChanged(QMediaPlayer::State)),
+    //        this, SLOT(changePlayerState(QMediaPlayer::State)));
+
+    connect(player_, SIGNAL(toggledPlayerActivation(bool)),
+            this, SLOT(changedCustomPlayerActivation(bool)) );
+
     playlist_ = new Playlist::Playlist("Playlist");
     player_->setPlaylist(playlist_);
     setAcceptDrops(true);
@@ -159,17 +163,20 @@ bool PlaylistPlayerTile::setFromJsonObject(const QJsonObject &obj)
         }
     }
 
-    // parse playlist
+    // parse settings
     if(obj.contains("settings") && obj["settings"].isObject() ) {
         QJsonObject s_obj = obj["settings"].toObject();
         if(s_obj.isEmpty())
             return false;
+        //to do: no pointer needed
         Playlist::Settings* settings = Misc::JsonMimeDataParser::toPlaylistSettings(s_obj);
         bool success = playlist_->setSettings(settings);
         if(!success) {
             qDebug() << "Error: Failed to set Playlist Settings from JSON";
             qDebug() << " > " << s_obj;
         }
+        settings = 0;
+        delete settings;
     }
 
     return true;
@@ -184,6 +191,7 @@ void PlaylistPlayerTile::setMedia(const QMediaContent &c)
 void PlaylistPlayerTile::play()
 {
     if(!player_->media().isNull() && !is_playing_) {
+        player_->activate();
         player_->play();
         is_playing_ = true;
     }
@@ -193,6 +201,7 @@ void PlaylistPlayerTile::stop()
 {
     if(!player_->media().isNull() && is_playing_) {
         player_->stop();
+        player_->deactivate();
         is_playing_ = false;
     }
 }
@@ -216,6 +225,15 @@ void PlaylistPlayerTile::changePlayerState(QMediaPlayer::State state)
     }
 }
 
+void PlaylistPlayerTile::changedCustomPlayerActivation(bool state)
+{
+    if (state == true){
+        is_playing_ = true;
+    } else if (state == false){
+        is_playing_ = false;
+    }
+}
+
 void PlaylistPlayerTile::onConfigurePlaylist()
 {
     playlist_settings_widget_ = new Playlist::SettingsWidget(playlist_);
@@ -231,6 +249,9 @@ void PlaylistPlayerTile::onConfigurePlaylist()
 
     connect(playlist_settings_widget_, SIGNAL( saved(Settings*) ),
             this, SLOT(savePlaylistSettings(Settings*) ));
+
+    connect(playlist_settings_widget_, SIGNAL(volumeSettingsChanged(int)),
+            player_, SLOT(mediaVolumeChanged(int)) );
 }
 
 void PlaylistPlayerTile::onContents()
@@ -258,6 +279,15 @@ void PlaylistPlayerTile::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 void PlaylistPlayerTile::closePlaylistSettings()
 {
     playlist_settings_widget_->hide();
+
+    disconnect(playlist_settings_widget_,SIGNAL(volumeSettingsChanged(int)),
+               player_,SLOT(mediaVolumeChanged(int)) );
+
+    disconnect(playlist_settings_widget_, SIGNAL(closed() ),
+            this, SLOT(closePlaylistSettings() ));
+
+    disconnect(playlist_settings_widget_, SIGNAL( saved(Settings*) ),
+            this, SLOT(savePlaylistSettings(Settings*) ));
     playlist_settings_widget_->deleteLater();
 }
 
@@ -268,6 +298,15 @@ void PlaylistPlayerTile::savePlaylistSettings(Settings* settings)
     qDebug() << "saved";
     playlist_->setSettings(settings);
     playlist_settings_widget_->hide();
+
+    disconnect(playlist_settings_widget_,SIGNAL(volumeSettingsChanged(int)),
+               player_,SLOT(mediaVolumeChanged(int)) );
+
+    disconnect(playlist_settings_widget_, SIGNAL(closed() ),
+            this, SLOT(closePlaylistSettings() ));
+
+    disconnect(playlist_settings_widget_, SIGNAL( saved(Settings*) ),
+            this, SLOT(savePlaylistSettings(Settings*) ));
     playlist_settings_widget_->deleteLater();
 }
 

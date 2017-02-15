@@ -16,17 +16,26 @@ public:
 
     Playlist::Playlist *getCustomPlaylist() const;
 
+signals:
+    void toggledPlayerActivation(bool state);
+
 public slots:
     void play();
     void setPlaylist(Playlist::Playlist* playlist);
     void currentMediaIndexChanged(int position);
     void mediaSettingsChanged();
+    void mediaVolumeChanged(int val);
     void delayIsOver();
+
+    void activate();
+    void deactivate();
+    void setActivation(bool flag);
 
 
 private:
     int getRandomIntInRange(int min, int max);
 
+    bool activated_;
     int current_content_index_;
     bool delay_flag_;
     int delay_;

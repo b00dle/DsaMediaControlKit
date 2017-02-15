@@ -65,7 +65,6 @@ bool Playlist::addMedia(int record_id)
 {
     if(model_ == 0)
         return false;
-
     DB::SoundFileRecord* rec = model_->getSoundFileById(record_id);
     if(rec == 0)
         return false;

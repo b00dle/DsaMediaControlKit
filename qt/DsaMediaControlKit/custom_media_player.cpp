@@ -3,6 +3,7 @@
 
 CustomMediaPlayer::CustomMediaPlayer(QObject* parent)
     : QMediaPlayer(parent)
+    , activated_(false)
     , current_content_index_(0)
     , delay_flag_(false)
     , delay_(0)
@@ -35,8 +36,6 @@ void CustomMediaPlayer::play()
             playlist->setPlaybackMode(QMediaPlaylist::Random);
             int index = getRandomIntInRange(0,playlist->mediaCount()-1);
             playlist->setCurrentIndex(index);
-            //for (playlist->mediaCount())
-
 
         } else if (settings->order == Playlist::PlayOrder::WEIGTHED){
             // TO DO implement weighted
@@ -48,17 +47,19 @@ void CustomMediaPlayer::play()
             delay_ = getRandomIntInRange(settings->min_delay_interval,
                                          settings->max_delay_interval);
             delay_flag_ = true;
-
-            QMediaPlayer::play();
-
-
-            playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
+            if (activated_){
+                QMediaPlayer::play();
+                qDebug() << "Playing Index: "<<playlist->currentIndex();
+                playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
+            }
         } else {
             delay_flag_ = false;
             delay_ = 0;
-            QMediaPlayer::play();
+            if (activated_){
+                QMediaPlayer::play();
+                qDebug() << "Playing Index: "<<playlist->currentIndex();
+            }
         }
-        qDebug() << "Playing Index: "<<playlist->currentIndex();
     }
 }
 
@@ -79,6 +80,24 @@ void CustomMediaPlayer::delayIsOver()
     play();
 }
 
+void CustomMediaPlayer::activate()
+{
+    activated_ = true;
+    emit toggledPlayerActivation(true);
+}
+
+void CustomMediaPlayer::deactivate()
+{
+    activated_ = false;
+    emit toggledPlayerActivation(false);
+}
+
+void CustomMediaPlayer::setActivation(bool flag)
+{
+    activated_ = flag;
+    emit toggledPlayerActivation(flag);
+}
+
 int CustomMediaPlayer::getRandomIntInRange(int min, int max)
 {
     std::random_device rd;     // only used once to initialise (seed) engine
@@ -90,7 +109,7 @@ int CustomMediaPlayer::getRandomIntInRange(int min, int max)
 void CustomMediaPlayer::currentMediaIndexChanged(int position)
 {
     current_content_index_ = position;
-    if (delay_flag_){
+    if (activated_ && delay_flag_){
         delay_timer_->start(delay_*1000);
     }
 }
@@ -115,7 +134,13 @@ void CustomMediaPlayer::mediaSettingsChanged()
     } else if (settings->order == Playlist::PlayOrder::WEIGTHED){
         qDebug() << "weigthed not implemented yet";
     }
+}
 
+void CustomMediaPlayer::mediaVolumeChanged(int val)
+{
+    if (val >= 0 && val <= 100){
+        setVolume(val);
+    }
 }
 
 

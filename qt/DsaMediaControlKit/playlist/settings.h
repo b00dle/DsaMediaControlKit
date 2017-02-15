@@ -22,7 +22,6 @@ enum PlayOrder{
 */
 struct Settings{
 
-
     QString name;
     PlayOrder order;
     bool loop_flag;

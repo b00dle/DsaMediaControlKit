@@ -57,6 +57,9 @@ public slots:
     /* adjust playing icon when the player stops playing*/
     void changePlayerState(QMediaPlayer::State state);
 
+    /* adjust playing icon when the player stops playing*/
+    void changedCustomPlayerActivation(bool state);
+
 protected slots:
     /* slot to open configuration */
     virtual void onConfigurePlaylist();
