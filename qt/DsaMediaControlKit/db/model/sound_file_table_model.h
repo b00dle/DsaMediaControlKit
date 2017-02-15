@@ -84,6 +84,12 @@ public:
     SoundFileRecord* getSoundFileByRow(int row);
 
     /*
+     * gets all SoundFileRecords with relative path
+     * equal to rel_path.
+    */
+    QList<SoundFileRecord*> const getSoundFilesByRelativePath(QString const& rel_path);
+
+    /*
      * Gets last SoundFileRecord in the model.
      * Returns 0 if none found.
     */
@@ -92,7 +98,10 @@ public:
     /*
     * Adds a SoundFileRecord to this model
     */
-    void addSoundFileRecord(const QFileInfo& info);
+    void addSoundFileRecord(
+        const QFileInfo& info,
+        const ResourceDirRecord& resource_dir
+    );
 
     /*
     * Returns all SoundFileRecords held by this model

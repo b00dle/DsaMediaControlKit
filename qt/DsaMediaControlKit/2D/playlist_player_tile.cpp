@@ -149,16 +149,57 @@ bool PlaylistPlayerTile::setFromJsonObject(const QJsonObject &obj)
             QJsonObject sound_obj = val.toObject();
             if(sound_obj.isEmpty())
                 continue;
+
             DB::TableRecord* rec = Misc::JsonMimeDataParser::toTableRecord(sound_obj);
             if(rec->index != DB::SOUND_FILE) {
                 delete rec;
                 continue;
             }
-            bool success = playlist_->addMedia(*((DB::SoundFileRecord*) rec));
-            if(!success) {
-                qDebug() << "Error: Failed to add SoundFile from JSON";
-                qDebug() << " > " << sound_obj;
+
+            // check existance against actual database
+            DB::SoundFileRecord* sf_rec = (DB::SoundFileRecord*) rec;
+            QList<DB::SoundFileRecord*> actual_recs = model_->getSoundFilesByRelativePath(sf_rec->relative_path);
+            if(actual_recs.size() == 0) {
+                qDebug() << "FAILURE: Could not verify SoundFile existance.";
+                qDebug() << " > SoundFile:" << sound_obj << "does not exist in any ResourceDirectory.";
+                qDebug() << " > Make sure relative path (" << sf_rec->relative_path << ") exists within a ResourceDirectory.";
+                sf_rec = 0;
+                delete rec;
+                return false;
             }
+            else if(actual_recs.size() > 1) {
+                bool found = false;
+                foreach(DB::SoundFileRecord* act_rec, actual_recs) {
+                    if(act_rec->id == sf_rec->id) {
+                        sf_rec->copyFrom(act_rec);
+                        found = true;
+                        break;
+                    }
+                }
+
+                if(!found) {
+                    qDebug() << "NOTIFICATION: More than one SoundFile exists for relative path";
+                    qDebug() << " > And ID of SoundFiles parsed from JSON cannot be found in database.";
+                    qDebug() << " > automatically picking first matched SoundFile.";
+                    sf_rec->copyFrom(actual_recs[0]);
+                }
+
+
+            }
+            else { // exactly one SoundFIle matches
+                sf_rec->copyFrom(actual_recs[0]);
+            }
+
+            bool success = playlist_->addMedia(*sf_rec);
+            if(!success) {
+                qDebug() << "FAILURE: Could not add SoundFile from JSON";
+                qDebug() << " > " << sound_obj;
+                sf_rec = 0;
+                delete rec;
+                return false;
+            }
+
+            sf_rec = 0;
             delete rec;
         }
     }
@@ -172,7 +213,7 @@ bool PlaylistPlayerTile::setFromJsonObject(const QJsonObject &obj)
         Playlist::Settings* settings = Misc::JsonMimeDataParser::toPlaylistSettings(s_obj);
         bool success = playlist_->setSettings(settings);
         if(!success) {
-            qDebug() << "Error: Failed to set Playlist Settings from JSON";
+            qDebug() << "FAILURE: Could not set Playlist Settings from JSON";
             qDebug() << " > " << s_obj;
         }
         settings = 0;
@@ -312,7 +353,6 @@ void PlaylistPlayerTile::savePlaylistSettings(Settings* settings)
 
 void PlaylistPlayerTile::createContextMenu()
 {
-    qDebug() << "B";
     // create configure action
     QAction* configure_action = new QAction(tr("Configure..."),this);
 

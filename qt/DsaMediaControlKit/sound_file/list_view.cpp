@@ -68,13 +68,13 @@ bool ListView::getEditable()
     return model_->getColumnEditable(0);
 }
 
-QItemSelectionModel::SelectionFlags ListView::selectionCommand(const QModelIndex &index, const QEvent *event) const
+/*QItemSelectionModel::SelectionFlags ListView::selectionCommand(const QModelIndex &index, const QEvent *event) const
 {
     if (event != 0 && event->type() == QEvent::MouseMove)
         return QItemSelectionModel::Select;
     else
         return QAbstractItemView::selectionCommand(index, event);
-}
+}*/
 
 void ListView::mousePressEvent(QMouseEvent *event)
 {

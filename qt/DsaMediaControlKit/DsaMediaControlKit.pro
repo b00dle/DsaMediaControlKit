@@ -46,7 +46,8 @@ SOURCES += main.cpp \
     2D/playlist_player_tile.cpp \
     playlist/playlist.cpp \
     playlist/settings_widget.cpp \
-    custom_media_player.cpp
+    custom_media_player.cpp \
+    db/model/resource_dir_table_model.cpp
 
 HEADERS  += main_window.h \
     _TEST/audio_widget.h \
@@ -79,7 +80,8 @@ HEADERS  += main_window.h \
     playlist/playlist.h \
     playlist/settings.h \
     playlist/settings_widget.h \
-    custom_media_player.h
+    custom_media_player.h \
+    db/model/resource_dir_table_model.h
 
 RESOURCES += \
     _RES/resources.qrc

@@ -204,10 +204,10 @@ void Tile::mousePressEvent(QGraphicsSceneMouseEvent* e)
         long_click_timer_->start(long_click_duration_);
     }
     else if(e->button() == Qt::RightButton) {
-        qDebug() << "right button";
+        // qDebug() << "right button";
     }
     else if(e->button() == Qt::MidButton) {
-        qDebug() << "mid button";
+        // qDebug() << "mid button";
     }
 
     QGraphicsItem::mousePressEvent(e);

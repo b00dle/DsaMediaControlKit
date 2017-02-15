@@ -19,7 +19,7 @@
 
 namespace TwoD {
 
-/*
+/**
  * Square 2D tile.
  * Supports hover, onlick and drag handling.
  * Uses layout mechanism, so Multiple instances of the class cannot visually overlap.
@@ -35,7 +35,7 @@ class Tile : public QObject, public QGraphicsItem
     Q_PROPERTY(qreal size MEMBER size_ READ getSize WRITE setSize)
 
 protected:
-    /*
+    /**
      * state of the graphics item
     */
     enum ItemMode {
@@ -45,7 +45,7 @@ protected:
         MOVE
     };
 
-    /*
+    /**
      *  side of a 2d box
     */
     enum BOX_SIDE {
@@ -59,87 +59,87 @@ public:
     Tile(QGraphicsItem* parent = 0);
     ~Tile();
 
-    /*
+    /**
      * See BC.
     */
     virtual QRectF boundingRect() const;
 
-    /*
+    /**
      * See BC.
     */
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
-    /*
+    /**
      * Initialize default properties of tile.
      * createContextMenu will be called by this function.
     */
     virtual void init();
 
-    /*
+    /**
      * Set key for quick activate.
     */
     void setActivateKey(const QChar& c);
 
-    /*
+    /**
      * Get key for quick activate.
     */
     const QChar& getActivateKey() const;
 
-    /*
+    /**
      * Set size of tile.
      * (will not preserve non overlapping state with other tiles)
     */
     virtual void setSize(qreal size);
 
-    /*
-     * get size of tile
+    /**
+     * Get size of tile
     */
     virtual qreal getSize() const;
 
-    /*
+    /**
      * Animated change of tile size.
      * (will preserve non overlapping state with other tiles)
     */
     virtual void setSizeAnimated(qreal size);
 
-    /*
+    /**
      * Change size of tile taking into account any overlapping with other Tiles.
     */
     virtual void setSizeLayoutAware(qreal size);
 
-    /*
+    /**
      * Set name of tile.
     */
     void setName(const QString& str);
 
-    /*
+    /**
      * Get name of tile.
     */
     const QString& getName() const;
 
-    /*
+    /**
      * Get context menu of tile.
     */
     const QMenu* getContextMenu() const;
 
-    /*
+    /**
      * Returns true if a quick activation key has been set.
     */
     bool hasActivateKey() const;
 
-    /*
+    /**
      * Hand mime data such as drop data to tile.
      * This class only prints the mime text.
      * Override for derived class behavior.
     */
     virtual void receiveExternalData(const QMimeData* data);
 
-    /*
+    /**
      * Returns a QJsonObject holding all information about the tile
     */
     virtual const QJsonObject toJsonObject() const;
 
-    /*
+    /**
      * Set all values held by JSON object.
      * Returns success of parsing JsonObject.
     */
@@ -154,26 +154,26 @@ signals:
     void activated();
 
 public slots:
-    /* interface for tile interaction */
+    /** interface for tile interaction */
     virtual void onActivate();
 
-    /* sets small size for tile */
+    /** sets small size for tile */
     virtual void setSmallSize();
 
-    /* sets medium size for tile */
+    /** sets medium size for tile */
     virtual void setMediumSize();
 
-    /* sets large size for tile */
+    /** sets large size for tile */
     virtual void setLargeSize();
 
-    /* removes this item from the scene and schedules deletion (see deleteLater) */
+    /** removes this item from the scene and schedules deletion (see deleteLater) */
     virtual void onDelete();
 
 protected slots:
-    /* slot to enable move mode after timer */
+    /** slot to enable move mode after timer */
     virtual void onLongClick();
 
-    /* sets the activation key using char input dialog */
+    /** sets the activation key using char input dialog */
     void onSetKey();
 
 protected:
@@ -190,33 +190,33 @@ protected:
     virtual void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
     virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
 
-    /*
+    /**
     * relayouts all other tiles based on overlaps created by resize operation
     */
     virtual void fixOverlapsAfterResize(qreal prev_size);
 
-    /*
-    * Returns QRectF definition for draw area
+    /**
+    * Returns QRectF definition for draw area.
     */
     virtual const QRectF getPaintRect() const;
 
-    /*
-    * Returns default background color brush based on ItemMode
+    /**
+    * Returns default background color brush based on ItemMode.
     */
     virtual const QBrush getBackgroundBrush() const;
 
-    /*
-    * returns tile background overlay pixmap
+    /**
+    * Returns tile background overlay pixmap.
     */
     const QPixmap getOverlayPixmap() const;
 
-    /*
-    * returns activate shortcut pixamp
+    /**
+    * Returns activate shortcut pixamp.
     */
     const QPixmap getActivatePixmap() const;
 
-    /*
-    * Sets default opacity value based on ItemState
+    /**
+    * Sets default opacity value based on ItemState.
     */
     virtual void setDefaultOpacity();
 
@@ -225,18 +225,18 @@ protected:
     */
     void setMode(ItemMode mode);
 
-    /*
-     * distance between given point and line.
+    /**
+     * Returns distance between given point and line.
     */
     static qreal distance(const QPointF& p, const QLineF& l);
 
-    /*
-     * closest side of given box to given point.
+    /**
+     * Closest side of given box to given point.
     */
     static BOX_SIDE closestSide(const QPointF& p, const QRectF& rect);
 
-    /*
-     * creates context menu
+    /**
+     * Creates context menu.
     */
     virtual void createContextMenu();
 

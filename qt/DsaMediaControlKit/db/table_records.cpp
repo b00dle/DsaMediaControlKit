@@ -17,6 +17,8 @@ QString const toString(TableIndex idx)
         case SOUND_FILE_CATEGORY:
             idx_str = "sound_file_category";
             break;
+        case RESOURCE_DIRECTORY:
+            idx_str = "resource_directory";
         default:
             break;
     }
@@ -26,12 +28,14 @@ QString const toString(TableIndex idx)
 
 TableIndex toTableIndex(QString const& idx_str)
 {
-    if(idx_str.compare("sound_file") == 0){
+    if(idx_str.compare("sound_file") == 0) {
         return SOUND_FILE;
     } else if(idx_str.compare("category") == 0) {
         return CATEGORY;
     } else if(idx_str.compare("sound_file_category") == 0) {
         return SOUND_FILE_CATEGORY;
+    } else if(idx_str.compare("resource_directory") == 0) {
+        return RESOURCE_DIRECTORY;
     } else {\
         return NONE;
     }

@@ -7,6 +7,9 @@
 
 namespace TwoD {
 
+/**
+* Tile encapsulating simple media playback features and UI.
+*/
 class PlayerTile : public Tile
 {
     Q_OBJECT
@@ -28,8 +31,8 @@ protected:
     */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* e);
 
-    /*
-     * Returns the image based on the playback state
+    /**
+     * Returns QPixmap image based on the playback state.
     */
     virtual const QPixmap getPlayStatePixmap() const;
 

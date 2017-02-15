@@ -12,6 +12,7 @@ Handler::Handler(DB::Core::Api* api, QObject *parent)
     , api_(api)
     , category_tree_model_(0)
     , sound_file_table_model_(0)
+    , resource_dir_table_model_(0)
 {
     if(api_ != 0) {
         getCategoryTreeModel();
@@ -44,6 +45,16 @@ Model::SoundFileTableModel *Handler::getSoundFileTableModel()
     return sound_file_table_model_;
 }
 
+Model::ResourceDirTableModel *Handler::getResourceDirTableModel()
+{
+    if(resource_dir_table_model_ == 0) {
+        resource_dir_table_model_ = new Model::ResourceDirTableModel(api_, this);
+        resource_dir_table_model_->select();
+    }
+
+    return resource_dir_table_model_;
+}
+
 const QList<SoundFileRecord *> Handler::getSoundFileRecordsByCategoryId(int category_id)
 {
     QList<SoundFileRecord*> records;
@@ -64,11 +75,12 @@ void Handler::deleteAll()
     api_->deleteAll();
     getCategoryTreeModel()->update();
     getSoundFileTableModel()->update();
+    getResourceDirTableModel()->update();
 }
 
-void Handler::addSoundFile(const QFileInfo& info)
+void Handler::addSoundFile(const QFileInfo& info, const ResourceDirRecord& resource_dir)
 {
-    getSoundFileTableModel()->addSoundFileRecord(info);
+    getSoundFileTableModel()->addSoundFileRecord(info, resource_dir);
 }
 
 void Handler::addCategory(QString name, CategoryRecord *parent)
@@ -102,7 +114,7 @@ void Handler::insertSoundFilesAndCategories(const QList<DB::SoundFile>& sound_fi
             continue;
 
         // insert new sound_file into DB
-        addSoundFile(sf.getFileInfo());
+        addSoundFile(sf.getFileInfo(), sf.getResourceDir());
         sf_rec = getSoundFileTableModel()->getLastSoundFileRecord();
 
         // insert new category into DB

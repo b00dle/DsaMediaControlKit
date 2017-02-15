@@ -24,12 +24,15 @@ public:
     QSqlRelationalTableModel* getSoundFileTable();
     QSqlRelationalTableModel* getCategoryTable();
     QSqlRelationalTableModel* getSoundFileCategoryTable();
+    QSqlRelationalTableModel* getResourceDirTable();
 
-    void insertSoundFile(QFileInfo const& info);
+    void insertSoundFile(QFileInfo const& info, ResourceDirRecord const& resource_dir);
     void insertCategory(QString const& name, int parent_id = -1);
     void insertSoundFileCategory(int sound_file_id, int category_id);
+    void insertResourceDir(QFileInfo const& info);
 
     int getSoundFileId(QString const& path);
+    int getResourceDirId(QString const& path);
 
     bool soundFileExists(QString const& path, QString const& name);
     bool soundFileCategoryExists(int sound_file_id, int category_id);
