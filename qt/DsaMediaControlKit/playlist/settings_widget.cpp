@@ -104,6 +104,7 @@ void SettingsWidget::onMaxIntervalSliderChanged(int val)
 void SettingsWidget::onVolumeSliderChanged(int val)
 {
     volume_label_->setText(QString::number(val) + " %");
+    emit volumeSettingsChanged(val);
 }
 
 void SettingsWidget::initWidgets()

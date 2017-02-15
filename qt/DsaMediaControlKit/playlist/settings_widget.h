@@ -25,6 +25,7 @@ public:
 signals:
     void closed();
     void saved(Settings* settings);
+    void volumeSettingsChanged(int val);
 
 public slots:
     void onCloseClicked(bool);

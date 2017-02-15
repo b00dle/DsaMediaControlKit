@@ -56,10 +56,12 @@ QGroupBox::title {
 }
 
 QCheckBox {
+    border: none;
     color: white;
 }
 
 QRadioButton {
+    border: none;
     color: white;
 }
 
