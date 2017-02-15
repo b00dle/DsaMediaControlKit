@@ -1,0 +1,255 @@
+{
+    "scene": {
+        "scene_rect": {
+            "height": 976,
+            "width": 1534,
+            "x": 0,
+            "y": 0
+        },
+        "tiles": [
+            {
+                "data": {
+                    "name": "Taverne Stimmung",
+                    "playlist": [
+                        {
+                            "id": 1630,
+                            "name": "DSA Taverne (Stimmung) (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/DSA Taverne (Stimmung) (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/DSA Taverne (Stimmung) (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        719,
+                        66
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Taverne Stimmung",
+                        "order": 0,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "Taverne ruhig",
+                    "playlist": [
+                        {
+                            "id": 1639,
+                            "name": "04-melancholy.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/04-melancholy.mp3",
+                            "relative_path": "/Taverne/04-melancholy.mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        412,
+                        66
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Taverne ruhig",
+                        "order": 0,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "Taverne Fröhlich",
+                    "playlist": [
+                        {
+                            "id": 1632,
+                            "name": "Tavern3.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Tavern3.mp3",
+                            "relative_path": "/Taverne/Tavern3.mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        556,
+                        68
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Taverne Fröhlich",
+                        "order": 0,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "Jeremy Soule-xrtheme (Neverwinter Nights 2 OST) (www.myfreemp3.cc).mp3",
+                    "playlist": [
+                        {
+                            "id": 1149,
+                            "name": "Jeremy Soule-xrtheme (Neverwinter Nights 2 OST) (www.myfreemp3.cc).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Dramatisch + Traurig/Jeremy Soule-xrtheme (Neverwinter Nights 2 OST) (www.myfreemp3.cc).mp3",
+                            "relative_path": "/Dramatisch + Traurig/Jeremy Soule-xrtheme (Neverwinter Nights 2 OST) (www.myfreemp3.cc).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1150,
+                            "name": "Unknown Artist-Menu Theme (OST Neverwinter Nights 2) (www.myfreemp3.cc).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Dramatisch + Traurig/Unknown Artist-Menu Theme (OST Neverwinter Nights 2) (www.myfreemp3.cc).mp3",
+                            "relative_path": "/Dramatisch + Traurig/Unknown Artist-Menu Theme (OST Neverwinter Nights 2) (www.myfreemp3.cc).mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        387,
+                        254
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Settings",
+                        "order": 0,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "Stadt",
+                    "playlist": [
+                        {
+                            "id": 1124,
+                            "name": "06. Docks Day Theme.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/06. Docks Day Theme.mp3",
+                            "relative_path": "/Stadt/06. Docks Day Theme.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1125,
+                            "name": "23. Rural Day Theme 2.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/23. Rural Day Theme 2.mp3",
+                            "relative_path": "/Stadt/23. Rural Day Theme 2.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1126,
+                            "name": "07-the-harbor-city-at-night.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/07-the-harbor-city-at-night.mp3",
+                            "relative_path": "/Stadt/07-the-harbor-city-at-night.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1128,
+                            "name": "04-old-camp.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/04-old-camp.mp3",
+                            "relative_path": "/Stadt/04-old-camp.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1130,
+                            "name": "17. Market Theme.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/17. Market Theme.mp3",
+                            "relative_path": "/Stadt/17. Market Theme.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1131,
+                            "name": "02-the-slums.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/02-the-slums.mp3",
+                            "relative_path": "/Stadt/02-the-slums.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1133,
+                            "name": "Jeremy Soule-Day in City Docks (OST Neverwinter Nights 2) (www.myfreemp3.cc).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/Jeremy Soule-Day in City Docks (OST Neverwinter Nights 2) (www.myfreemp3.cc).mp3",
+                            "relative_path": "/Stadt/Jeremy Soule-Day in City Docks (OST Neverwinter Nights 2) (www.myfreemp3.cc).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1134,
+                            "name": "06-the-harbor-city.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/06-the-harbor-city.mp3",
+                            "relative_path": "/Stadt/06-the-harbor-city.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1135,
+                            "name": "21. Noble Theme.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/21. Noble Theme.mp3",
+                            "relative_path": "/Stadt/21. Noble Theme.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1136,
+                            "name": "Erdenstern - 02 - The City (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/Erdenstern - 02 - The City (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Stadt/Erdenstern - 02 - The City (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1137,
+                            "name": "camelot.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/camelot.mp3",
+                            "relative_path": "/Stadt/camelot.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1140,
+                            "name": "03. City Night Theme.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/03. City Night Theme.mp3",
+                            "relative_path": "/Stadt/03. City Night Theme.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1142,
+                            "name": "02. Castle Theme.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/02. Castle Theme.mp3",
+                            "relative_path": "/Stadt/02. Castle Theme.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1145,
+                            "name": "07. Docks Night Theme.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/07. Docks Night Theme.mp3",
+                            "relative_path": "/Stadt/07. Docks Night Theme.mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        42,
+                        64
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Stadt",
+                        "order": 1,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            }
+        ]
+    }
+}
