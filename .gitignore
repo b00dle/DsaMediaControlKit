@@ -2,8 +2,6 @@
 *.Release
 *.db
 
-db/
-
 *.o
 *.exe
 *.user
