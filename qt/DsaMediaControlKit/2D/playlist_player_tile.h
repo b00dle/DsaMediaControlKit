@@ -36,12 +36,12 @@ public:
     void setSoundFileModel(DB::Model::SoundFileTableModel* m);
     DB::Model::SoundFileTableModel* getSoundFileModel();
 
-    /*
+    /**
      * Returns a QJsonObject holding all information about the tile
     */
     virtual const QJsonObject toJsonObject() const;
 
-    /*
+    /**
      * Set all values held by JSON object.
      * Returns success of parsing JsonObject.
     */
@@ -54,17 +54,17 @@ public slots:
     virtual void stop();
     virtual void onActivate();
 
-    /* adjust playing icon when the player stops playing*/
+    /** adjust playing icon when the player stops playing */
     void changePlayerState(QMediaPlayer::State state);
 
 protected slots:
-    /* slot to open configuration */
+    /** slot to open configuration */
     virtual void onConfigurePlaylist();
     /* */
     void closePlaylistSettings();
     void savePlaylistSettings(Settings* settings);
 
-    /* clot to open contents view */
+    /** slot to open contents view */
     virtual void onContents();
 
 protected:
@@ -73,12 +73,12 @@ protected:
     */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* e);
 
-    /*
+    /**
      * creates context menu
     */
     virtual void createContextMenu();
 
-    /*
+    /**
      * Returns the image based on the playback state
     */
     virtual const QPixmap getPlayStatePixmap() const;
