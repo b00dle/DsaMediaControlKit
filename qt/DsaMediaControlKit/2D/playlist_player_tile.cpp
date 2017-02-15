@@ -30,6 +30,8 @@ PlaylistPlayerTile::PlaylistPlayerTile(QGraphicsItem *parent)
 
 PlaylistPlayerTile::~PlaylistPlayerTile()
 {
+    delete playlist_;
+    playlist_ = 0;
 }
 
 

@@ -32,6 +32,11 @@ SettingsWidget::~SettingsWidget()
 {
 }
 
+void SettingsWidget::setPlaylist(Playlist *playlist)
+{
+    playlist_ = playlist;
+}
+
 void SettingsWidget::onCloseClicked(bool)
 {
     emit closed();
@@ -223,6 +228,12 @@ void SettingsWidget::initLayout()
 
     setFixedHeight(300);
     setFixedWidth(600);
+}
+
+void SettingsWidget::closeEvent(QCloseEvent *e)
+{
+    emit closed();
+    QWidget::closeEvent(e);
 }
 
 } //namespace Playlist

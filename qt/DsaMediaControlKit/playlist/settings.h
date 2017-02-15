@@ -61,6 +61,18 @@ struct Settings{
         , max_delay_interval(settings->max_delay_interval)
         , volume(settings->volume)
     {}
+
+    void copyFrom(const Settings& settings)
+    {
+        name = settings.name;
+        order = settings.order;
+        loop_flag = settings.loop_flag;
+        interval_flag = settings.interval_flag;
+        min_delay_interval = settings.min_delay_interval;
+        max_delay_interval = settings.max_delay_interval;
+        volume = settings.volume;
+
+    }
 };
 
 } //namespace Playlist

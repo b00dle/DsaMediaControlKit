@@ -20,6 +20,9 @@ public:
     bool setSettings(Settings* settings);
     Settings* getSettings();
 
+    /**
+     * Set database for the playlist
+     */
     void setSoundFileModel(DB::Model::SoundFileTableModel* m);
     const DB::Model::SoundFileTableModel* getSoundFileModel() const;
 

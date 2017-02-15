@@ -33,7 +33,7 @@ bool Playlist::setSettings(Settings *settings)
         return false;
     }
 
-    settings_ = new Settings(settings);
+    settings_->copyFrom(*settings);
     emit changedSettings();
     return true;
 }

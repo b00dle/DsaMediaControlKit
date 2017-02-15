@@ -17,8 +17,10 @@ class SettingsWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit SettingsWidget(Playlist* playlist, QWidget *parent = 0);
+    explicit SettingsWidget(Playlist* playlist = 0, QWidget *parent = 0);
     ~SettingsWidget();
+
+    void setPlaylist(Playlist* playlist);
 
 signals:
     void closed();
@@ -36,6 +38,7 @@ private slots:
 private:
     void initWidgets();
     void initLayout();
+    void closeEvent(QCloseEvent*);
 
     Playlist* playlist_;
     QLineEdit* name_edit_;
