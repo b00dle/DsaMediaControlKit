@@ -22,6 +22,10 @@ QString const toString(TableIndex idx)
             break;
         case RESOURCE_DIRECTORY:
             idx_str = "resource_directory";
+        case IMAGE_TAG:
+            idx_str = "image_tag";
+        case IMAGE_FILE_IMAGE_TAG:
+            idx_str = "image_file_image_tag";
         default:
             break;
     }
@@ -41,6 +45,10 @@ TableIndex toTableIndex(QString const& idx_str)
         return SOUND_FILE_CATEGORY;
     } else if(idx_str.compare("resource_directory") == 0) {
         return RESOURCE_DIRECTORY;
+    } else if(idx_str.compare("image_tag") == 0) {
+        return IMAGE_TAG;
+    } else if(idx_str.compare("image_file_image_tag") == 0) {
+        return IMAGE_FILE_IMAGE_TAG;
     } else {
         return NONE;
     }
