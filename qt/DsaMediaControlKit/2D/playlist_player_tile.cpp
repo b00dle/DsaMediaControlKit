@@ -331,6 +331,7 @@ void PlaylistPlayerTile::closePlaylistSettings()
 
     disconnect(playlist_settings_widget_, SIGNAL( saved(Settings*) ),
             this, SLOT(savePlaylistSettings(Settings*) ));
+
     playlist_settings_widget_->deleteLater();
 }
 
@@ -338,7 +339,11 @@ void PlaylistPlayerTile::savePlaylistSettings(Settings* settings)
 {
     if(settings->name.size() > 0 && name_.compare(settings->name) != 0)
         setName(settings->name);
-    qDebug() << "saved";
+    if(settings->image_path.size() > 0)
+        loadOverlayPixmap(settings->image_path);
+    else
+        clearOverlayPixmap();
+
     playlist_->setSettings(settings);
     playlist_settings_widget_->hide();
 
@@ -350,6 +355,7 @@ void PlaylistPlayerTile::savePlaylistSettings(Settings* settings)
 
     disconnect(playlist_settings_widget_, SIGNAL( saved(Settings*) ),
             this, SLOT(savePlaylistSettings(Settings*) ));
+
     playlist_settings_widget_->deleteLater();
 }
 
