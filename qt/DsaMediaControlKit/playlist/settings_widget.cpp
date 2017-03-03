@@ -7,7 +7,7 @@
 
 namespace Playlist{
 
-SettingsWidget::SettingsWidget(Playlist* playlist,QWidget *parent)
+SettingsWidget::SettingsWidget(MediaPlaylist* playlist,QWidget *parent)
     : QWidget(parent)
     , playlist_(playlist)
     , name_edit_(0)
@@ -35,7 +35,7 @@ SettingsWidget::~SettingsWidget()
 {
 }
 
-void SettingsWidget::setPlaylist(Playlist *playlist)
+void SettingsWidget::setPlaylist(MediaPlaylist *playlist)
 {
     playlist_ = playlist;
 }

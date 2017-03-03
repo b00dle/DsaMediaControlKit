@@ -8,8 +8,6 @@
 
 #include "sound_file/list_view_dialog.h"
 
-using namespace Playlist;
-
 namespace TwoD {
 
 PlaylistPlayerTile::PlaylistPlayerTile(QGraphicsItem *parent)
@@ -27,7 +25,7 @@ PlaylistPlayerTile::PlaylistPlayerTile(QGraphicsItem *parent)
     connect(player_, SIGNAL(toggledPlayerActivation(bool)),
             this, SLOT(changedCustomPlayerActivation(bool)) );
 
-    playlist_ = new Playlist::Playlist("Playlist");
+    playlist_ = new Playlist::MediaPlaylist("Playlist");
     player_->setPlaylist(playlist_);
     setAcceptDrops(true);
 }
@@ -335,7 +333,7 @@ void PlaylistPlayerTile::closePlaylistSettings()
     playlist_settings_widget_->deleteLater();
 }
 
-void PlaylistPlayerTile::savePlaylistSettings(Settings* settings)
+void PlaylistPlayerTile::savePlaylistSettings(Playlist::Settings* settings)
 {
     if(settings->name.size() > 0 && name_.compare(settings->name) != 0)
         setName(settings->name);

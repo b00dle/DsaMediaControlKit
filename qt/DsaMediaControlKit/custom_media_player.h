@@ -4,7 +4,7 @@
 #include <QMediaPlayer>
 #include <QTimer>
 
-#include "playlist/playlist.h"
+#include "playlist/media_playlist.h"
 #include "playlist/settings.h"
 
 class CustomMediaPlayer : public QMediaPlayer
@@ -14,14 +14,14 @@ public:
     CustomMediaPlayer(QObject* parent = 0);
     //explicit CustomMediaPlayer(QObject* parent = 0, Flags* flags = 0);
 
-    Playlist::Playlist *getCustomPlaylist() const;
+    Playlist::MediaPlaylist *getCustomPlaylist() const;
 
 signals:
     void toggledPlayerActivation(bool state);
 
 public slots:
     void play();
-    void setPlaylist(Playlist::Playlist* playlist);
+    void setPlaylist(Playlist::MediaPlaylist* playlist);
     void currentMediaIndexChanged(int position);
     void mediaSettingsChanged();
     void mediaVolumeChanged(int val);

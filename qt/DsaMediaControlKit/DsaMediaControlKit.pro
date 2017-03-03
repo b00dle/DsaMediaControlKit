@@ -40,7 +40,6 @@ SOURCES += main.cpp \
     2D/tile.cpp \
     2D/player_tile.cpp \
     2D/playlist_player_tile.cpp \
-    playlist/playlist.cpp \
     playlist/settings_widget.cpp \
     custom_media_player.cpp \
     db/model/resource_dir_table_model.cpp \
@@ -49,7 +48,8 @@ SOURCES += main.cpp \
     resources/path_fixer.cpp \
     resources/image_file.cpp \
     resources/resource_file.cpp \
-    resources/sound_file.cpp
+    resources/sound_file.cpp \
+    playlist/media_playlist.cpp
 
 HEADERS  += main_window.h \
     _TEST/audio_widget.h \
@@ -75,7 +75,6 @@ HEADERS  += main_window.h \
     2D/tile.h \
     2D/player_tile.h \
     2D/playlist_player_tile.h \
-    playlist/playlist.h \
     playlist/settings.h \
     playlist/settings_widget.h \
     custom_media_player.h \
@@ -85,7 +84,8 @@ HEADERS  += main_window.h \
     resources/path_fixer.h \
     resources/image_file.h \
     resources/resource_file.h \
-    resources/sound_file.h
+    resources/sound_file.h \
+    playlist/media_playlist.h
 
 RESOURCES += \
     _RES/resources.qrc

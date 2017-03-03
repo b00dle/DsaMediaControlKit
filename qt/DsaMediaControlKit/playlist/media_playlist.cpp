@@ -1,4 +1,4 @@
-#include "playlist.h"
+#include "media_playlist.h"
 
 #include <QDebug>
 
@@ -6,7 +6,7 @@
 
 namespace Playlist {
 
-Playlist::Playlist(QString name, QObject* parent)
+MediaPlaylist::MediaPlaylist(QString name, QObject* parent)
     : QMediaPlaylist(parent)
     , name_(name)
     , settings_(0)
@@ -16,7 +16,7 @@ Playlist::Playlist(QString name, QObject* parent)
     settings_ = new Settings;
 }
 
-Playlist::~Playlist()
+MediaPlaylist::~MediaPlaylist()
 {
     QList<QMediaContent*> keys = records_.keys();
     while(keys.size() > 0) {
@@ -27,7 +27,7 @@ Playlist::~Playlist()
     delete settings_;
 }
 
-bool Playlist::setSettings(Settings *settings)
+bool MediaPlaylist::setSettings(Settings *settings)
 {
     if (!settings){
         return false;
@@ -38,12 +38,12 @@ bool Playlist::setSettings(Settings *settings)
     return true;
 }
 
-Settings *Playlist::getSettings()
+Settings *MediaPlaylist::getSettings()
 {
     return settings_;
 }
 
-void Playlist::setSoundFileModel(DB::Model::SoundFileTableModel *m)
+void MediaPlaylist::setSoundFileModel(DB::Model::SoundFileTableModel *m)
 {
     model_ = m;
 
@@ -51,17 +51,17 @@ void Playlist::setSoundFileModel(DB::Model::SoundFileTableModel *m)
             this, SLOT(onMediaAboutToBeRemoved(int,int)));
 }
 
-const DB::Model::SoundFileTableModel *Playlist::getSoundFileModel() const
+const DB::Model::SoundFileTableModel *MediaPlaylist::getSoundFileModel() const
 {
     return model_;
 }
 
-bool Playlist::addMedia(const DB::SoundFileRecord &rec)
+bool MediaPlaylist::addMedia(const DB::SoundFileRecord &rec)
 {
     return addMedia(rec.id);
 }
 
-bool Playlist::addMedia(int record_id)
+bool MediaPlaylist::addMedia(int record_id)
 {
     if(model_ == 0)
         return false;
@@ -99,7 +99,7 @@ bool Playlist::addMedia(int record_id)
     return true;
 }
 
-const QList<DB::SoundFileRecord *> Playlist::getSoundFileList(bool unique)
+const QList<DB::SoundFileRecord *> MediaPlaylist::getSoundFileList(bool unique)
 {
     QList<DB::SoundFileRecord*> sf_list;
 
@@ -125,7 +125,7 @@ const QList<DB::SoundFileRecord *> Playlist::getSoundFileList(bool unique)
     return sf_list;
 }
 
-void Playlist::onMediaAboutToBeRemoved(int start, int end)
+void MediaPlaylist::onMediaAboutToBeRemoved(int start, int end)
 {
     for(int i = start; i <= end; ++i) {
         QMediaContent c = media(i);

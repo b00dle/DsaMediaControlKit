@@ -10,7 +10,7 @@
 #include <QRadioButton>
 #include <QGroupBox>
 
-#include "playlist.h"
+#include "media_playlist.h"
 
 namespace Playlist{
 
@@ -18,10 +18,10 @@ class SettingsWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit SettingsWidget(Playlist* playlist = 0, QWidget *parent = 0);
+    explicit SettingsWidget(MediaPlaylist* playlist = 0, QWidget *parent = 0);
     ~SettingsWidget();
 
-    void setPlaylist(Playlist* playlist);
+    void setPlaylist(MediaPlaylist* playlist);
 
 signals:
     void closed();
@@ -43,7 +43,7 @@ private:
     void initLayout();
     void closeEvent(QCloseEvent*);
 
-    Playlist* playlist_;
+    MediaPlaylist* playlist_;
     QLineEdit* name_edit_;
     QCheckBox* loop_checkbox_;
     QGroupBox* interval_groupbox_;
