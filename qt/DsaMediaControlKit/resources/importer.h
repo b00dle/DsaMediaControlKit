@@ -1,34 +1,34 @@
-#ifndef SOUND_FILE_RESOURCE_IMPORTER_H
-#define SOUND_FILE_RESOURCE_IMPORTER_H
+#ifndef RESOURCES_IMPORTER_H
+#define RESOURCES_IMPORTER_H
 
 #include <QObject>
 #include <QStringList>
 #include <QFileInfo>
 
-#include "db/sound_file.h"
+#include "sound_file.h"
 #include "db/model/resource_dir_table_model.h"
 
-namespace SoundFile {
+namespace Resources {
 
 /*
  * Class for importing soundfile ressources.
 */
-class ResourceImporter : public QObject
+class Importer : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit ResourceImporter(DB::Model::ResourceDirTableModel* model, QObject *parent = 0);
+    explicit Importer(DB::Model::ResourceDirTableModel* model, QObject *parent = 0);
 
     /*
      * Imports folder with given url.
-     * Siganls folderImported(QList<DB::SoundFile> const&)
+     * Siganls folderImported(QList<Resources::SoundFile> const&)
      * when import is finished.
     */
     void parseFolder(QUrl const& url, const DB::ResourceDirRecord& resource_dir);
 
 signals:
-    void folderImported(QList<DB::SoundFile> const&);
+    void folderImported(QList<Resources::SoundFile> const&);
     void folderImported();
     void statusMessageUpdated(QString const&);
 
@@ -48,6 +48,6 @@ private:
 
 };
 
-} // namespace SoundFile
+} // namespace Resources
 
-#endif // SOUND_FILE_RESOURCE_IMPORTER_H
+#endif // RESOURCES_IMPORTER_H

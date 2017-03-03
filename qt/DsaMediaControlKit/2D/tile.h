@@ -145,6 +145,23 @@ public:
     */
     virtual bool setFromJsonObject(const QJsonObject& obj);
 
+    /**
+     * Loads the overlay image from given filepath.
+    */
+    void loadOverlayPixmap(const QString& file_path);
+
+    /**
+     * Returns the filepath of the current overlay image.
+     * Will be empty string if default pixmap is used.
+    */
+    const QString& getOverlayPixmapPath() const;
+
+    /**
+    * Removes the custom set overlay pixmap and returns to default.
+    * (see getOverlayPixmap())
+    */
+    void clearOverlayPixmap();
+
 signals:
     void mousePressed(QGraphicsSceneMouseEvent* e);
     void mouseReleased(QGraphicsSceneMouseEvent* e);
@@ -248,6 +265,8 @@ protected:
     QMenu* context_menu_;
     QAction* activate_action_;
     QChar activate_key_;
+    QPixmap* overlay_pixmap_;
+    QString overlay_pixmap_path_;
 };
 
 } // namespace TwoD
