@@ -125,7 +125,8 @@ void Handler::insertSoundFilesAndCategories(const QList<Resources::SoundFile>& s
         }
 
         // insert category sound_file relation into db
-        addSoundFileCategory(sf_rec->id, cat->id);
+        if(cat != 0)
+            addSoundFileCategory(sf_rec->id, cat->id);
 
         if(timer.elapsed() > 100) {
             int progress = (int) (i/(float)sound_files.size() * 100);

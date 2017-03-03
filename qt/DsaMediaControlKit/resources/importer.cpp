@@ -19,8 +19,9 @@ void Importer::parseFolder(const QUrl &url, const DB::ResourceDirRecord& resourc
     QList<Resources::SoundFile> files;
     if(url.isValid() && url.isLocalFile())
     {
-        QString base_dir = url.toLocalFile();
-        QDirIterator it(base_dir, QStringList() << "*.mp3" << "*.wma" << "*.wav", QDir::Files, QDirIterator::Subdirectories);
+        QDir d(url.toLocalFile());
+        d.cdUp();
+        QDirIterator it(d.absolutePath(), QStringList() << "*.mp3" << "*.wma" << "*.wav", QDir::Files, QDirIterator::Subdirectories);
         while (it.hasNext())
             files.append(Resources::SoundFile(QFileInfo(it.next()), resource_dir));
     }
@@ -41,11 +42,12 @@ void Importer::startBrowseFolder(bool)
 DB::ResourceDirRecord* Importer::createOrGetResourceDir(const QUrl &url)
 {
     if(url.isValid() && url.isLocalFile()) {
-        QString base_dir = url.toLocalFile();
-        DB::ResourceDirRecord* rec = model_->getResourceDirByPath(base_dir);
+        QDir d(url.toLocalFile());
+        d.cdUp();
+        DB::ResourceDirRecord* rec = model_->getResourceDirByPath(d.absolutePath());
         if(rec == 0) {
-            model_->addResourceDirRecord(QFileInfo(base_dir));
-            rec = model_->getResourceDirByPath(base_dir);
+            model_->addResourceDirRecord(QFileInfo(d.absolutePath()));
+            rec = model_->getResourceDirByPath(d.absolutePath());
         }
         return rec;
     }
