@@ -16,13 +16,13 @@ Importer::Importer(DB::Model::ResourceDirTableModel* model, QObject *parent)
 
 void Importer::parseFolder(const QUrl &url, const DB::ResourceDirRecord& resource_dir)
 {
-    QList<DB::SoundFile> files;
+    QList<Resources::SoundFile> files;
     if(url.isValid() && url.isLocalFile())
     {
         QString base_dir = url.toLocalFile();
         QDirIterator it(base_dir, QStringList() << "*.mp3" << "*.wma" << "*.wav", QDir::Files, QDirIterator::Subdirectories);
         while (it.hasNext())
-            files.append(DB::SoundFile(QFileInfo(it.next()), resource_dir));
+            files.append(Resources::SoundFile(QFileInfo(it.next()), resource_dir));
     }
     emit folderImported(files);
     emit folderImported();

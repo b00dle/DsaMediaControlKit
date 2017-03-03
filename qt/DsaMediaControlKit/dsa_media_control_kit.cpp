@@ -175,8 +175,8 @@ void DsaMediaControlKit::initWidgets()
     center_h_splitter_->setStretchFactor(0, 0);
     center_h_splitter_->setStretchFactor(1, 10);
 
-    connect(sound_file_importer_, SIGNAL(folderImported(QList<DB::SoundFile> const&)),
-            db_handler_, SLOT(insertSoundFilesAndCategories(QList<DB::SoundFile> const&)));
+    connect(sound_file_importer_, SIGNAL(folderImported(QList<Resources::SoundFile> const&)),
+            db_handler_, SLOT(insertSoundFilesAndCategories(QList<Resources::SoundFile> const&)));
     connect(sound_file_importer_, SIGNAL(folderImported()),
             category_view_, SLOT(selectRoot()));
     connect(db_handler_, SIGNAL(progressChanged(int)),

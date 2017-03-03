@@ -26,7 +26,6 @@ SOURCES += main.cpp \
     db/model/category_tree_model.cpp \
     db/model/sound_file_table_model.cpp \
     db/handler.cpp \
-    db/sound_file.cpp \
     db/table_records.cpp \
     dsa_media_control_kit.cpp \
     category/tree_view.cpp \
@@ -47,7 +46,10 @@ SOURCES += main.cpp \
     db/model/resource_dir_table_model.cpp \
     resources/importer.cpp \
     resources/lib.cpp \
-    resources/path_fixer.cpp
+    resources/path_fixer.cpp \
+    resources/image_file.cpp \
+    resources/resource_file.cpp \
+    resources/sound_file.cpp
 
 HEADERS  += main_window.h \
     _TEST/audio_widget.h \
@@ -59,7 +61,6 @@ HEADERS  += main_window.h \
     db/model/category_tree_model.h \
     db/model/sound_file_table_model.h \
     db/handler.h \
-    db/sound_file.h \
     db/table_records.h \
     dsa_media_control_kit.h \
     category/tree_view.h \
@@ -81,7 +82,10 @@ HEADERS  += main_window.h \
     db/model/resource_dir_table_model.h \
     resources/importer.h \
     resources/lib.h \
-    resources/path_fixer.h
+    resources/path_fixer.h \
+    resources/image_file.h \
+    resources/resource_file.h \
+    resources/sound_file.h
 
 RESOURCES += \
     _RES/resources.qrc

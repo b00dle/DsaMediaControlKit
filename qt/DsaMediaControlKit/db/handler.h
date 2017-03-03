@@ -6,7 +6,7 @@
 #include <QSqlRelationalTableModel>
 
 #include "core/api.h"
-#include "sound_file.h"
+#include "resources/sound_file.h"
 #include "model/category_tree_model.h"
 #include "model/sound_file_table_model.h"
 #include "model/resource_dir_table_model.h"
@@ -64,7 +64,7 @@ public slots:
      * Will also insert new Categories in case any SoundFile
      * describes a new Category tree.
     */
-    void insertSoundFilesAndCategories(QList<DB::SoundFile> const&);
+    void insertSoundFilesAndCategories(QList<Resources::SoundFile> const&);
 
 private:
     void addCategory(QStringList const& path);

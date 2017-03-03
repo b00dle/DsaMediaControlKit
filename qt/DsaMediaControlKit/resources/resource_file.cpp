@@ -1,10 +1,10 @@
-#include "sound_file.h"
+#include "resource_file.h"
 
 #include <QDebug>
 
-namespace DB {
+namespace Resources {
 
-SoundFile::SoundFile(QFileInfo const& info, ResourceDirRecord const& resource_dir)
+ResourceFile::ResourceFile(QFileInfo const& info, DB::ResourceDirRecord const& resource_dir)
     : file_info_(info)
     , category_path_()
     , resource_dir_(resource_dir)
@@ -12,22 +12,25 @@ SoundFile::SoundFile(QFileInfo const& info, ResourceDirRecord const& resource_di
     computeCategoryPath();
 }
 
-const QStringList &SoundFile::getCategoryPath() const
+ResourceFile::~ResourceFile()
+{}
+
+const QStringList &ResourceFile::getCategoryPath() const
 {
     return category_path_;
 }
 
-const QFileInfo &SoundFile::getFileInfo() const
+const QFileInfo &ResourceFile::getFileInfo() const
 {
     return file_info_;
 }
 
-const ResourceDirRecord &SoundFile::getResourceDir() const
+const DB::ResourceDirRecord &ResourceFile::getResourceDir() const
 {
     return resource_dir_;
 }
 
-void SoundFile::computeCategoryPath()
+void ResourceFile::computeCategoryPath()
 {
     QString rel_to_base = file_info_.filePath();
     rel_to_base.replace(resource_dir_.path, "");
@@ -36,4 +39,5 @@ void SoundFile::computeCategoryPath()
     category_path_.pop_back();
 }
 
-} // namespace DB
+} // namespace Resources
+

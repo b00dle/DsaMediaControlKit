@@ -5,7 +5,7 @@
 #include <QStringList>
 #include <QFileInfo>
 
-#include "db/sound_file.h"
+#include "sound_file.h"
 #include "db/model/resource_dir_table_model.h"
 
 namespace Resources {
@@ -22,13 +22,13 @@ public:
 
     /*
      * Imports folder with given url.
-     * Siganls folderImported(QList<DB::SoundFile> const&)
+     * Siganls folderImported(QList<Resources::SoundFile> const&)
      * when import is finished.
     */
     void parseFolder(QUrl const& url, const DB::ResourceDirRecord& resource_dir);
 
 signals:
-    void folderImported(QList<DB::SoundFile> const&);
+    void folderImported(QList<Resources::SoundFile> const&);
     void folderImported();
     void statusMessageUpdated(QString const&);
 

@@ -10,6 +10,7 @@ namespace DB {
 enum TableIndex {
     NONE,
     SOUND_FILE,
+    IMAGE_FILE,
     CATEGORY,
     SOUND_FILE_CATEGORY,
     RESOURCE_DIRECTORY
@@ -124,6 +125,38 @@ struct SoundFileRecord : TableRecord {
         SoundFileRecord* sf_rec = (SoundFileRecord*) rec;
         path = sf_rec->path;
         relative_path = sf_rec->relative_path;
+
+        return true;
+    }
+};
+
+/* Row in ImageFile table **/
+struct ImageFileRecord : TableRecord {
+    QString relative_path;
+
+    ImageFileRecord(int i, QString const& n, QString const& rel_p = "")
+        : TableRecord(IMAGE_FILE, i, n)
+        , relative_path(rel_p)
+    {}
+
+    ImageFileRecord()
+        : TableRecord(IMAGE_FILE, -1, "")
+        , relative_path("")
+    {}
+
+    ImageFileRecord(const SoundFileRecord& rec)
+        : TableRecord(IMAGE_FILE, rec.id, rec.name)
+        , relative_path(rec.relative_path)
+    {}
+
+    virtual ~ImageFileRecord() {}
+
+    virtual bool copyFrom(TableRecord* rec) {
+        if(!TableRecord::copyFrom(rec))
+            return false;
+
+        ImageFileRecord* if_rec = (ImageFileRecord*) rec;
+        relative_path = if_rec->relative_path;
 
         return true;
     }
