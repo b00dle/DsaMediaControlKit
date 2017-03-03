@@ -1,5 +1,5 @@
 #include "playlist_player_tile.h"
-#include "resources/resources.h"
+#include "resources/lib.h"
 
 #include <QGraphicsScene>
 #include <QDebug>
@@ -382,9 +382,9 @@ void PlaylistPlayerTile::createContextMenu()
 const QPixmap PlaylistPlayerTile::getPlayStatePixmap() const
 {
     if(is_playing_)
-        return *Resources::PX_STOP;
+        return *Resources::Lib::PX_STOP;
     else
-        return *Resources::PX_PLAY;
+        return *Resources::Lib::PX_PLAY;
 }
 
 } // namespace TwoD

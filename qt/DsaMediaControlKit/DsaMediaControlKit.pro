@@ -30,14 +30,11 @@ SOURCES += main.cpp \
     db/table_records.cpp \
     dsa_media_control_kit.cpp \
     category/tree_view.cpp \
-    resources/resources.cpp \
     misc/drop_group_box.cpp \
     misc/json_mime_data_parser.cpp \
     misc/standard_item_model.cpp \
     misc/char_input_dialog.cpp \
-    sound_file/resource_importer.cpp \
     sound_file/list_view.cpp \
-    sound_file/path_fixer.cpp \
     sound_file/master_view.cpp \
     sound_file/list_view_dialog.cpp \
     2D/graphics_view.cpp \
@@ -47,7 +44,10 @@ SOURCES += main.cpp \
     playlist/playlist.cpp \
     playlist/settings_widget.cpp \
     custom_media_player.cpp \
-    db/model/resource_dir_table_model.cpp
+    db/model/resource_dir_table_model.cpp \
+    resources/importer.cpp \
+    resources/lib.cpp \
+    resources/path_fixer.cpp
 
 HEADERS  += main_window.h \
     _TEST/audio_widget.h \
@@ -63,14 +63,11 @@ HEADERS  += main_window.h \
     db/table_records.h \
     dsa_media_control_kit.h \
     category/tree_view.h \
-    resources/resources.h \
     misc/drop_group_box.h \
     misc/char_input_dialog.h \
     misc/json_mime_data_parser.h \
     misc/standard_item_model.h \
-    sound_file/resource_importer.h \
     sound_file/list_view.h \
-    sound_file/path_fixer.h \
     sound_file/master_view.h \
     sound_file/list_view_dialog.h \
     2D/graphics_view.h \
@@ -81,7 +78,10 @@ HEADERS  += main_window.h \
     playlist/settings.h \
     playlist/settings_widget.h \
     custom_media_player.h \
-    db/model/resource_dir_table_model.h
+    db/model/resource_dir_table_model.h \
+    resources/importer.h \
+    resources/lib.h \
+    resources/path_fixer.h
 
 RESOURCES += \
     _RES/resources.qrc

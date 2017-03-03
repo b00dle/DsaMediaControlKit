@@ -8,7 +8,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-#include "resources/resources.h"
+#include "resources/lib.h"
 #include "misc/json_mime_data_parser.h"
 
 namespace SoundFile {
@@ -189,7 +189,7 @@ void ListView::performDrag()
     // create Drag
     QDrag *drag = new QDrag(this);
     drag->setMimeData(mime_data);
-    drag->setPixmap(*Resources::PX_SOUND_FILE_DRAG);
+    drag->setPixmap(*Resources::Lib::PX_SOUND_FILE_DRAG);
 
     // will block until drag done
     drag->exec(Qt::CopyAction);

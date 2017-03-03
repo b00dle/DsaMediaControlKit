@@ -1,4 +1,4 @@
-#include "resource_importer.h"
+#include "importer.h"
 
 #include <QFileDialog>
 #include <QHBoxLayout>
@@ -6,15 +6,15 @@
 #include <QDirIterator>
 #include <QDir>
 
-namespace SoundFile {
+namespace Resources {
 
-ResourceImporter::ResourceImporter(DB::Model::ResourceDirTableModel* model, QObject *parent)
+Importer::Importer(DB::Model::ResourceDirTableModel* model, QObject *parent)
     : QObject(parent)
     , model_(model)
 {
 }
 
-void ResourceImporter::parseFolder(const QUrl &url, const DB::ResourceDirRecord& resource_dir)
+void Importer::parseFolder(const QUrl &url, const DB::ResourceDirRecord& resource_dir)
 {
     QList<DB::SoundFile> files;
     if(url.isValid() && url.isLocalFile())
@@ -28,7 +28,7 @@ void ResourceImporter::parseFolder(const QUrl &url, const DB::ResourceDirRecord&
     emit folderImported();
 }
 
-void ResourceImporter::startBrowseFolder(bool)
+void Importer::startBrowseFolder(bool)
 {
     QUrl url = QFileDialog::getExistingDirectoryUrl(0, tr("Open Resource Directory"));
     if(url.isValid()) {
@@ -38,7 +38,7 @@ void ResourceImporter::startBrowseFolder(bool)
     }
 }
 
-DB::ResourceDirRecord* ResourceImporter::createOrGetResourceDir(const QUrl &url)
+DB::ResourceDirRecord* Importer::createOrGetResourceDir(const QUrl &url)
 {
     if(url.isValid() && url.isLocalFile()) {
         QString base_dir = url.toLocalFile();
@@ -53,4 +53,4 @@ DB::ResourceDirRecord* ResourceImporter::createOrGetResourceDir(const QUrl &url)
     return 0;
 }
 
-} // namespace SoundFile
+} // namespace Resources

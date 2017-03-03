@@ -1,13 +1,15 @@
-#include "resources.h"
+#include "lib.h"
 
 #include <QFile>
 #include <QDebug>
 #include <QDir>
 
+namespace Resources {
+
 /*
 * init function
 */
-void Resources::init()
+void Lib::init()
 {
     if(PX_CRACKED_STONE == 0)
         PX_CRACKED_STONE = new QPixmap(IMG_CRACKED_STONE_PATH);
@@ -95,7 +97,7 @@ void Resources::init()
         PX_Z_KEY = new QPixmap(IMG_KEY_Z_PATH);
 }
 
-void Resources::cleanup()
+void Lib::cleanup()
 {
     if(PX_CRACKED_STONE != 0)
         delete PX_CRACKED_STONE;
@@ -226,7 +228,7 @@ void Resources::cleanup()
     PX_Z_KEY = 0;
 }
 
-const QString Resources::loadFileToString(const QString &path)
+const QString Lib::loadFileToString(const QString &path)
 {
     QFile file(path);
     if(file.open(QFile::ReadOnly)){
@@ -239,7 +241,7 @@ const QString Resources::loadFileToString(const QString &path)
     return QString("");
 }
 
-QPixmap *Resources::getKeyPixmap(const QChar &k)
+QPixmap *Lib::getKeyPixmap(const QChar &k)
 {
     switch(k.toLatin1()) {
         case '0':
@@ -322,102 +324,104 @@ QPixmap *Resources::getKeyPixmap(const QChar &k)
 /*
 * DATABASE
 */
-QString Resources::DATABASE_PATH = "../../db/dsamediacontrolkit.db";
+QString Lib::DATABASE_PATH = "../../db/dsamediacontrolkit.db";
 
 /*
 * ICONS
 */
 
-QString Resources::IMG_SOUND_FILE_DRAG_PATH = ":/images/dick.png";
-QString Resources::IMG_PLAY_PATH = ":/images/icon_play.png";
-QString Resources::IMG_PAUSE_PATH = ":/images/icon_pause.png";
-QString Resources::IMG_STOP_PATH = ":/images/icon_stop.png";
-QString Resources::IMG_CRACKED_STONE_PATH = ":/images/cracked_stone.jpg";
-QString Resources::IMG_CRACKED_STONE_INV_PATH = ":/images/cracked_stone_inv.jpg";
+QString Lib::IMG_SOUND_FILE_DRAG_PATH = ":/images/dick.png";
+QString Lib::IMG_PLAY_PATH = ":/images/icon_play.png";
+QString Lib::IMG_PAUSE_PATH = ":/images/icon_pause.png";
+QString Lib::IMG_STOP_PATH = ":/images/icon_stop.png";
+QString Lib::IMG_CRACKED_STONE_PATH = ":/images/cracked_stone.jpg";
+QString Lib::IMG_CRACKED_STONE_INV_PATH = ":/images/cracked_stone_inv.jpg";
 
 // keys
-QString Resources::IMG_KEY_0_PATH = ":/keys/0_key.png";
-QString Resources::IMG_KEY_1_PATH = ":/keys/1_key.png";
-QString Resources::IMG_KEY_2_PATH = ":/keys/2_key.png";
-QString Resources::IMG_KEY_3_PATH = ":/keys/3_key.png";
-QString Resources::IMG_KEY_4_PATH = ":/keys/4_key.png";
-QString Resources::IMG_KEY_5_PATH = ":/keys/5_key.png";
-QString Resources::IMG_KEY_6_PATH = ":/keys/6_key.png";
-QString Resources::IMG_KEY_7_PATH = ":/keys/7_key.png";
-QString Resources::IMG_KEY_8_PATH = ":/keys/8_key.png";
-QString Resources::IMG_KEY_9_PATH = ":/keys/9_key.png";
-QString Resources::IMG_KEY_A_PATH = ":/keys/A_key.png";
-QString Resources::IMG_KEY_B_PATH = ":/keys/B_key.png";
-QString Resources::IMG_KEY_C_PATH = ":/keys/C_key.png";
-QString Resources::IMG_KEY_D_PATH = ":/keys/D_key.png";
-QString Resources::IMG_KEY_E_PATH = ":/keys/E_key.png";
-QString Resources::IMG_KEY_F_PATH = ":/keys/F_key.png";
-QString Resources::IMG_KEY_G_PATH = ":/keys/G_key.png";
-QString Resources::IMG_KEY_H_PATH = ":/keys/H_key.png";
-QString Resources::IMG_KEY_I_PATH = ":/keys/I_key.png";
-QString Resources::IMG_KEY_J_PATH = ":/keys/J_key.png";
-QString Resources::IMG_KEY_K_PATH = ":/keys/K_key.png";
-QString Resources::IMG_KEY_L_PATH = ":/keys/L_key.png";
-QString Resources::IMG_KEY_M_PATH = ":/keys/M_key.png";
-QString Resources::IMG_KEY_N_PATH = ":/keys/N_key.png";
-QString Resources::IMG_KEY_O_PATH = ":/keys/O_key.png";
-QString Resources::IMG_KEY_P_PATH = ":/keys/P_key.png";
-QString Resources::IMG_KEY_Q_PATH = ":/keys/Q_key.png";
-QString Resources::IMG_KEY_R_PATH = ":/keys/R_key.png";
-QString Resources::IMG_KEY_S_PATH = ":/keys/S_key.png";
-QString Resources::IMG_KEY_T_PATH = ":/keys/T_key.png";
-QString Resources::IMG_KEY_U_PATH = ":/keys/U_key.png";
-QString Resources::IMG_KEY_V_PATH = ":/keys/V_key.png";
-QString Resources::IMG_KEY_W_PATH = ":/keys/W_key.png";
-QString Resources::IMG_KEY_X_PATH = ":/keys/X_key.png";
-QString Resources::IMG_KEY_Y_PATH = ":/keys/Y_key.png";
-QString Resources::IMG_KEY_Z_PATH = ":/keys/Z_key.png";
+QString Lib::IMG_KEY_0_PATH = ":/keys/0_key.png";
+QString Lib::IMG_KEY_1_PATH = ":/keys/1_key.png";
+QString Lib::IMG_KEY_2_PATH = ":/keys/2_key.png";
+QString Lib::IMG_KEY_3_PATH = ":/keys/3_key.png";
+QString Lib::IMG_KEY_4_PATH = ":/keys/4_key.png";
+QString Lib::IMG_KEY_5_PATH = ":/keys/5_key.png";
+QString Lib::IMG_KEY_6_PATH = ":/keys/6_key.png";
+QString Lib::IMG_KEY_7_PATH = ":/keys/7_key.png";
+QString Lib::IMG_KEY_8_PATH = ":/keys/8_key.png";
+QString Lib::IMG_KEY_9_PATH = ":/keys/9_key.png";
+QString Lib::IMG_KEY_A_PATH = ":/keys/A_key.png";
+QString Lib::IMG_KEY_B_PATH = ":/keys/B_key.png";
+QString Lib::IMG_KEY_C_PATH = ":/keys/C_key.png";
+QString Lib::IMG_KEY_D_PATH = ":/keys/D_key.png";
+QString Lib::IMG_KEY_E_PATH = ":/keys/E_key.png";
+QString Lib::IMG_KEY_F_PATH = ":/keys/F_key.png";
+QString Lib::IMG_KEY_G_PATH = ":/keys/G_key.png";
+QString Lib::IMG_KEY_H_PATH = ":/keys/H_key.png";
+QString Lib::IMG_KEY_I_PATH = ":/keys/I_key.png";
+QString Lib::IMG_KEY_J_PATH = ":/keys/J_key.png";
+QString Lib::IMG_KEY_K_PATH = ":/keys/K_key.png";
+QString Lib::IMG_KEY_L_PATH = ":/keys/L_key.png";
+QString Lib::IMG_KEY_M_PATH = ":/keys/M_key.png";
+QString Lib::IMG_KEY_N_PATH = ":/keys/N_key.png";
+QString Lib::IMG_KEY_O_PATH = ":/keys/O_key.png";
+QString Lib::IMG_KEY_P_PATH = ":/keys/P_key.png";
+QString Lib::IMG_KEY_Q_PATH = ":/keys/Q_key.png";
+QString Lib::IMG_KEY_R_PATH = ":/keys/R_key.png";
+QString Lib::IMG_KEY_S_PATH = ":/keys/S_key.png";
+QString Lib::IMG_KEY_T_PATH = ":/keys/T_key.png";
+QString Lib::IMG_KEY_U_PATH = ":/keys/U_key.png";
+QString Lib::IMG_KEY_V_PATH = ":/keys/V_key.png";
+QString Lib::IMG_KEY_W_PATH = ":/keys/W_key.png";
+QString Lib::IMG_KEY_X_PATH = ":/keys/X_key.png";
+QString Lib::IMG_KEY_Y_PATH = ":/keys/Y_key.png";
+QString Lib::IMG_KEY_Z_PATH = ":/keys/Z_key.png";
 
-QPixmap* Resources::PX_CRACKED_STONE = 0;
-QPixmap* Resources::PX_CRACKED_STONE_INV = 0;
-QPixmap* Resources::PX_PLAY = 0;
-QPixmap* Resources::PX_PAUSE = 0;
-QPixmap* Resources::PX_STOP = 0;
-QPixmap* Resources::PX_SOUND_FILE_DRAG = 0;
-QPixmap* Resources::PX_0_KEY = 0;
-QPixmap* Resources::PX_1_KEY = 0;
-QPixmap* Resources::PX_2_KEY = 0;
-QPixmap* Resources::PX_3_KEY = 0;
-QPixmap* Resources::PX_4_KEY = 0;
-QPixmap* Resources::PX_5_KEY = 0;
-QPixmap* Resources::PX_6_KEY = 0;
-QPixmap* Resources::PX_7_KEY = 0;
-QPixmap* Resources::PX_8_KEY = 0;
-QPixmap* Resources::PX_9_KEY = 0;
-QPixmap* Resources::PX_A_KEY = 0;
-QPixmap* Resources::PX_B_KEY = 0;
-QPixmap* Resources::PX_C_KEY = 0;
-QPixmap* Resources::PX_D_KEY = 0;
-QPixmap* Resources::PX_E_KEY = 0;
-QPixmap* Resources::PX_F_KEY = 0;
-QPixmap* Resources::PX_G_KEY = 0;
-QPixmap* Resources::PX_H_KEY = 0;
-QPixmap* Resources::PX_I_KEY = 0;
-QPixmap* Resources::PX_J_KEY = 0;
-QPixmap* Resources::PX_K_KEY = 0;
-QPixmap* Resources::PX_L_KEY = 0;
-QPixmap* Resources::PX_M_KEY = 0;
-QPixmap* Resources::PX_N_KEY = 0;
-QPixmap* Resources::PX_O_KEY = 0;
-QPixmap* Resources::PX_P_KEY = 0;
-QPixmap* Resources::PX_Q_KEY = 0;
-QPixmap* Resources::PX_R_KEY = 0;
-QPixmap* Resources::PX_S_KEY = 0;
-QPixmap* Resources::PX_T_KEY = 0;
-QPixmap* Resources::PX_U_KEY = 0;
-QPixmap* Resources::PX_V_KEY = 0;
-QPixmap* Resources::PX_W_KEY = 0;
-QPixmap* Resources::PX_X_KEY = 0;
-QPixmap* Resources::PX_Y_KEY = 0;
-QPixmap* Resources::PX_Z_KEY = 0;
+QPixmap* Lib::PX_CRACKED_STONE = 0;
+QPixmap* Lib::PX_CRACKED_STONE_INV = 0;
+QPixmap* Lib::PX_PLAY = 0;
+QPixmap* Lib::PX_PAUSE = 0;
+QPixmap* Lib::PX_STOP = 0;
+QPixmap* Lib::PX_SOUND_FILE_DRAG = 0;
+QPixmap* Lib::PX_0_KEY = 0;
+QPixmap* Lib::PX_1_KEY = 0;
+QPixmap* Lib::PX_2_KEY = 0;
+QPixmap* Lib::PX_3_KEY = 0;
+QPixmap* Lib::PX_4_KEY = 0;
+QPixmap* Lib::PX_5_KEY = 0;
+QPixmap* Lib::PX_6_KEY = 0;
+QPixmap* Lib::PX_7_KEY = 0;
+QPixmap* Lib::PX_8_KEY = 0;
+QPixmap* Lib::PX_9_KEY = 0;
+QPixmap* Lib::PX_A_KEY = 0;
+QPixmap* Lib::PX_B_KEY = 0;
+QPixmap* Lib::PX_C_KEY = 0;
+QPixmap* Lib::PX_D_KEY = 0;
+QPixmap* Lib::PX_E_KEY = 0;
+QPixmap* Lib::PX_F_KEY = 0;
+QPixmap* Lib::PX_G_KEY = 0;
+QPixmap* Lib::PX_H_KEY = 0;
+QPixmap* Lib::PX_I_KEY = 0;
+QPixmap* Lib::PX_J_KEY = 0;
+QPixmap* Lib::PX_K_KEY = 0;
+QPixmap* Lib::PX_L_KEY = 0;
+QPixmap* Lib::PX_M_KEY = 0;
+QPixmap* Lib::PX_N_KEY = 0;
+QPixmap* Lib::PX_O_KEY = 0;
+QPixmap* Lib::PX_P_KEY = 0;
+QPixmap* Lib::PX_Q_KEY = 0;
+QPixmap* Lib::PX_R_KEY = 0;
+QPixmap* Lib::PX_S_KEY = 0;
+QPixmap* Lib::PX_T_KEY = 0;
+QPixmap* Lib::PX_U_KEY = 0;
+QPixmap* Lib::PX_V_KEY = 0;
+QPixmap* Lib::PX_W_KEY = 0;
+QPixmap* Lib::PX_X_KEY = 0;
+QPixmap* Lib::PX_Y_KEY = 0;
+QPixmap* Lib::PX_Z_KEY = 0;
 
 /*
 * STYLE
 */
 //QString Resources::DARK_STYLE = Resources::loadFileToString(":/styles/dark_style.css");
-QString Resources::DARK_STYLE = Resources::loadFileToString("../DsaMediaControlKit/_RES/dark_style.css");
+QString Lib::DARK_STYLE = Lib::loadFileToString("../DsaMediaControlKit/_RES/dark_style.css");
+
+} // namespace Resources

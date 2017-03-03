@@ -17,7 +17,7 @@
 
 
 #include "misc/drop_group_box.h"
-#include "sound_file/resource_importer.h"
+#include "resources/importer.h"
 #include "sound_file/master_view.h"
 #include "db/handler.h"
 #include "category/tree_view.h"
@@ -65,7 +65,7 @@ private:
     Category::TreeView* category_view_;
 
     TwoD::GraphicsView* preset_view_;
-    SoundFile::ResourceImporter* sound_file_importer_;
+    Resources::Importer* sound_file_importer_;
     QSplitter* center_h_splitter_;
     QSplitter* left_v_splitter_;
     QGroupBox* left_box_;

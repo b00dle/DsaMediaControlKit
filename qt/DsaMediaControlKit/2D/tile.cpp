@@ -9,7 +9,7 @@
 #include <QJsonArray>
 #include <QErrorMessage>
 
-#include "resources/resources.h"
+#include "resources/lib.h"
 #include "misc/char_input_dialog.h"
 
 #define OFFSET 10
@@ -480,14 +480,14 @@ const QPixmap Tile::getOverlayPixmap() const
         return *overlay_pixmap_;
 
     if(mode_ == SELECTED)
-        return *Resources::PX_CRACKED_STONE_INV;
+        return *Resources::Lib::PX_CRACKED_STONE_INV;
     else
-        return *Resources::PX_CRACKED_STONE;
+        return *Resources::Lib::PX_CRACKED_STONE;
 }
 
 const QPixmap Tile::getActivatePixmap() const
 {
-    QPixmap* px = Resources::getKeyPixmap(activate_key_);
+    QPixmap* px = Resources::Lib::getKeyPixmap(activate_key_);
     if(px == 0)
         return QPixmap();
     return *px;

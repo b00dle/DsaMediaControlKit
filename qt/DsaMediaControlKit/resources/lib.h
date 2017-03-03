@@ -5,7 +5,9 @@
 #include <QPixmap>
 #include <QMap>
 
-struct Resources
+namespace Resources {
+
+struct Lib
 {
     static void init();
     static void cleanup();
@@ -117,5 +119,7 @@ struct Resources
     */
     static QString DARK_STYLE;
 };
+
+} // namespace Resources
 
 #endif // RESOURCES_H
