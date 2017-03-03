@@ -25,7 +25,7 @@ public:
 
 signals:
     void closed();
-    void saved(Settings* settings);
+    void saved(Playlist::Settings* settings);
     void volumeSettingsChanged(int val);
 
 public slots:

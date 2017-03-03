@@ -285,11 +285,11 @@ void PlaylistPlayerTile::onConfigurePlaylist()
     playlist_settings_widget_->move(QCursor::pos() - QPoint(170,170));
     playlist_settings_widget_->show();
 
-    connect(playlist_settings_widget_, SIGNAL(closed() ),
-            this, SLOT(closePlaylistSettings() ));
+    connect(playlist_settings_widget_, SIGNAL(closed()),
+            this, SLOT(closePlaylistSettings()));
 
-    connect(playlist_settings_widget_, SIGNAL( saved(Settings*) ),
-            this, SLOT(savePlaylistSettings(Settings*) ));
+    connect(playlist_settings_widget_, SIGNAL(saved(Playlist::Settings*)),
+            this, SLOT(savePlaylistSettings(Playlist::Settings*)));
 
     connect(playlist_settings_widget_, SIGNAL(volumeSettingsChanged(int)),
             player_, SLOT(mediaVolumeChanged(int)) );
@@ -327,8 +327,8 @@ void PlaylistPlayerTile::closePlaylistSettings()
     disconnect(playlist_settings_widget_, SIGNAL(closed() ),
             this, SLOT(closePlaylistSettings() ));
 
-    disconnect(playlist_settings_widget_, SIGNAL( saved(Settings*) ),
-            this, SLOT(savePlaylistSettings(Settings*) ));
+    disconnect(playlist_settings_widget_, SIGNAL( saved(Playlist::Settings*) ),
+            this, SLOT(savePlaylistSettings(Playlist::Settings*) ));
 
     playlist_settings_widget_->deleteLater();
 }
@@ -351,8 +351,8 @@ void PlaylistPlayerTile::savePlaylistSettings(Playlist::Settings* settings)
     disconnect(playlist_settings_widget_, SIGNAL(closed() ),
             this, SLOT(closePlaylistSettings() ));
 
-    disconnect(playlist_settings_widget_, SIGNAL( saved(Settings*) ),
-            this, SLOT(savePlaylistSettings(Settings*) ));
+    disconnect(playlist_settings_widget_, SIGNAL( saved(Playlist::Settings*)),
+            this, SLOT(savePlaylistSettings(Playlist::Settings*)));
 
     playlist_settings_widget_->deleteLater();
 }

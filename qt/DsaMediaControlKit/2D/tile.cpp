@@ -8,6 +8,7 @@
 #include <QMenu>
 #include <QJsonArray>
 #include <QErrorMessage>
+#include <cmath>
 
 #include "resources/lib.h"
 #include "misc/char_input_dialog.h"
