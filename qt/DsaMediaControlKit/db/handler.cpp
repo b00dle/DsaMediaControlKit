@@ -97,7 +97,7 @@ void Handler::addSoundFileCategory(int sound_file_id, int category_id)
     api_->insertSoundFileCategory(sound_file_id, category_id);
 }
 
-void Handler::insertSoundFilesAndCategories(const QList<DB::SoundFile>& sound_files)
+void Handler::insertSoundFilesAndCategories(const QList<Resources::SoundFile>& sound_files)
 {
     emit progressChanged(0);
     QCoreApplication::processEvents();
@@ -107,7 +107,7 @@ void Handler::insertSoundFilesAndCategories(const QList<DB::SoundFile>& sound_fi
 
     CategoryRecord* cat = 0;
     int i = 1;
-    foreach(SoundFile sf, sound_files) {                
+    foreach(Resources::SoundFile sf, sound_files) {
         // check if sound_file already imported
         SoundFileRecord* sf_rec = getSoundFileTableModel()->getSoundFileByPath(sf.getFileInfo().filePath());
         if(sf_rec != 0)
@@ -125,7 +125,8 @@ void Handler::insertSoundFilesAndCategories(const QList<DB::SoundFile>& sound_fi
         }
 
         // insert category sound_file relation into db
-        addSoundFileCategory(sf_rec->id, cat->id);
+        if(cat != 0)
+            addSoundFileCategory(sf_rec->id, cat->id);
 
         if(timer.elapsed() > 100) {
             int progress = (int) (i/(float)sound_files.size() * 100);

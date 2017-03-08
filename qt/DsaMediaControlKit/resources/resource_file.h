@@ -1,23 +1,24 @@
-#ifndef DB_SOUND_FILE_H
-#define DB_SOUND_FILE_H
+#ifndef RESOURCES_RESOURCE_FILE_H
+#define RESOURCES_RESOURCE_FILE_H
 
 #include <QFileInfo>
 #include <QStringList>
 
 #include "db/table_records.h"
 
-namespace DB {
-
+namespace Resources {
 
 /*
- * Class encapsulating a loaded sound file ressource.
+ * Abstract Class encapsulating a loaded resource file.
  * Can compute a category tree path based on relative folder structure.
- * Used mainly as a data transfer object.
+ * Used as base class for
+ * SoundFile (see sound_file.h) and ImageFile (see image_file.h).
 */
-class SoundFile
+class ResourceFile
 {
 public:
-    SoundFile(QFileInfo const&, ResourceDirRecord const&);
+    ResourceFile(QFileInfo const&, DB::ResourceDirRecord const&);
+    virtual ~ResourceFile();
 
     /*
      * Gets the category tree path of this instance.
@@ -30,9 +31,12 @@ public:
     QFileInfo const& getFileInfo() const;
 
     /* Gets the resource directory of this instace. */
-    ResourceDirRecord const& getResourceDir() const;
+    DB::ResourceDirRecord const& getResourceDir() const;
 
-private:
+    /* Pure virtual function to retrieve table index of this instance. */
+    virtual DB::TableIndex getTableIndex() = 0;
+
+protected:
     /*
      * Determines the category tree path based on
      * relative folder structure the file resides in.
@@ -43,9 +47,9 @@ private:
 
     QFileInfo file_info_;
     QStringList category_path_;
-    ResourceDirRecord resource_dir_;
+    DB::ResourceDirRecord resource_dir_;
 };
 
 } // namespace DB
 
-#endif // DB_SOUND_FILE_H
+#endif // RESOURCES_RESOURCE_FILE_H

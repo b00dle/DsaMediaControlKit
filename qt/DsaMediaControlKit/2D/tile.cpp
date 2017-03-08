@@ -7,8 +7,10 @@
 #include <QGraphicsPixmapItem>
 #include <QMenu>
 #include <QJsonArray>
+#include <QErrorMessage>
+#include <cmath>
 
-#include "resources/resources.h"
+#include "resources/lib.h"
 #include "misc/char_input_dialog.h"
 
 #define OFFSET 10
@@ -26,6 +28,8 @@ Tile::Tile(QGraphicsItem* parent)
     , context_menu_(0)
     , activate_action_(0)
     , activate_key_(' ')
+    , overlay_pixmap_(0)
+    , overlay_pixmap_path_()
 {    
     long_click_timer_ = new QTimer(this);
     connect(long_click_timer_, SIGNAL(timeout()),
@@ -45,6 +49,7 @@ Tile::Tile(QGraphicsItem* parent)
 Tile::~Tile()
 {
     context_menu_->deleteLater();
+    clearOverlayPixmap();
 }
 
 void Tile::init()
@@ -196,6 +201,38 @@ bool Tile::setFromJsonObject(const QJsonObject &obj)
     }
 
     return true;
+}
+
+void Tile::loadOverlayPixmap(const QString &file_path)
+{
+    if(file_path.compare(overlay_pixmap_path_) == 0)
+        return;
+
+    QPixmap* p = new QPixmap(file_path);
+    if(!p->isNull()) {
+        clearOverlayPixmap();
+        overlay_pixmap_ = p;
+        overlay_pixmap_path_ = file_path;
+    }
+    else {
+        QErrorMessage e;
+        e.showMessage(tr("Could not create Image from given File. Please check given path:\n") + file_path);
+        delete p;
+    }
+}
+
+const QString &Tile::getOverlayPixmapPath() const
+{
+    return overlay_pixmap_path_;
+}
+
+void Tile::clearOverlayPixmap()
+{
+    if(overlay_pixmap_ != 0) {
+        delete overlay_pixmap_;
+        overlay_pixmap_ = 0;
+        overlay_pixmap_path_.clear();
+    }
 }
 
 void Tile::onActivate()
@@ -446,15 +483,18 @@ const QBrush Tile::getBackgroundBrush() const
 
 const QPixmap Tile::getOverlayPixmap() const
 {
+    if (overlay_pixmap_ != 0)
+        return *overlay_pixmap_;
+
     if(mode_ == SELECTED)
-        return *Resources::PX_CRACKED_STONE_INV;
+        return *Resources::Lib::PX_CRACKED_STONE_INV;
     else
-        return *Resources::PX_CRACKED_STONE;
+        return *Resources::Lib::PX_CRACKED_STONE;
 }
 
 const QPixmap Tile::getActivatePixmap() const
 {
-    QPixmap* px = Resources::getKeyPixmap(activate_key_);
+    QPixmap* px = Resources::Lib::getKeyPixmap(activate_key_);
     if(px == 0)
         return QPixmap();
     return *px;

@@ -11,8 +11,8 @@ QDialog {
    color: white;
 }
 
-QLabel {
-   color: white;
+QWidget:disabled {
+    color: rgba(255, 255, 255, 100);
 }
 
 QWidget#PlaylistSettingsWidget {
@@ -67,6 +67,10 @@ QRadioButton {
 
 QLabel {
     color: white;
+}
+
+QLabel:disabled {
+    color: rgba(255, 255, 255, 100);
 }
 
 QTreeView {
@@ -157,4 +161,14 @@ QMenu {
 
 QMenu::item:selected {
     background: rgba(50, 152, 253, 80);
+}
+
+QSlider::groove:disabled {
+    color: rgba(0, 0, 0, 0);
+
+}
+
+QSlider::handle:disabled {
+    background: rgba(0, 0, 0, 0);
+
 }

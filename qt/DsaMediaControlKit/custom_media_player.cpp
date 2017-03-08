@@ -18,7 +18,7 @@ CustomMediaPlayer::CustomMediaPlayer(QObject* parent)
 void CustomMediaPlayer::play()
 {
 
-    Playlist::Playlist* playlist = getCustomPlaylist();
+    Playlist::MediaPlaylist* playlist = getCustomPlaylist();
     if(playlist){
         Playlist::Settings* settings = playlist->getSettings();
 
@@ -63,7 +63,7 @@ void CustomMediaPlayer::play()
     }
 }
 
-void CustomMediaPlayer::setPlaylist(Playlist::Playlist *playlist)
+void CustomMediaPlayer::setPlaylist(Playlist::MediaPlaylist *playlist)
 {
     connect(playlist, SIGNAL(currentIndexChanged(int)),
             this, SLOT(currentMediaIndexChanged(int)) );
@@ -145,10 +145,10 @@ void CustomMediaPlayer::mediaVolumeChanged(int val)
 }
 
 
-Playlist::Playlist *CustomMediaPlayer::getCustomPlaylist() const
+Playlist::MediaPlaylist *CustomMediaPlayer::getCustomPlaylist() const
 {
 
-    Playlist::Playlist* pl = qobject_cast<Playlist::Playlist*>( playlist() );
+    Playlist::MediaPlaylist* pl = qobject_cast<Playlist::MediaPlaylist*>( playlist() );
     if(pl){
         return pl;
     } else {

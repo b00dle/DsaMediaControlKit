@@ -1,5 +1,5 @@
-#ifndef SOUND_FILE_PATH_FIXER_H
-#define SOUND_FILE_PATH_FIXER_H
+#ifndef RESOURCES_PATH_FIXER_H
+#define RESOURCES_PATH_FIXER_H
 
 #include <QObject>
 #include <QList>
@@ -7,7 +7,7 @@
 #include "db/handler.h"
 #include "db/table_records.h"
 
-namespace SoundFile {
+namespace Resources {
 
 class PathFixer : public QObject
 {
@@ -26,6 +26,6 @@ private:
     DB::Handler* handler_;
 };
 
-} // namespace SoundFile
+} // namespace Resources
 
-#endif // SOUND_FILE_PATH_FIXER_H
+#endif // RESOURCES_PATH_FIXER_H

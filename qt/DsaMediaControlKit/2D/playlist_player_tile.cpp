@@ -1,5 +1,5 @@
 #include "playlist_player_tile.h"
-#include "resources/resources.h"
+#include "resources/lib.h"
 
 #include <QGraphicsScene>
 #include <QDebug>
@@ -7,8 +7,6 @@
 #include <QJsonArray>
 
 #include "sound_file/list_view_dialog.h"
-
-using namespace Playlist;
 
 namespace TwoD {
 
@@ -30,7 +28,7 @@ PlaylistPlayerTile::PlaylistPlayerTile(QGraphicsItem *parent)
     connect(player_, SIGNAL(toggledPlayerActivation(bool)),
             this, SLOT(changedCustomPlayerActivation(bool)) );
 
-    playlist_ = new Playlist::Playlist("Playlist");
+    playlist_ = new Playlist::MediaPlaylist("Playlist");
     player_->setPlaylist(playlist_);
     setAcceptDrops(true);
 }
@@ -313,11 +311,11 @@ void PlaylistPlayerTile::onConfigurePlaylist()
     playlist_settings_widget_->move(QCursor::pos() - QPoint(170,170));
     playlist_settings_widget_->show();
 
-    connect(playlist_settings_widget_, SIGNAL(closed() ),
-            this, SLOT(closePlaylistSettings() ));
+    connect(playlist_settings_widget_, SIGNAL(closed()),
+            this, SLOT(closePlaylistSettings()));
 
-    connect(playlist_settings_widget_, SIGNAL( saved(Settings*) ),
-            this, SLOT(savePlaylistSettings(Settings*) ));
+    connect(playlist_settings_widget_, SIGNAL(saved(Playlist::Settings*)),
+            this, SLOT(savePlaylistSettings(Playlist::Settings*)));
 
     connect(playlist_settings_widget_, SIGNAL(volumeSettingsChanged(int)),
             player_, SLOT(mediaVolumeChanged(int)) );
@@ -355,16 +353,21 @@ void PlaylistPlayerTile::closePlaylistSettings()
     disconnect(playlist_settings_widget_, SIGNAL(closed() ),
             this, SLOT(closePlaylistSettings() ));
 
-    disconnect(playlist_settings_widget_, SIGNAL( saved(Settings*) ),
-            this, SLOT(savePlaylistSettings(Settings*) ));
+    disconnect(playlist_settings_widget_, SIGNAL( saved(Playlist::Settings*) ),
+            this, SLOT(savePlaylistSettings(Playlist::Settings*) ));
+
     playlist_settings_widget_->deleteLater();
 }
 
-void PlaylistPlayerTile::savePlaylistSettings(Settings* settings)
+void PlaylistPlayerTile::savePlaylistSettings(Playlist::Settings* settings)
 {
     if(settings->name.size() > 0 && name_.compare(settings->name) != 0)
         setName(settings->name);
-    qDebug() << "saved";
+    if(settings->image_path.size() > 0)
+        loadOverlayPixmap(settings->image_path);
+    else
+        clearOverlayPixmap();
+
     playlist_->setSettings(settings);
     playlist_settings_widget_->hide();
 
@@ -374,8 +377,9 @@ void PlaylistPlayerTile::savePlaylistSettings(Settings* settings)
     disconnect(playlist_settings_widget_, SIGNAL(closed() ),
             this, SLOT(closePlaylistSettings() ));
 
-    disconnect(playlist_settings_widget_, SIGNAL( saved(Settings*) ),
-            this, SLOT(savePlaylistSettings(Settings*) ));
+    disconnect(playlist_settings_widget_, SIGNAL( saved(Playlist::Settings*)),
+            this, SLOT(savePlaylistSettings(Playlist::Settings*)));
+
     playlist_settings_widget_->deleteLater();
 }
 
@@ -402,9 +406,9 @@ void PlaylistPlayerTile::createContextMenu()
 const QPixmap PlaylistPlayerTile::getPlayStatePixmap() const
 {
     if(is_playing_)
-        return *Resources::PX_STOP;
+        return *Resources::Lib::PX_STOP;
     else
-        return *Resources::PX_PLAY;
+        return *Resources::Lib::PX_PLAY;
 }
 
 } // namespace TwoD

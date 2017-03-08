@@ -2,7 +2,7 @@
 
 #include <QFileInfo>
 
-namespace SoundFile {
+namespace Resources {
 
 PathFixer::PathFixer(DB::Handler* handler, QObject *parent)
     : QObject(parent)

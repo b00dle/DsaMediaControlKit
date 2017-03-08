@@ -1,6 +1,7 @@
 *.Debug
 *.Release
 *.db
+dsamediacontrolkit.db
 
 *.o
 *.exe

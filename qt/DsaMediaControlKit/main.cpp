@@ -3,21 +3,21 @@
 #include <QApplication>
 #include <QDebug>
 #include <QTimer>
-#include "resources/resources.h"
+#include "resources/lib.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    Resources::init();
-    a.setStyleSheet(Resources::DARK_STYLE);
+    Resources::Lib::init();
+    a.setStyleSheet(Resources::Lib::DARK_STYLE);
 
     MainWindow w;
     w.showMaximized();
 
     int ret_code = a.exec();
 
-    Resources::cleanup();
+    Resources::Lib::cleanup();
 
     return ret_code;
 }

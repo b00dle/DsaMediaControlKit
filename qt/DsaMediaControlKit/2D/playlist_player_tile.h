@@ -9,17 +9,15 @@
 #include "custom_media_player.h"
 #include "tile.h"
 #include "playlist/settings_widget.h"
-#include "playlist/playlist.h"
+#include "playlist/media_playlist.h"
 #include "playlist/settings.h"
 #include "misc/json_mime_data_parser.h"
 #include "db/model/sound_file_table_model.h"
 
-using namespace Playlist;
-
 namespace TwoD {
 
-    class PlaylistPlayerTile : public Tile
-    {
+class PlaylistPlayerTile : public Tile
+{
     Q_OBJECT
 
 public:
@@ -72,7 +70,7 @@ protected slots:
     virtual void onConfigurePlaylist();
     /* */
     void closePlaylistSettings();
-    void savePlaylistSettings(Settings* settings);
+    void savePlaylistSettings(Playlist::Settings* settings);
 
     /** slot to open contents view */
     virtual void onContents();
@@ -96,7 +94,7 @@ protected:
     CustomMediaPlayer* player_;
 
     Playlist::SettingsWidget* playlist_settings_widget_;
-    Playlist::Playlist* playlist_;
+    Playlist::MediaPlaylist* playlist_;
     DB::Model::SoundFileTableModel* model_;
 
     bool is_playing_;

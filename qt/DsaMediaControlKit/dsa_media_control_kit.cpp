@@ -8,7 +8,7 @@
 #include <QMessageBox>
 
 #include "db/core/api.h"
-#include "resources/resources.h"
+#include "resources/lib.h"
 #include "misc/json_mime_data_parser.h"
 
 DsaMediaControlKit::DsaMediaControlKit(QWidget *parent)
@@ -151,7 +151,7 @@ void DsaMediaControlKit::initWidgets()
     preset_view_ = new TwoD::GraphicsView(this);
     preset_view_->setSoundFileModel(db_handler_->getSoundFileTableModel());
 
-    sound_file_importer_ = new SoundFile::ResourceImporter(
+    sound_file_importer_ = new Resources::Importer(
         db_handler_->getResourceDirTableModel(),
         this
     );
@@ -175,8 +175,8 @@ void DsaMediaControlKit::initWidgets()
     center_h_splitter_->setStretchFactor(0, 0);
     center_h_splitter_->setStretchFactor(1, 10);
 
-    connect(sound_file_importer_, SIGNAL(folderImported(QList<DB::SoundFile> const&)),
-            db_handler_, SLOT(insertSoundFilesAndCategories(QList<DB::SoundFile> const&)));
+    connect(sound_file_importer_, SIGNAL(folderImported(QList<Resources::SoundFile> const&)),
+            db_handler_, SLOT(insertSoundFilesAndCategories(QList<Resources::SoundFile> const&)));
     connect(sound_file_importer_, SIGNAL(folderImported()),
             category_view_, SLOT(selectRoot()));
     connect(db_handler_, SIGNAL(progressChanged(int)),
@@ -253,6 +253,6 @@ void DsaMediaControlKit::initMenu()
 
 void DsaMediaControlKit::initDB()
 {
-    DB::Core::Api* db_api = new DB::Core::Api(Resources::DATABASE_PATH, this);
+    DB::Core::Api* db_api = new DB::Core::Api(Resources::Lib::DATABASE_PATH, this);
     db_handler_ = new DB::Handler(db_api, this);
 }
