@@ -24,6 +24,9 @@ PlaylistPlayerTile::PlaylistPlayerTile(QGraphicsItem *parent)
     //connect(player_, SIGNAL(stateChanged(QMediaPlayer::State)),
     //        this, SLOT(changePlayerState(QMediaPlayer::State)));
 
+    connect(this, SIGNAL(wheelChangedVolume(int)),
+            player_, SLOT(mediaVolumeChanged(int)) );
+
     connect(player_, SIGNAL(toggledPlayerActivation(bool)),
             this, SLOT(changedCustomPlayerActivation(bool)) );
 
@@ -93,6 +96,29 @@ void PlaylistPlayerTile::receiveExternalData(const QMimeData *data)
         delete records[0];
         records.pop_front();
     }
+}
+
+void PlaylistPlayerTile::receiveWheelEvent(QWheelEvent *event)
+{
+     Playlist::Playlist* pl = player_->getCustomPlaylist();
+     Playlist::Settings* settings = pl->getSettings();
+     int volume = settings->volume;
+     if (event->delta() < 0){
+
+         volume -= 3;
+         if (volume < 0){
+             volume = 0;
+         }
+     } else if(event->delta() >= 0){
+         volume += 3;
+         if (volume > 100){
+             volume = 100;
+         }
+     }
+     settings->volume = volume;
+     if (pl->setSettings(settings)){
+        wheelChangedVolume(volume);
+     }
 }
 
 bool PlaylistPlayerTile::addMedia(int record_id)

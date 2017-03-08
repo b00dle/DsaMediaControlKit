@@ -135,6 +135,11 @@ public:
     virtual void receiveExternalData(const QMimeData* data);
 
     /**
+     * Hand wheelevent from the graphicsview to the tile
+    */
+    virtual void receiveWheelEvent(QWheelEvent *event);
+
+    /**
      * Returns a QJsonObject holding all information about the tile
     */
     virtual const QJsonObject toJsonObject() const;

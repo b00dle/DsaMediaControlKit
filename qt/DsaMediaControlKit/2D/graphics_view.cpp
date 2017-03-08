@@ -235,6 +235,29 @@ void GraphicsView::keyReleaseEvent(QKeyEvent *event)
     }
 }
 
+void GraphicsView::wheelEvent(QWheelEvent *event)
+{
+    if(!scene())
+        return;
+
+    QPointF p(mapToScene(event->pos()));
+
+    foreach(QGraphicsItem* item, scene()->items()){
+        if (item->contains(item->mapFromScene(p))){
+            QObject *selected_object = dynamic_cast<QObject*>(item);
+            if(selected_object)
+            {
+                Tile* t = qobject_cast<Tile*>(selected_object);
+                if(t){
+                    t->receiveWheelEvent(event);
+                    return;
+                }
+            }
+        }
+    }
+    QGraphicsView::wheelEvent(event);
+}
+
 void GraphicsView::clearTiles()
 {
     foreach(QGraphicsItem* it, scene()->items()) {

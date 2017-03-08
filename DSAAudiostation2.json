@@ -1,0 +1,1023 @@
+{
+    "scene": {
+        "scene_rect": {
+            "height": 976,
+            "width": 1534,
+            "x": 0,
+            "y": 0
+        },
+        "tiles": [
+            {
+                "data": {
+                    "name": "Sherlock Holmes Soundtrack2009 The Rocky Road to D (2014_04_11 12_39_17 UTC).mp3",
+                    "playlist": [
+                        {
+                            "id": 2721,
+                            "name": "Sherlock Holmes Soundtrack2009 The Rocky Road to D (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Sherlock Holmes Soundtrack2009 The Rocky Road to D (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/Sherlock Holmes Soundtrack2009 The Rocky Road to D (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        675,
+                        511
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Settings",
+                        "order": 0,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "raunen-monster-gruselig03.mp3",
+                    "playlist": [
+                        {
+                            "id": 2509,
+                            "name": "raunen-monster-gruselig03.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Ambiente/Umgebungen/Gruselig/raunen-monster-gruselig03.mp3",
+                            "relative_path": "/Ambiente/Umgebungen/Gruselig/raunen-monster-gruselig03.mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        354,
+                        693
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Settings",
+                        "order": 0,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "kerker-böse2.mp3",
+                    "playlist": [
+                        {
+                            "id": 2500,
+                            "name": "kerker-böse2.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Ambiente/Umgebungen/Gruselig/kerker-böse2.mp3",
+                            "relative_path": "/Ambiente/Umgebungen/Gruselig/kerker-böse2.mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        242,
+                        369
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Settings",
+                        "order": 0,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "grab-flüstern2.mp3",
+                    "playlist": [
+                        {
+                            "id": 2498,
+                            "name": "grab-flüstern2.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Ambiente/Umgebungen/Gruselig/grab-flüstern2.mp3",
+                            "relative_path": "/Ambiente/Umgebungen/Gruselig/grab-flüstern2.mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        910,
+                        827
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Settings",
+                        "order": 0,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "wind-ebene.mp3",
+                    "playlist": [
+                        {
+                            "id": 2523,
+                            "name": "wind-ebene.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Ambiente/Umgebungen/Wetter/wind-ebene.mp3",
+                            "relative_path": "/Ambiente/Umgebungen/Wetter/wind-ebene.mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        978,
+                        143
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Settings",
+                        "order": 0,
+                        "volume": 82
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "regen-leicht02.mp3",
+                    "playlist": [
+                        {
+                            "id": 2521,
+                            "name": "regen-leicht02.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Ambiente/Umgebungen/Wetter/regen-leicht02.mp3",
+                            "relative_path": "/Ambiente/Umgebungen/Wetter/regen-leicht02.mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        1296,
+                        728
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Settings",
+                        "order": 0,
+                        "volume": 70
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "donner.mp3",
+                    "playlist": [
+                        {
+                            "id": 2477,
+                            "name": "donner.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Ambiente/Geräusche/Wetter/donner.mp3",
+                            "relative_path": "/Ambiente/Geräusche/Wetter/donner.mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        1317,
+                        71
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "",
+                        "order": 1,
+                        "volume": 91
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "13-An Ominous Place (2014_04_11 12_39_17 UTC).mp3",
+                    "playlist": [
+                        {
+                            "id": 2657,
+                            "name": "13-An Ominous Place (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Spannend/13-An Ominous Place (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Spannend/13-An Ominous Place (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2671,
+                            "name": "05-Dead City (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Spannend/05-Dead City (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Spannend/05-Dead City (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        366,
+                        812
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Settings",
+                        "order": 0,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "regen-donnern.mp3",
+                    "playlist": [
+                        {
+                            "id": 2519,
+                            "name": "regen-donnern.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Ambiente/Umgebungen/Wetter/regen-donnern.mp3",
+                            "relative_path": "/Ambiente/Umgebungen/Wetter/regen-donnern.mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        812,
+                        292
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Settings",
+                        "order": 0,
+                        "volume": 79
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "gegröhle-hafen04.mp3",
+                    "playlist": [
+                        {
+                            "id": 2491,
+                            "name": "gegröhle-hafen04.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Ambiente/Umgebungen/Stadt/gegröhle-hafen04.mp3",
+                            "relative_path": "/Ambiente/Umgebungen/Stadt/gegröhle-hafen04.mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        1136,
+                        265
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Settings",
+                        "order": 0,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "gegröhle-hafen01.mp3",
+                    "playlist": [
+                        {
+                            "id": 2484,
+                            "name": "gegröhle-hafen01.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Ambiente/Umgebungen/Stadt/gegröhle-hafen01.mp3",
+                            "relative_path": "/Ambiente/Umgebungen/Stadt/gegröhle-hafen01.mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        1125,
+                        440
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Settings",
+                        "order": 0,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "04-snowy-mountains.mp3",
+                    "playlist": [
+                        {
+                            "id": 2682,
+                            "name": "04-snowy-mountains.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Spannend/04-snowy-mountains.mp3",
+                            "relative_path": "/Spannend/04-snowy-mountains.mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        793,
+                        513
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Settings",
+                        "order": 0,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "09-The Princess Striga (2014_04_11 12_39_17 UTC).mp3",
+                    "playlist": [
+                        {
+                            "id": 2677,
+                            "name": "09-The Princess Striga (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Spannend/09-The Princess Striga (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Spannend/09-The Princess Striga (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        556,
+                        672
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Settings",
+                        "order": 0,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "Stadt",
+                    "playlist": [
+                        {
+                            "id": 2190,
+                            "name": "06. Docks Day Theme.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/06. Docks Day Theme.mp3",
+                            "relative_path": "/Stadt/06. Docks Day Theme.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2191,
+                            "name": "23. Rural Day Theme 2.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/23. Rural Day Theme 2.mp3",
+                            "relative_path": "/Stadt/23. Rural Day Theme 2.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2192,
+                            "name": "07-the-harbor-city-at-night.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/07-the-harbor-city-at-night.mp3",
+                            "relative_path": "/Stadt/07-the-harbor-city-at-night.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2194,
+                            "name": "04-old-camp.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/04-old-camp.mp3",
+                            "relative_path": "/Stadt/04-old-camp.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2196,
+                            "name": "17. Market Theme.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/17. Market Theme.mp3",
+                            "relative_path": "/Stadt/17. Market Theme.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2197,
+                            "name": "02-the-slums.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/02-the-slums.mp3",
+                            "relative_path": "/Stadt/02-the-slums.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2199,
+                            "name": "Jeremy Soule-Day in City Docks (OST Neverwinter Nights 2) (www.myfreemp3.cc).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/Jeremy Soule-Day in City Docks (OST Neverwinter Nights 2) (www.myfreemp3.cc).mp3",
+                            "relative_path": "/Stadt/Jeremy Soule-Day in City Docks (OST Neverwinter Nights 2) (www.myfreemp3.cc).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2200,
+                            "name": "06-the-harbor-city.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/06-the-harbor-city.mp3",
+                            "relative_path": "/Stadt/06-the-harbor-city.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2201,
+                            "name": "21. Noble Theme.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/21. Noble Theme.mp3",
+                            "relative_path": "/Stadt/21. Noble Theme.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2202,
+                            "name": "Erdenstern - 02 - The City (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/Erdenstern - 02 - The City (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Stadt/Erdenstern - 02 - The City (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2203,
+                            "name": "camelot.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/camelot.mp3",
+                            "relative_path": "/Stadt/camelot.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2206,
+                            "name": "03. City Night Theme.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/03. City Night Theme.mp3",
+                            "relative_path": "/Stadt/03. City Night Theme.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2208,
+                            "name": "02. Castle Theme.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/02. Castle Theme.mp3",
+                            "relative_path": "/Stadt/02. Castle Theme.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2211,
+                            "name": "07. Docks Night Theme.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Stadt/07. Docks Night Theme.mp3",
+                            "relative_path": "/Stadt/07. Docks Night Theme.mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        42,
+                        64
+                    ],
+                    "settings": {
+                        "interval_flag": true,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Stadt",
+                        "order": 1,
+                        "volume": 46
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "Taverne Fröhlich",
+                    "playlist": [
+                        {
+                            "id": 2700,
+                            "name": "Tavern3.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Tavern3.mp3",
+                            "relative_path": "/Taverne/Tavern3.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2689,
+                            "name": "11-Evening in the Tavern.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/11-Evening in the Tavern.mp3",
+                            "relative_path": "/Taverne/11-Evening in the Tavern.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2701,
+                            "name": "Tavern1.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Tavern1.mp3",
+                            "relative_path": "/Taverne/Tavern1.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2702,
+                            "name": "DSA Taverne (freundlich) (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/DSA Taverne (freundlich) (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/DSA Taverne (freundlich) (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2703,
+                            "name": "22-hymne-des-sturms.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/22-hymne-des-sturms.mp3",
+                            "relative_path": "/Taverne/22-hymne-des-sturms.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2712,
+                            "name": "HarpsichordTune.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/HarpsichordTune.mp3",
+                            "relative_path": "/Taverne/HarpsichordTune.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2713,
+                            "name": "02-Bilbos Song.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/02-Bilbos Song.mp3",
+                            "relative_path": "/Taverne/02-Bilbos Song.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2716,
+                            "name": "23-tavern.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/23-tavern.mp3",
+                            "relative_path": "/Taverne/23-tavern.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2717,
+                            "name": "SeaShanty.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/SeaShanty.mp3",
+                            "relative_path": "/Taverne/SeaShanty.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2720,
+                            "name": "DSA Taverne (traurig) (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/DSA Taverne (traurig) (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/DSA Taverne (traurig) (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2722,
+                            "name": "12-Peaceful Moments.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/12-Peaceful Moments.mp3",
+                            "relative_path": "/Taverne/12-Peaceful Moments.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2723,
+                            "name": "DSA Taverne (ruhig) (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/DSA Taverne (ruhig) (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/DSA Taverne (ruhig) (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        556,
+                        68
+                    ],
+                    "settings": {
+                        "interval_flag": true,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "",
+                        "order": 1,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "Taverne ruhig",
+                    "playlist": [
+                        {
+                            "id": 2707,
+                            "name": "04-melancholy.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/04-melancholy.mp3",
+                            "relative_path": "/Taverne/04-melancholy.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2687,
+                            "name": "Tavern2.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Tavern2.mp3",
+                            "relative_path": "/Taverne/Tavern2.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2690,
+                            "name": "LighthouseTheme.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/LighthouseTheme.mp3",
+                            "relative_path": "/Taverne/LighthouseTheme.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2693,
+                            "name": "Erdenstern - 03 - The Tavern (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Erdenstern - 03 - The Tavern (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/Erdenstern - 03 - The Tavern (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2693,
+                            "name": "Erdenstern - 03 - The Tavern (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Erdenstern - 03 - The Tavern (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/Erdenstern - 03 - The Tavern (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2695,
+                            "name": "Jeremy Soule- Tavern Swordcoast (vox) (Neverwinter Nights 2 - Storm of Zehir OST) (www.myfreemp3.cc).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Jeremy Soule- Tavern Swordcoast (vox) (Neverwinter Nights 2 - Storm of Zehir OST) (www.myfreemp3.cc).mp3",
+                            "relative_path": "/Taverne/Jeremy Soule- Tavern Swordcoast (vox) (Neverwinter Nights 2 - Storm of Zehir OST) (www.myfreemp3.cc).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2696,
+                            "name": "Jeremy Soule-Day in City Docks (OST Neverwinter Nights 2) (www.myfreemp3.cc).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Jeremy Soule-Day in City Docks (OST Neverwinter Nights 2) (www.myfreemp3.cc).mp3",
+                            "relative_path": "/Taverne/Jeremy Soule-Day in City Docks (OST Neverwinter Nights 2) (www.myfreemp3.cc).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2697,
+                            "name": "07-pirats-camp.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/07-pirats-camp.mp3",
+                            "relative_path": "/Taverne/07-pirats-camp.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2699,
+                            "name": "22-finally-home.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/22-finally-home.mp3",
+                            "relative_path": "/Taverne/22-finally-home.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2704,
+                            "name": "Camping.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Camping.mp3",
+                            "relative_path": "/Taverne/Camping.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2706,
+                            "name": "Erdenstern - 07 - Lore (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Erdenstern - 07 - Lore (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/Erdenstern - 07 - Lore (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2708,
+                            "name": "Resistance.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Resistance.mp3",
+                            "relative_path": "/Taverne/Resistance.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2710,
+                            "name": "CharacterCreation.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/CharacterCreation.mp3",
+                            "relative_path": "/Taverne/CharacterCreation.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2714,
+                            "name": "Stones.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Stones.mp3",
+                            "relative_path": "/Taverne/Stones.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2715,
+                            "name": "DreamOfLadyNann.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/DreamOfLadyNann.mp3",
+                            "relative_path": "/Taverne/DreamOfLadyNann.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2718,
+                            "name": "DSA Taverne (Laute) (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/DSA Taverne (Laute) (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/DSA Taverne (Laute) (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        412,
+                        66
+                    ],
+                    "settings": {
+                        "interval_flag": true,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "",
+                        "order": 1,
+                        "volume": 70
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "Taverne Stimmung",
+                    "playlist": [
+                        {
+                            "id": 2698,
+                            "name": "DSA Taverne (Stimmung) (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/DSA Taverne (Stimmung) (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/DSA Taverne (Stimmung) (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2688,
+                            "name": "02-pirate-bar.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/02-pirate-bar.mp3",
+                            "relative_path": "/Taverne/02-pirate-bar.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2705,
+                            "name": "22-Catch Me If You Can (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/22-Catch Me If You Can (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/22-Catch Me If You Can (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2709,
+                            "name": "02. die streuner - halunken.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/02. die streuner - halunken.mp3",
+                            "relative_path": "/Taverne/02. die streuner - halunken.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2711,
+                            "name": "04. die streuner - ein hoch dem bader (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/04. die streuner - ein hoch dem bader (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/04. die streuner - ein hoch dem bader (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 2721,
+                            "name": "Sherlock Holmes Soundtrack2009 The Rocky Road to D (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Sherlock Holmes Soundtrack2009 The Rocky Road to D (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/Sherlock Holmes Soundtrack2009 The Rocky Road to D (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        719,
+                        66
+                    ],
+                    "settings": {
+                        "interval_flag": true,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Taverne Stimmung",
+                        "order": 0,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "03. The Slaughtered Pony.mp3",
+                    "playlist": [
+                        {
+                            "id": 2393,
+                            "name": "03. The Slaughtered Pony.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Düster + Gruselig/03. The Slaughtered Pony.mp3",
+                            "relative_path": "/Düster + Gruselig/03. The Slaughtered Pony.mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        76,
+                        741
+                    ],
+                    "settings": {
+                        "interval_flag": true,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Settings",
+                        "order": 0,
+                        "volume": 49
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "stimmengewirr-1.wav",
+                    "playlist": [
+                        {
+                            "id": 2554,
+                            "name": "stimmengewirr-1.wav",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Ambiente/Umgebungen/Stimmen/stimmengewirr-1.wav",
+                            "relative_path": "/Ambiente/Umgebungen/Stimmen/stimmengewirr-1.wav",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        408,
+                        205
+                    ],
+                    "settings": {
+                        "interval_flag": true,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "",
+                        "order": 0,
+                        "volume": 76
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "stimmengewirr-2.wav",
+                    "playlist": [
+                        {
+                            "id": 2552,
+                            "name": "stimmengewirr-2.wav",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Ambiente/Umgebungen/Stimmen/stimmengewirr-2.wav",
+                            "relative_path": "/Ambiente/Umgebungen/Stimmen/stimmengewirr-2.wav",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        552,
+                        206
+                    ],
+                    "settings": {
+                        "interval_flag": true,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "",
+                        "order": 0,
+                        "volume": 67
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "Ruhig",
+                    "playlist": [
+                        {
+                            "id": 2375,
+                            "name": "Bjorn Lynne-Siege of Avalon - 2 - dark - The Old Tower.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Ruhig/Bjorn Lynne-Siege of Avalon - 2 - dark - The Old Tower.mp3",
+                            "relative_path": "/Ruhig/Bjorn Lynne-Siege of Avalon - 2 - dark - The Old Tower.mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        46,
+                        185
+                    ],
+                    "settings": {
+                        "interval_flag": true,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Ruhig",
+                        "order": 1,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "Reise",
+                    "playlist": [
+                        {
+                            "id": 2316,
+                            "name": "02 - Caravan Route (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Reise/02 - Caravan Route (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Reise/02 - Caravan Route (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        42,
+                        306
+                    ],
+                    "settings": {
+                        "interval_flag": true,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Reise",
+                        "order": 1,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "markt01.mp3",
+                    "playlist": [
+                        {
+                            "id": 2485,
+                            "name": "markt01.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Ambiente/Umgebungen/Stadt/markt01.mp3",
+                            "relative_path": "/Ambiente/Umgebungen/Stadt/markt01.mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        469,
+                        432
+                    ],
+                    "settings": {
+                        "interval_flag": true,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Settings",
+                        "order": 0,
+                        "volume": 82
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "markt-rufe.mp3",
+                    "playlist": [
+                        {
+                            "id": 2488,
+                            "name": "markt-rufe.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Ambiente/Umgebungen/Stadt/markt-rufe.mp3",
+                            "relative_path": "/Ambiente/Umgebungen/Stadt/markt-rufe.mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        239,
+                        487
+                    ],
+                    "settings": {
+                        "interval_flag": true,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Settings",
+                        "order": 0,
+                        "volume": 85
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            }
+        ]
+    }
+}

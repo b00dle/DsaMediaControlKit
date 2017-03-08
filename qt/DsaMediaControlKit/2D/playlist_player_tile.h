@@ -30,6 +30,11 @@ public:
 
     virtual void receiveExternalData(const QMimeData* data);
 
+    /**
+     * Hand wheelevent from the graphicsview to the tile
+    */
+    virtual void receiveWheelEvent(QWheelEvent *event);
+
     bool addMedia(const DB::SoundFileRecord& r);
     bool addMedia(int record_id);
 
@@ -47,6 +52,8 @@ public:
     */
     virtual bool setFromJsonObject(const QJsonObject& obj);
 
+signals:
+     void wheelChangedVolume(int val);
 
 public slots:
     virtual void setMedia(const QMediaContent& c);
@@ -71,7 +78,7 @@ protected slots:
     virtual void onContents();
 
 protected:
-    /*
+    /**
      * BC overrides
     */
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* e);

@@ -70,6 +70,8 @@ private:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 
+    virtual void wheelEvent(QWheelEvent *event);
+
     /**
      * Remove all tiles from view.
      */

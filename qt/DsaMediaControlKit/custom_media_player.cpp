@@ -138,6 +138,7 @@ void CustomMediaPlayer::mediaSettingsChanged()
 
 void CustomMediaPlayer::mediaVolumeChanged(int val)
 {
+    qDebug() << val;
     if (val >= 0 && val <= 100){
         setVolume(val);
     }
