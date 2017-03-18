@@ -4,6 +4,7 @@
 #include <QString>
 #include <QPixmap>
 #include <QMap>
+#include <QSettings>
 
 namespace Resources {
 
@@ -118,6 +119,11 @@ struct Lib
     * STYLES
     */
     static QString DARK_STYLE;
+
+    /*
+    * WEB HOSTING CONFIG
+    */
+    static QString WEB_CONFIG;
 };
 
 } // namespace Resources

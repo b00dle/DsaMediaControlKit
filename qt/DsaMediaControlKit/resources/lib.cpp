@@ -424,4 +424,9 @@ QPixmap* Lib::PX_Z_KEY = 0;
 QString Lib::DARK_STYLE = Lib::loadFileToString(":/styles/dark_style.css");
 //QString Lib::DARK_STYLE = Lib::loadFileToString("../DsaMediaControlKit/_RES/dark_style.css");
 
+/*
+* WEB HOSTING CONFIG
+*/
+QString Lib::WEB_CONFIG = "../DsaMediaControlKit/_Res/webapp1.ini";
+
 } // namespace Resources
