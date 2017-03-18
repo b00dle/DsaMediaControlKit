@@ -5,7 +5,7 @@
 #include <QProgressBar>
 #include <QKeySequence>
 
-#include "resources/resources.h"
+#include "resources/lib.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

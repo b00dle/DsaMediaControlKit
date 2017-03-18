@@ -10,12 +10,12 @@
 
 namespace Playlist {
 
-class Playlist : public QMediaPlaylist
+class MediaPlaylist : public QMediaPlaylist
 {
     Q_OBJECT
 public:
-    Playlist(QString name = "Playlist", QObject* parent = 0);
-    virtual ~Playlist();
+    MediaPlaylist(QString name = "Playlist", QObject* parent = 0);
+    virtual ~MediaPlaylist();
 
     bool setSettings(Settings* settings);
     Settings* getSettings();

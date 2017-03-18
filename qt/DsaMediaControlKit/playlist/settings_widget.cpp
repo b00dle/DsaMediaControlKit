@@ -2,17 +2,17 @@
 
 
 #include <QHBoxLayout>
-#include <QGroupBox>
 #include <QRadioButton>
+#include <QFileDialog>
 
 namespace Playlist{
 
-SettingsWidget::SettingsWidget(Playlist* playlist,QWidget *parent)
+SettingsWidget::SettingsWidget(MediaPlaylist* playlist,QWidget *parent)
     : QWidget(parent)
     , playlist_(playlist)
     , name_edit_(0)
     , loop_checkbox_(0)
-    , interval_checkbox_(0)
+    , interval_groupbox_(0)
     , min_interval_slider_(0)
     , max_interval_slider_(0)
     , interval_label_(0)
@@ -23,6 +23,9 @@ SettingsWidget::SettingsWidget(Playlist* playlist,QWidget *parent)
     , weighted_radio_button_(0)
     , save_button_(0)
     , close_button_(0)
+    , image_path_edit_(0)
+    , image_path_button_(0)
+    , image_clear_button_(0)
 {
     initWidgets();
     initLayout();
@@ -32,7 +35,7 @@ SettingsWidget::~SettingsWidget()
 {
 }
 
-void SettingsWidget::setPlaylist(Playlist *playlist)
+void SettingsWidget::setPlaylist(MediaPlaylist *playlist)
 {
     playlist_ = playlist;
 }
@@ -54,7 +57,7 @@ void SettingsWidget::onSaveClicked(bool)
     }
 
     //set delay interval settings
-    if (interval_checkbox_->isChecked()){
+    if (interval_groupbox_->isChecked()){
         new_settings->min_delay_interval = min_interval_slider_->value();
         new_settings->max_delay_interval = max_interval_slider_->value();
 
@@ -85,6 +88,9 @@ void SettingsWidget::onSaveClicked(bool)
     new_settings->volume = volume_slider_->value();
     new_settings->name = name_edit_->text();
 
+    if (image_path_edit_->text().size() > 0)
+        new_settings->image_path = image_path_edit_->text();
+
     emit saved(new_settings);
 }
 
@@ -107,6 +113,15 @@ void SettingsWidget::onVolumeSliderChanged(int val)
     emit volumeSettingsChanged(val);
 }
 
+void SettingsWidget::onOpenImage()
+{
+    QString s = QFileDialog::getOpenFileName(this, tr("Open Image"), "", "Image Files (*.png *.jpg *.bmp)");
+    if(s.size() > 0) {
+        qDebug() << s;
+        image_path_edit_->setText(s);
+    }
+}
+
 void SettingsWidget::initWidgets()
 {
     name_edit_ = new QLineEdit(this);
@@ -117,11 +132,13 @@ void SettingsWidget::initWidgets()
     } else {
         loop_checkbox_->setChecked(false);
     }
-    interval_checkbox_ = new QCheckBox(tr("Intervals"),this);
+
+    interval_groupbox_ = new QGroupBox(tr("Interval Playback"));
+    interval_groupbox_->setCheckable(true);
     if (playlist_->getSettings()->interval_flag){
-        interval_checkbox_->setChecked(true);
+        interval_groupbox_->setChecked(true);
     } else {
-        interval_checkbox_->setChecked(false);
+        interval_groupbox_->setChecked(false);
     }
 
     min_interval_slider_ = new QSlider(Qt::Horizontal,this);
@@ -163,6 +180,17 @@ void SettingsWidget::initWidgets()
         weighted_radio_button_->setChecked(true);
     }
 
+    image_path_edit_ = new QLineEdit(this);
+    image_path_edit_->setReadOnly(true);
+    image_path_edit_->setText(playlist_->getSettings()->image_path);
+    image_path_button_ = new QPushButton(tr("Import..."), this);
+    image_clear_button_ = new QPushButton(tr("Clear"), this);
+
+    connect(image_path_button_, SIGNAL(clicked()),
+            this, SLOT(onOpenImage()));
+    connect(image_clear_button_, SIGNAL(clicked()),
+            image_path_edit_, SLOT(clear()));
+
     save_button_ = new QPushButton("Save", this);
     close_button_ = new QPushButton("Cancel", this);
 
@@ -193,13 +221,11 @@ void SettingsWidget::initLayout()
     playmode_box->setLayout(playmode_layout);
 
     //playmode Settings
-    QGroupBox *interval_box = new QGroupBox(tr("Playmode Options"),this);
     QVBoxLayout *interval_layout = new QVBoxLayout;
-    interval_layout->addWidget(interval_checkbox_);
     interval_layout->addWidget(min_interval_slider_);
     interval_layout->addWidget(max_interval_slider_);
     interval_layout->addWidget(interval_label_);
-    interval_box->setLayout(interval_layout);
+    interval_groupbox_->setLayout(interval_layout);
 
     QGroupBox *volume_box = new QGroupBox(tr("Volume Options"),this);
     QVBoxLayout *volume_layout = new QVBoxLayout;
@@ -211,9 +237,17 @@ void SettingsWidget::initLayout()
     //Grid for all settings
     QGridLayout *grid_layout = new QGridLayout;
     grid_layout->addWidget(name_box,0,0,1,1);
-    grid_layout->addWidget(interval_box,0,1,1,1);
+    grid_layout->addWidget(interval_groupbox_,0,1,1,1);
     grid_layout->addWidget(playmode_box,1,0,1,1);
     grid_layout->addWidget(volume_box,1,1,1,1);
+
+    //image open
+    QGroupBox* image_box = new QGroupBox(tr("Background Image"), this);
+    QHBoxLayout* image_layout = new QHBoxLayout;
+    image_layout->addWidget(image_path_edit_, 9);
+    image_layout->addWidget(image_path_button_, 1);
+    image_layout->addWidget(image_clear_button_, 0);
+    image_box->setLayout(image_layout);
 
     //name,save, close button
     QGroupBox *bottom_box = new QGroupBox(this);
@@ -224,6 +258,7 @@ void SettingsWidget::initLayout()
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addLayout(grid_layout);
+    layout->addWidget(image_box);
     layout->addWidget(bottom_box);
     setLayout(layout);
 

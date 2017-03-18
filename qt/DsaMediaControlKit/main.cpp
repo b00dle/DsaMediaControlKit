@@ -4,14 +4,15 @@
 #include <QDebug>
 #include <QTimer>
 #include <QSettings>
-#include "resources/resources.h"
+#include "resources/lib.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    Resources::init();
-    a.setStyleSheet(Resources::DARK_STYLE);
+    Resources::Lib::init();
+    a.setStyleSheet(Resources::Lib::DARK_STYLE);
+
     QSettings* listener_settings = new QSettings(
         "../MyFirstWebApp/etc/webapp1.ini",
         QSettings::IniFormat,
@@ -23,7 +24,7 @@ int main(int argc, char *argv[])
 
     int ret_code = a.exec();
 
-    Resources::cleanup();
+    Resources::Lib::cleanup();
 
     return ret_code;
 }

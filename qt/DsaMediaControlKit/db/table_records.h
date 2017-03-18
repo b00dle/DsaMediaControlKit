@@ -10,9 +10,12 @@ namespace DB {
 enum TableIndex {
     NONE,
     SOUND_FILE,
+    IMAGE_FILE,
     CATEGORY,
     SOUND_FILE_CATEGORY,
-    RESOURCE_DIRECTORY
+    RESOURCE_DIRECTORY,
+    IMAGE_TAG,
+    IMAGE_FILE_IMAGE_TAG
 };
 
 /* data transfer object encapsulating one row in a db table **/
@@ -129,6 +132,38 @@ struct SoundFileRecord : TableRecord {
     }
 };
 
+/* Row in ImageFile table **/
+struct ImageFileRecord : TableRecord {
+    QString relative_path;
+
+    ImageFileRecord(int i, QString const& n, QString const& rel_p = "")
+        : TableRecord(IMAGE_FILE, i, n)
+        , relative_path(rel_p)
+    {}
+
+    ImageFileRecord()
+        : TableRecord(IMAGE_FILE, -1, "")
+        , relative_path("")
+    {}
+
+    ImageFileRecord(const SoundFileRecord& rec)
+        : TableRecord(IMAGE_FILE, rec.id, rec.name)
+        , relative_path(rec.relative_path)
+    {}
+
+    virtual ~ImageFileRecord() {}
+
+    virtual bool copyFrom(TableRecord* rec) {
+        if(!TableRecord::copyFrom(rec))
+            return false;
+
+        ImageFileRecord* if_rec = (ImageFileRecord*) rec;
+        relative_path = if_rec->relative_path;
+
+        return true;
+    }
+};
+
 /* Row in ResourceDirectory table */
 struct ResourceDirRecord : TableRecord {
     QString path;
@@ -159,6 +194,23 @@ struct ResourceDirRecord : TableRecord {
 
         return true;
     }
+};
+
+/* Row in ImageTag table */
+struct ImageTagRecord : TableRecord {
+    ImageTagRecord(int i, QString const& n)
+        : TableRecord(IMAGE_TAG, i, n)
+    {}
+
+    ImageTagRecord()
+        : TableRecord(IMAGE_TAG, -1, "")
+    {}
+
+    ImageTagRecord(const ImageTagRecord& rec)
+        : TableRecord(IMAGE_TAG, rec.id, rec.name)
+    {}
+
+    virtual ~ImageTagRecord() {}
 };
 
 /*

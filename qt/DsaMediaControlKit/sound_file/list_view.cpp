@@ -8,7 +8,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-#include "resources/resources.h"
+#include "resources/lib.h"
 #include "misc/json_mime_data_parser.h"
 
 namespace SoundFile {
@@ -28,7 +28,7 @@ ListView::ListView(QList<DB::SoundFileRecord*> const& sound_files, QWidget *pare
     setModel(model_);
     setAcceptDrops(true);
     setEditable(false);
-    setSelectionMode(QAbstractItemView::ExtendedSelection);
+    setSelectionMode(QAbstractItemView::MultiSelection);
 }
 
 ListView::ListView(QWidget *parent)
@@ -44,7 +44,7 @@ ListView::ListView(QWidget *parent)
     setModel(model_);
     setAcceptDrops(true);
     setEditable(false);
-    setSelectionMode(QAbstractItemView::ExtendedSelection);
+    setSelectionMode(QAbstractItemView::MultiSelection);
 }
 
 ListView::~ListView()
@@ -68,16 +68,19 @@ bool ListView::getEditable()
     return model_->getColumnEditable(0);
 }
 
-/*QItemSelectionModel::SelectionFlags ListView::selectionCommand(const QModelIndex &index, const QEvent *event) const
+QItemSelectionModel::SelectionFlags ListView::selectionCommand(const QModelIndex &index, const QEvent *event) const
 {
     if (event != 0 && event->type() == QEvent::MouseMove)
         return QItemSelectionModel::Select;
     else
         return QAbstractItemView::selectionCommand(index, event);
-}*/
+}
 
 void ListView::mousePressEvent(QMouseEvent *event)
 {
+    QModelIndex idx = indexAt(event->pos());
+    if(idx.row() == -1 && idx.column() == -1)
+        selectionModel()->clear();
     if (event->button() == Qt::LeftButton)
         start_pos_ = event->pos();
     QListView::mousePressEvent(event);
@@ -189,7 +192,7 @@ void ListView::performDrag()
     // create Drag
     QDrag *drag = new QDrag(this);
     drag->setMimeData(mime_data);
-    drag->setPixmap(*Resources::PX_SOUND_FILE_DRAG);
+    drag->setPixmap(*Resources::Lib::PX_SOUND_FILE_DRAG);
 
     // will block until drag done
     drag->exec(Qt::CopyAction);
