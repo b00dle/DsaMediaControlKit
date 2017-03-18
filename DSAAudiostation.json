@@ -9,129 +9,6 @@
         "tiles": [
             {
                 "data": {
-                    "name": "Taverne Stimmung",
-                    "playlist": [
-                        {
-                            "id": 1630,
-                            "name": "DSA Taverne (Stimmung) (2014_04_11 12_39_17 UTC).mp3",
-                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/DSA Taverne (Stimmung) (2014_04_11 12_39_17 UTC).mp3",
-                            "relative_path": "/Taverne/DSA Taverne (Stimmung) (2014_04_11 12_39_17 UTC).mp3",
-                            "type": 1
-                        }
-                    ],
-                    "position": [
-                        719,
-                        66
-                    ],
-                    "settings": {
-                        "interval_flag": false,
-                        "loop_flag": true,
-                        "max_interval_val": 0,
-                        "min_interval_val": 0,
-                        "name": "Taverne Stimmung",
-                        "order": 0,
-                        "volume": 100
-                    },
-                    "size": 1
-                },
-                "type": "TwoD::PlaylistPlayerTile"
-            },
-            {
-                "data": {
-                    "name": "Taverne ruhig",
-                    "playlist": [
-                        {
-                            "id": 1639,
-                            "name": "04-melancholy.mp3",
-                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/04-melancholy.mp3",
-                            "relative_path": "/Taverne/04-melancholy.mp3",
-                            "type": 1
-                        }
-                    ],
-                    "position": [
-                        412,
-                        66
-                    ],
-                    "settings": {
-                        "interval_flag": false,
-                        "loop_flag": true,
-                        "max_interval_val": 0,
-                        "min_interval_val": 0,
-                        "name": "Taverne ruhig",
-                        "order": 0,
-                        "volume": 100
-                    },
-                    "size": 1
-                },
-                "type": "TwoD::PlaylistPlayerTile"
-            },
-            {
-                "data": {
-                    "name": "Taverne Fröhlich",
-                    "playlist": [
-                        {
-                            "id": 1632,
-                            "name": "Tavern3.mp3",
-                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Tavern3.mp3",
-                            "relative_path": "/Taverne/Tavern3.mp3",
-                            "type": 1
-                        }
-                    ],
-                    "position": [
-                        556,
-                        68
-                    ],
-                    "settings": {
-                        "interval_flag": false,
-                        "loop_flag": true,
-                        "max_interval_val": 0,
-                        "min_interval_val": 0,
-                        "name": "Taverne Fröhlich",
-                        "order": 0,
-                        "volume": 100
-                    },
-                    "size": 1
-                },
-                "type": "TwoD::PlaylistPlayerTile"
-            },
-            {
-                "data": {
-                    "name": "Jeremy Soule-xrtheme (Neverwinter Nights 2 OST) (www.myfreemp3.cc).mp3",
-                    "playlist": [
-                        {
-                            "id": 1149,
-                            "name": "Jeremy Soule-xrtheme (Neverwinter Nights 2 OST) (www.myfreemp3.cc).mp3",
-                            "path": "/home/ephtron/Music/Rollenspielmusik/Dramatisch + Traurig/Jeremy Soule-xrtheme (Neverwinter Nights 2 OST) (www.myfreemp3.cc).mp3",
-                            "relative_path": "/Dramatisch + Traurig/Jeremy Soule-xrtheme (Neverwinter Nights 2 OST) (www.myfreemp3.cc).mp3",
-                            "type": 1
-                        },
-                        {
-                            "id": 1150,
-                            "name": "Unknown Artist-Menu Theme (OST Neverwinter Nights 2) (www.myfreemp3.cc).mp3",
-                            "path": "/home/ephtron/Music/Rollenspielmusik/Dramatisch + Traurig/Unknown Artist-Menu Theme (OST Neverwinter Nights 2) (www.myfreemp3.cc).mp3",
-                            "relative_path": "/Dramatisch + Traurig/Unknown Artist-Menu Theme (OST Neverwinter Nights 2) (www.myfreemp3.cc).mp3",
-                            "type": 1
-                        }
-                    ],
-                    "position": [
-                        387,
-                        254
-                    ],
-                    "settings": {
-                        "interval_flag": false,
-                        "loop_flag": true,
-                        "max_interval_val": 0,
-                        "min_interval_val": 0,
-                        "name": "Settings",
-                        "order": 0,
-                        "volume": 100
-                    },
-                    "size": 1
-                },
-                "type": "TwoD::PlaylistPlayerTile"
-            },
-            {
-                "data": {
                     "name": "Stadt",
                     "playlist": [
                         {
@@ -238,12 +115,316 @@
                         64
                     ],
                     "settings": {
-                        "interval_flag": false,
+                        "interval_flag": true,
                         "loop_flag": true,
                         "max_interval_val": 0,
                         "min_interval_val": 0,
                         "name": "Stadt",
                         "order": 1,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "Taverne Fröhlich",
+                    "playlist": [
+                        {
+                            "id": 1632,
+                            "name": "Tavern3.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Tavern3.mp3",
+                            "relative_path": "/Taverne/Tavern3.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1621,
+                            "name": "11-Evening in the Tavern.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/11-Evening in the Tavern.mp3",
+                            "relative_path": "/Taverne/11-Evening in the Tavern.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1633,
+                            "name": "Tavern1.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Tavern1.mp3",
+                            "relative_path": "/Taverne/Tavern1.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1634,
+                            "name": "DSA Taverne (freundlich) (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/DSA Taverne (freundlich) (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/DSA Taverne (freundlich) (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1635,
+                            "name": "22-hymne-des-sturms.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/22-hymne-des-sturms.mp3",
+                            "relative_path": "/Taverne/22-hymne-des-sturms.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1644,
+                            "name": "HarpsichordTune.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/HarpsichordTune.mp3",
+                            "relative_path": "/Taverne/HarpsichordTune.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1645,
+                            "name": "02-Bilbos Song.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/02-Bilbos Song.mp3",
+                            "relative_path": "/Taverne/02-Bilbos Song.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1648,
+                            "name": "23-tavern.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/23-tavern.mp3",
+                            "relative_path": "/Taverne/23-tavern.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1649,
+                            "name": "SeaShanty.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/SeaShanty.mp3",
+                            "relative_path": "/Taverne/SeaShanty.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1652,
+                            "name": "DSA Taverne (traurig) (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/DSA Taverne (traurig) (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/DSA Taverne (traurig) (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1654,
+                            "name": "12-Peaceful Moments.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/12-Peaceful Moments.mp3",
+                            "relative_path": "/Taverne/12-Peaceful Moments.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1655,
+                            "name": "DSA Taverne (ruhig) (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/DSA Taverne (ruhig) (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/DSA Taverne (ruhig) (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        556,
+                        68
+                    ],
+                    "settings": {
+                        "interval_flag": true,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Taverne Fröhlich",
+                        "order": 0,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "Taverne ruhig",
+                    "playlist": [
+                        {
+                            "id": 1639,
+                            "name": "04-melancholy.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/04-melancholy.mp3",
+                            "relative_path": "/Taverne/04-melancholy.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1619,
+                            "name": "Tavern2.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Tavern2.mp3",
+                            "relative_path": "/Taverne/Tavern2.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1622,
+                            "name": "LighthouseTheme.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/LighthouseTheme.mp3",
+                            "relative_path": "/Taverne/LighthouseTheme.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1625,
+                            "name": "Erdenstern - 03 - The Tavern (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Erdenstern - 03 - The Tavern (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/Erdenstern - 03 - The Tavern (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1625,
+                            "name": "Erdenstern - 03 - The Tavern (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Erdenstern - 03 - The Tavern (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/Erdenstern - 03 - The Tavern (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1627,
+                            "name": "Jeremy Soule- Tavern Swordcoast (vox) (Neverwinter Nights 2 - Storm of Zehir OST) (www.myfreemp3.cc).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Jeremy Soule- Tavern Swordcoast (vox) (Neverwinter Nights 2 - Storm of Zehir OST) (www.myfreemp3.cc).mp3",
+                            "relative_path": "/Taverne/Jeremy Soule- Tavern Swordcoast (vox) (Neverwinter Nights 2 - Storm of Zehir OST) (www.myfreemp3.cc).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1628,
+                            "name": "Jeremy Soule-Day in City Docks (OST Neverwinter Nights 2) (www.myfreemp3.cc).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Jeremy Soule-Day in City Docks (OST Neverwinter Nights 2) (www.myfreemp3.cc).mp3",
+                            "relative_path": "/Taverne/Jeremy Soule-Day in City Docks (OST Neverwinter Nights 2) (www.myfreemp3.cc).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1629,
+                            "name": "07-pirats-camp.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/07-pirats-camp.mp3",
+                            "relative_path": "/Taverne/07-pirats-camp.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1631,
+                            "name": "22-finally-home.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/22-finally-home.mp3",
+                            "relative_path": "/Taverne/22-finally-home.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1636,
+                            "name": "Camping.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Camping.mp3",
+                            "relative_path": "/Taverne/Camping.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1638,
+                            "name": "Erdenstern - 07 - Lore (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Erdenstern - 07 - Lore (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/Erdenstern - 07 - Lore (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1640,
+                            "name": "Resistance.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Resistance.mp3",
+                            "relative_path": "/Taverne/Resistance.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1642,
+                            "name": "CharacterCreation.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/CharacterCreation.mp3",
+                            "relative_path": "/Taverne/CharacterCreation.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1646,
+                            "name": "Stones.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Stones.mp3",
+                            "relative_path": "/Taverne/Stones.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1647,
+                            "name": "DreamOfLadyNann.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/DreamOfLadyNann.mp3",
+                            "relative_path": "/Taverne/DreamOfLadyNann.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1650,
+                            "name": "DSA Taverne (Laute) (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/DSA Taverne (Laute) (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/DSA Taverne (Laute) (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        412,
+                        66
+                    ],
+                    "settings": {
+                        "interval_flag": false,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "",
+                        "order": 1,
+                        "volume": 100
+                    },
+                    "size": 1
+                },
+                "type": "TwoD::PlaylistPlayerTile"
+            },
+            {
+                "data": {
+                    "name": "Taverne Stimmung",
+                    "playlist": [
+                        {
+                            "id": 1630,
+                            "name": "DSA Taverne (Stimmung) (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/DSA Taverne (Stimmung) (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/DSA Taverne (Stimmung) (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1620,
+                            "name": "02-pirate-bar.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/02-pirate-bar.mp3",
+                            "relative_path": "/Taverne/02-pirate-bar.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1637,
+                            "name": "22-Catch Me If You Can (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/22-Catch Me If You Can (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/22-Catch Me If You Can (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1641,
+                            "name": "02. die streuner - halunken.mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/02. die streuner - halunken.mp3",
+                            "relative_path": "/Taverne/02. die streuner - halunken.mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1643,
+                            "name": "04. die streuner - ein hoch dem bader (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/04. die streuner - ein hoch dem bader (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/04. die streuner - ein hoch dem bader (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        },
+                        {
+                            "id": 1653,
+                            "name": "Sherlock Holmes Soundtrack2009 The Rocky Road to D (2014_04_11 12_39_17 UTC).mp3",
+                            "path": "/home/ephtron/Music/Rollenspielmusik/Taverne/Sherlock Holmes Soundtrack2009 The Rocky Road to D (2014_04_11 12_39_17 UTC).mp3",
+                            "relative_path": "/Taverne/Sherlock Holmes Soundtrack2009 The Rocky Road to D (2014_04_11 12_39_17 UTC).mp3",
+                            "type": 1
+                        }
+                    ],
+                    "position": [
+                        719,
+                        66
+                    ],
+                    "settings": {
+                        "interval_flag": true,
+                        "loop_flag": true,
+                        "max_interval_val": 0,
+                        "min_interval_val": 0,
+                        "name": "Taverne Stimmung",
+                        "order": 0,
                         "volume": 100
                     },
                     "size": 1

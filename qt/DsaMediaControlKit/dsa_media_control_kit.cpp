@@ -24,6 +24,7 @@ DsaMediaControlKit::DsaMediaControlKit(QWidget *parent)
     , left_v_splitter_(0)
     , left_box_(0)
     , right_box_(0)
+    , web_host_(0)
     , db_handler_(0)
 {
     initDB();
@@ -31,6 +32,12 @@ DsaMediaControlKit::DsaMediaControlKit(QWidget *parent)
     initLayout();
     initActions();
     initMenu();
+}
+
+DsaMediaControlKit::~DsaMediaControlKit()
+{
+    delete web_host_;
+    web_host_ = 0;
 }
 
 QMenu *DsaMediaControlKit::getMenu()
@@ -135,6 +142,13 @@ void DsaMediaControlKit::onOpenProject()
     }
 }
 
+void DsaMediaControlKit::onStartWebServer()
+{
+    if(web_host_ == 0)
+        web_host_ = new Web::Host;
+    web_host_->show();
+}
+
 void DsaMediaControlKit::initWidgets()
 {
     sound_file_view_ = new SoundFile::MasterView(
@@ -225,6 +239,8 @@ void DsaMediaControlKit::initActions()
     actions_["Open Project..."]->setToolTip(tr("Opens a previously saved state from a file."));
     actions_["Open Project..."]->setShortcut(QKeySequence(tr("Ctrl+O")));
 
+    actions_["Run Web Host..."] = new QAction(tr("Run Web Host..."), this);
+    actions_["Run Web Host..."]->setToolTip(tr("Opens a local web application to control current project."));
 
     connect(actions_["Import Resource Folder..."] , SIGNAL(triggered(bool)),
             sound_file_importer_, SLOT(startBrowseFolder(bool)));
@@ -234,21 +250,26 @@ void DsaMediaControlKit::initActions()
             this, SLOT(onSaveProjectAs()));
     connect(actions_["Open Project..."], SIGNAL(triggered()),
             this, SLOT(onOpenProject()));
+    connect(actions_["Run Web Host..."], SIGNAL(triggered()),
+            this, SLOT(onStartWebServer()));
 }
 
 void DsaMediaControlKit::initMenu()
 {
     main_menu_ = new QMenu(tr("DsaMediaControlKit"));
 
-    QMenu* add_menu = main_menu_->addMenu(tr("File"));
-    add_menu->addAction(actions_["Save Project As..."]);
-    add_menu->addAction(actions_["Open Project..."]);
-    add_menu->addSeparator();
-    add_menu->addAction(actions_["Import Resource Folder..."]);
-    add_menu->addSeparator();
-    add_menu->addAction(actions_["Delete Database Contents..."]);
+    QMenu* file_menu = main_menu_->addMenu(tr("File"));
+    file_menu->addAction(actions_["Save Project As..."]);
+    file_menu->addAction(actions_["Open Project..."]);
+    file_menu->addSeparator();
+    file_menu->addAction(actions_["Import Resource Folder..."]);
+    file_menu->addSeparator();
+    file_menu->addAction(actions_["Delete Database Contents..."]);
+    QMenu* tool_menu = main_menu_->addMenu(tr("Tools"));
+    tool_menu->addAction(actions_["Run Web Host..."]);
 
-    main_menu_->addMenu(add_menu);
+    main_menu_->addMenu(file_menu);
+    main_menu_->addMenu(tool_menu);
 }
 
 void DsaMediaControlKit::initDB()

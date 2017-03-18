@@ -13,7 +13,10 @@ QT       += core \
             multimedia \
             multimediawidgets \
             widgets \
-            sql
+            sql \
+            network
+
+include(../QtWebApp/QtWebApp/httpserver/httpserver.pri)
 
 SOURCES += main.cpp \
     main_window.cpp \
@@ -47,7 +50,8 @@ SOURCES += main.cpp \
     playlist/playlist.cpp \
     playlist/settings_widget.cpp \
     custom_media_player.cpp \
-    db/model/resource_dir_table_model.cpp
+    db/model/resource_dir_table_model.cpp \
+    web/host.cpp
 
 HEADERS  += main_window.h \
     _TEST/audio_widget.h \
@@ -81,8 +85,11 @@ HEADERS  += main_window.h \
     playlist/settings.h \
     playlist/settings_widget.h \
     custom_media_player.h \
-    db/model/resource_dir_table_model.h
+    db/model/resource_dir_table_model.h \
+    web/host.h
 
 RESOURCES += \
     _RES/resources.qrc
+
+OTHER_FILES += _RES/webapp1.ini
 

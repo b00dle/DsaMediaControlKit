@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QDebug>
 #include <QTimer>
+#include <QSettings>
 #include "resources/resources.h"
 
 int main(int argc, char *argv[])
@@ -11,6 +12,11 @@ int main(int argc, char *argv[])
 
     Resources::init();
     a.setStyleSheet(Resources::DARK_STYLE);
+    QSettings* listener_settings = new QSettings(
+        "../MyFirstWebApp/etc/webapp1.ini",
+        QSettings::IniFormat,
+        &a
+    );
 
     MainWindow w;
     w.showMaximized();

@@ -20,6 +20,11 @@ QWidget#PlaylistSettingsWidget {
     color: white;
 }
 
+QWidget#WebHost {
+    background-color: #373738;
+    color: white;
+}
+
 QPushButton {
     background-color: #545556;
     color: white;

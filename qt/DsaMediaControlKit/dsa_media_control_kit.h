@@ -22,12 +22,14 @@
 #include "db/handler.h"
 #include "category/tree_view.h"
 #include "2D/graphics_view.h"
+#include "web/host.h"
 
 class DsaMediaControlKit : public QWidget
 {
     Q_OBJECT
 public:
     explicit DsaMediaControlKit(QWidget *parent = 0);
+    ~DsaMediaControlKit();
 
     QMenu* getMenu();
     QString const& getStatusMessage() const;
@@ -44,6 +46,7 @@ private slots:
     void onDeleteDatabase();
     void onSaveProjectAs();
     void onOpenProject();
+    void onStartWebServer();
 
 private:
     void initWidgets();
@@ -70,6 +73,7 @@ private:
     QSplitter* left_v_splitter_;
     QGroupBox* left_box_;
     QGroupBox* right_box_;
+    Web::Host* web_host_;
 
     // DB handler
     DB::Handler* db_handler_;
