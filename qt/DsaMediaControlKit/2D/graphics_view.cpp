@@ -210,6 +210,7 @@ void GraphicsView::dropEvent(QDropEvent *event)
     // except event
     event->setDropAction(Qt::CopyAction);
     event->accept();
+    emit dropAccepted();
 
     // delete temp records
     while(records.size() > 0) {

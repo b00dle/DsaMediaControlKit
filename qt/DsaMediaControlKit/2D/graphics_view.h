@@ -51,6 +51,9 @@ private:
     */
     void resizeEvent(QResizeEvent* e);
 
+signals:
+    void dropAccepted();
+
 private:
     /**
      * accept drags.

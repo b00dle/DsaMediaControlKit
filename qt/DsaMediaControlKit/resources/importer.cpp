@@ -20,7 +20,6 @@ void Importer::parseFolder(const QUrl &url, const DB::ResourceDirRecord& resourc
     if(url.isValid() && url.isLocalFile())
     {
         QDir d(url.toLocalFile());
-        d.cdUp();
         QDirIterator it(d.absolutePath(), QStringList() << "*.mp3" << "*.wma" << "*.wav", QDir::Files, QDirIterator::Subdirectories);
         while (it.hasNext())
             files.append(Resources::SoundFile(QFileInfo(it.next()), resource_dir));

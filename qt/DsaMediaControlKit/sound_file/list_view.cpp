@@ -17,6 +17,7 @@ ListView::ListView(QList<DB::SoundFileRecord*> const& sound_files, QWidget *pare
     : QListView(parent)
     , start_pos_()
     , model_(0)
+    , skip_select_(false)
 {
     model_ = new Misc::StandardItemModel(this);
     model_->setColumnCount(2);
@@ -67,6 +68,7 @@ bool ListView::getEditable()
 {
     return model_->getColumnEditable(0);
 }
+
 
 QItemSelectionModel::SelectionFlags ListView::selectionCommand(const QModelIndex &index, const QEvent *event) const
 {
@@ -146,6 +148,17 @@ void ListView::dropEvent(QDropEvent *event)
     }
 }
 
+void ListView::setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command)
+{
+    if(skip_select_) {
+        skip_select_ = false;
+        selectionModel()->clearSelection();
+        setSelection(rect, QItemSelectionModel::Deselect);
+        return;
+    }
+    QListView::setSelection(rect, command);
+}
+
 void ListView::addSoundFile(DB::SoundFileRecord *rec)
 {
     addSoundFile(rec->id, rec->name, rec->path);
@@ -154,6 +167,12 @@ void ListView::addSoundFile(DB::SoundFileRecord *rec)
 void ListView::onSoundFileAboutToBeDeleted(DB::SoundFileRecord *)
 {
     qDebug() << "TODO implement sound file about to be deleted.";
+}
+
+void ListView::onDropSuccessful()
+{
+    QCoreApplication::processEvents();
+    skip_select_ = true;
 }
 
 void ListView::addSoundFile(int id, const QString &name, const QString &path)
@@ -179,6 +198,8 @@ void ListView::performDrag()
 
     if(records.size() == 0)
         return;
+
+    selectionModel()->clear();
 
     // create QMimeData
     QMimeData* mime_data = Misc::JsonMimeDataParser::toJsonMimeData(records);

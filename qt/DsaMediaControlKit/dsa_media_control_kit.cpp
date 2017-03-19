@@ -201,6 +201,8 @@ void DsaMediaControlKit::initWidgets()
             db_handler_->getSoundFileTableModel(), SLOT(deleteSoundFile(int)));
     connect(db_handler_->getSoundFileTableModel(), SIGNAL(aboutToBeDeleted(DB::SoundFileRecord*)),
             sound_file_view_, SLOT(onSoundFileAboutToBeDeleted(DB::SoundFileRecord*)));
+    connect(preset_view_, SIGNAL(dropAccepted()),
+            sound_file_view_, SLOT(onDropSuccessful()));
 }
 
 void DsaMediaControlKit::initLayout()

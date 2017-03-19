@@ -32,11 +32,13 @@ protected:
     void dragMoveEvent(QDragMoveEvent *event);
     void dropEvent(QDropEvent *event);
 
-signals:
+protected:
+    virtual void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command);
 
 public slots:
     void addSoundFile(DB::SoundFileRecord* rec);
     void onSoundFileAboutToBeDeleted(DB::SoundFileRecord* rec);
+    void onDropSuccessful();
 
 private slots:
     void addSoundFile(int id, QString const& name, QString const& path);
@@ -46,6 +48,7 @@ protected:
 
     QPoint start_pos_;
     Misc::StandardItemModel* model_;
+    bool skip_select_;
 };
 
 } // namespace SoundFile

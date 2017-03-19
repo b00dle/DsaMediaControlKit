@@ -22,10 +22,13 @@ QString const toString(TableIndex idx)
             break;
         case RESOURCE_DIRECTORY:
             idx_str = "resource_directory";
+            break;
         case IMAGE_TAG:
             idx_str = "image_tag";
+            break;
         case IMAGE_FILE_IMAGE_TAG:
             idx_str = "image_file_image_tag";
+            break;
         default:
             break;
     }
