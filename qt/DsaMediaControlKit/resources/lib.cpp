@@ -428,5 +428,6 @@ QString Lib::DARK_STYLE = Lib::loadFileToString(":/styles/dark_style.css");
 * WEB HOSTING CONFIG
 */
 QString Lib::WEB_CONFIG = "../DsaMediaControlKit/_Res/webapp1.ini";
+QString Lib::WEB_INDEX = Lib::loadFileToString("../DsaMediaControlKit/_RES/web_server_dist/index.html");
 
 } // namespace Resources
