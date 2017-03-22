@@ -4,6 +4,7 @@
 #include <QGraphicsView>
 #include <QMouseEvent>
 #include <QJsonObject>
+#include <QUuid>
 
 #include "db/model/sound_file_table_model.h"
 
@@ -41,6 +42,24 @@ public:
 
     void setSoundFileModel(DB::Model::SoundFileTableModel* m);
     DB::Model::SoundFileTableModel* getSoundFileModel();
+
+    /**
+     * Activates tile with given ID.
+     * Returns true if activation succeeded.
+    */
+    bool activate(const QUuid& tile_id);
+
+    /**
+     * Deactivates tile with given ID.
+     * Returns true if deactivation succeeded.
+    */
+    bool deactivate(const QUuid& tile_id);
+
+    /**
+     * Returns true if tile with given ID
+     * is currently activated.
+    */
+    bool isActivated(const QUuid &tile_id);
 
 private:
     /**

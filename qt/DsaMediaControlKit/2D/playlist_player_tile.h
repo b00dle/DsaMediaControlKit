@@ -84,6 +84,8 @@ protected:
     */
     virtual const QPixmap getPlayStatePixmap() const;
 
+    void setIsPlaying(bool);
+
     CustomMediaPlayer* player_;
 
     Playlist::SettingsWidget* playlist_settings_widget_;

@@ -49,7 +49,7 @@ void PlayerTile::play()
 {
     if(!player_->media().isNull() && !is_playing_) {
         player_->play();
-        is_playing_ = true;
+        setIsPlaying(true);
     }
 }
 
@@ -57,7 +57,7 @@ void PlayerTile::stop()
 {
     if(!player_->media().isNull() && is_playing_) {
         player_->stop();
-        is_playing_ = false;
+        setIsPlaying(false);
     }
 }
 
@@ -79,6 +79,12 @@ const QPixmap PlayerTile::getPlayStatePixmap() const
         return *Resources::Lib::PX_STOP;
     else
         return *Resources::Lib::PX_PLAY;
+}
+
+void PlayerTile::setIsPlaying(bool state)
+{
+    is_playing_ = state;
+    is_activated_ = state;
 }
 
 } // namespace TwoD

@@ -22,4 +22,9 @@ void RequestHandler::service(stefanfrings::HttpRequest &request, stefanfrings::H
         response.write("NOT FOUND",true);
 }
 
+void RequestHandler::setPresetView(TwoD::GraphicsView *preset_view)
+{
+    preset_controller_->setPresetView(preset_view);
+}
+
 } // namespace Web

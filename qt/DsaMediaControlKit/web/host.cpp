@@ -12,8 +12,8 @@ Host::Host(QWidget *parent)
     : QDialog(parent)
     , listener_(0)
     , request_handler_(0)
-    , line_edit_(0)
     , address_()
+    , line_edit_(0)
 {
     initListener();
     initWidgets();
@@ -31,6 +31,11 @@ Host::~Host()
 const QString &Host::getAddress() const
 {
     return address_;
+}
+
+void Host::setPresetView(TwoD::GraphicsView *preset_view)
+{
+    request_handler_->setPresetView(preset_view);
 }
 
 void Host::initListener()

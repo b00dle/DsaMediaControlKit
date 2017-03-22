@@ -6,6 +6,7 @@
 
 #include "httplistener.h"
 #include "request_handler.h"
+#include "2D/graphics_view.h"
 
 namespace Web {
 
@@ -17,6 +18,7 @@ public:
     ~Host();
 
     QString const& getAddress() const;
+    void setPresetView(TwoD::GraphicsView* preset_view);
 signals:
 
 public slots:

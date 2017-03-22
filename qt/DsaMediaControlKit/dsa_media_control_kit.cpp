@@ -146,6 +146,7 @@ void DsaMediaControlKit::onStartWebServer()
 {
     if(web_host_ == 0)
         web_host_ = new Web::Host;
+    web_host_->setPresetView(preset_view_);
     web_host_->show();
 }
 

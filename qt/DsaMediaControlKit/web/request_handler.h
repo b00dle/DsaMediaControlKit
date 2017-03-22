@@ -3,6 +3,7 @@
 
 #include "httprequesthandler.h"
 #include "controllers/preset_controller.h"
+#include "2D/graphics_view.h"
 
 namespace Web {
 
@@ -11,7 +12,7 @@ class RequestHandler : public stefanfrings::HttpRequestHandler {
 public:
     RequestHandler(QObject* parent=0);
     void service(stefanfrings::HttpRequest& request, stefanfrings::HttpResponse& response);
-
+    void setPresetView(TwoD::GraphicsView* preset_view);
 private:
     PresetController* preset_controller_;
 };

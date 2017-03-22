@@ -126,6 +126,50 @@ DB::Model::SoundFileTableModel *GraphicsView::getSoundFileModel()
     return model_;
 }
 
+bool GraphicsView::activate(const QUuid &tile_id)
+{
+    foreach(QGraphicsItem* it, scene()->items()) {
+        QObject* o = dynamic_cast<QObject*>(it);
+        if(o) {
+            Tile* t = qobject_cast<Tile*>(o);
+            if(t->getUuid() == tile_id && !t->isActivated()) {
+                t->onActivate();
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool GraphicsView::deactivate(const QUuid &tile_id)
+{
+    foreach(QGraphicsItem* it, scene()->items()) {
+        QObject* o = dynamic_cast<QObject*>(it);
+        if(o) {
+            Tile* t = qobject_cast<Tile*>(o);
+            if(t->getUuid() == tile_id && t->isActivated()) {
+                t->onActivate();
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool GraphicsView::isActivated(const QUuid &tile_id)
+{
+    foreach(QGraphicsItem* it, scene()->items()) {
+        QObject* o = dynamic_cast<QObject*>(it);
+        if(o) {
+            Tile* t = qobject_cast<Tile*>(o);
+            if(t->getUuid() == tile_id && t->isActivated()) {
+                return t->isActivated();
+            }
+        }
+    }
+    return false;
+}
+
 void GraphicsView::resizeEvent(QResizeEvent *e)
 {
     QGraphicsView::resizeEvent(e);

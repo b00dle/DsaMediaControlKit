@@ -36,6 +36,8 @@ protected:
     */
     virtual const QPixmap getPlayStatePixmap() const;
 
+    void setIsPlaying(bool);
+
     QMediaPlayer* player_;
     bool is_playing_;
 };

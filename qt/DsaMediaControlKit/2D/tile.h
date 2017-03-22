@@ -14,6 +14,7 @@
 #include <QMediaPlayer>
 #include <QShortcut>
 #include <QJsonObject>
+#include <QUuid>
 
 #include "db/handler.h"
 
@@ -123,6 +124,11 @@ public:
     const QMenu* getContextMenu() const;
 
     /**
+    * Get uuid of tile.
+    */
+    const QUuid& getUuid() const;
+
+    /**
      * Returns true if a quick activation key has been set.
     */
     bool hasActivateKey() const;
@@ -161,6 +167,11 @@ public:
     * (see getOverlayPixmap())
     */
     void clearOverlayPixmap();
+
+    /**
+     * Returns true if state is active
+    */
+    bool isActivated() const;
 
 signals:
     void mousePressed(QGraphicsSceneMouseEvent* e);
@@ -267,6 +278,8 @@ protected:
     QChar activate_key_;
     QPixmap* overlay_pixmap_;
     QString overlay_pixmap_path_;
+    QUuid uuid_;
+    bool is_activated_;
 };
 
 } // namespace TwoD

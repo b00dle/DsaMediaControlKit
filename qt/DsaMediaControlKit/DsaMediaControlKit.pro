@@ -94,7 +94,8 @@ HEADERS  += main_window.h \
     resources/sound_file.h \
     playlist/media_playlist.h \
     web/request_handler.h \
-    web/controllers/preset_controller.h
+    web/controllers/preset_controller.h \
+    web/response.h
 
 RESOURCES += \
     _RES/resources.qrc

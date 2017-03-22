@@ -30,6 +30,8 @@ Tile::Tile(QGraphicsItem* parent)
     , activate_key_(' ')
     , overlay_pixmap_(0)
     , overlay_pixmap_path_()
+    , uuid_()
+    , is_activated_(false)
 {    
     long_click_timer_ = new QTimer(this);
     connect(long_click_timer_, SIGNAL(timeout()),
@@ -41,6 +43,8 @@ Tile::Tile(QGraphicsItem* parent)
     context_menu_ = new QMenu;
 
     activate_action_ = new QAction("Activate", this);
+
+    uuid_ = QUuid::createUuid();
 
     connect(activate_action_, SIGNAL(triggered()),
             this, SLOT(onActivate()));
@@ -141,6 +145,11 @@ const QMenu *Tile::getContextMenu() const
     return context_menu_;
 }
 
+const QUuid &Tile::getUuid() const
+{
+    return uuid_;
+}
+
 bool Tile::hasActivateKey() const
 {
     return activate_key_ != ' ';
@@ -163,6 +172,7 @@ const QJsonObject Tile::toJsonObject() const
     obj["position"] = arr_pos;
     if(hasActivateKey())
         obj["activate_key"] = QString(activate_key_);
+    obj["uuid"] = uuid_.toString();
 
     return obj;
 }
@@ -193,6 +203,10 @@ bool Tile::setFromJsonObject(const QJsonObject &obj)
         if(k.size() == 1)
             setActivateKey(k.at(0));
     }
+
+    // set uuid
+    if(obj.contains("uuid") && obj["uuid"].isString())
+        uuid_ = QUuid(obj["uuid"].toString());
 
     return true;
 }
@@ -229,8 +243,14 @@ void Tile::clearOverlayPixmap()
     }
 }
 
+bool Tile::isActivated() const
+{
+    return is_activated_;
+}
+
 void Tile::onActivate()
 {
+    is_activated_ = !is_activated_;
     emit activated();
 }
 

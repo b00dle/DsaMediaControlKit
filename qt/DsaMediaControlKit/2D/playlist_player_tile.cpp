@@ -234,7 +234,7 @@ void PlaylistPlayerTile::play()
     if(!player_->media().isNull() && !is_playing_) {
         player_->activate();
         player_->play();
-        is_playing_ = true;
+        setIsPlaying(true);
     }
 }
 
@@ -243,7 +243,7 @@ void PlaylistPlayerTile::stop()
     if(!player_->media().isNull() && is_playing_) {
         player_->stop();
         player_->deactivate();
-        is_playing_ = false;
+        setIsPlaying(false);
     }
 }
 
@@ -260,18 +260,18 @@ void PlaylistPlayerTile::onActivate()
 void PlaylistPlayerTile::changePlayerState(QMediaPlayer::State state)
 {
     if (state == QMediaPlayer::PlayingState){
-        is_playing_ = true;
+        setIsPlaying(true);
     } else if (state == QMediaPlayer::StoppedState){
-        is_playing_ = false;
+        setIsPlaying(false);
     }
 }
 
 void PlaylistPlayerTile::changedCustomPlayerActivation(bool state)
 {
     if (state == true){
-        is_playing_ = true;
+        setIsPlaying(true);
     } else if (state == false){
-        is_playing_ = false;
+        setIsPlaying(false);
     }
 }
 
@@ -383,6 +383,12 @@ const QPixmap PlaylistPlayerTile::getPlayStatePixmap() const
         return *Resources::Lib::PX_STOP;
     else
         return *Resources::Lib::PX_PLAY;
+}
+
+void PlaylistPlayerTile::setIsPlaying(bool state)
+{
+    is_activated_ = state;
+    is_playing_ = state;
 }
 
 } // namespace TwoD
