@@ -3,6 +3,7 @@
 #include <QHBoxLayout>
 #include <QNetworkInterface>
 #include <QHostAddress>
+#include <QRegExp>
 
 #include "resources/lib.h"
 
@@ -61,7 +62,11 @@ void Host::initWidgets()
         if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost))
              address_ = address.toString();
     }
-    address_ = "http://" + address_ + ":8080";
+    address_ = "http://" + address_ + ":8080/";
+    Resources::Lib::WEB_INDEX.replace(
+        QRegExp::escape("KOT_BRO_SHIT"),
+        QRegExp::escape("http://192.168.1.108:8080/")
+    );
     line_edit_ = new QLineEdit(address_, this);
     line_edit_->setReadOnly(true);
 }
