@@ -98,7 +98,7 @@ void PlaylistPlayerTile::receiveExternalData(const QMimeData *data)
 
 void PlaylistPlayerTile::receiveWheelEvent(QWheelEvent *event)
 {
-     Playlist::Playlist* pl = player_->getCustomPlaylist();
+     Playlist::MediaPlaylist* pl = player_->getCustomPlaylist();
      Playlist::Settings* settings = pl->getSettings();
      int volume = settings->volume;
      if (event->delta() < 0){
