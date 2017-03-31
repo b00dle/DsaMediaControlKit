@@ -15,6 +15,7 @@ Host::Host(QWidget *parent)
     , request_handler_(0)
     , address_()
     , line_edit_(0)
+    , chat_app_(0)
 {
     initListener();
     initWidgets();
@@ -67,16 +68,20 @@ void Host::initWidgets()
         QRegExp::escape("KOT_BRO_SHIT"),
         QRegExp::escape("http://192.168.1.108:8080/")
     );
+    qDebug() << address_;
     line_edit_ = new QLineEdit(address_, this);
     line_edit_->setReadOnly(true);
+
+    chat_app_ = new App::Chat(this);
 }
 
 void Host::initLayout()
 {
-    setMinimumSize(200, 200);
+    setMinimumSize(400, 200);
 
-    QHBoxLayout* layout = new QHBoxLayout;
-    layout->addWidget(line_edit_);
+    QVBoxLayout* layout = new QVBoxLayout;
+    layout->addWidget(line_edit_, 0);
+    layout->addWidget(chat_app_, 10);
 
     setLayout(layout);
 }

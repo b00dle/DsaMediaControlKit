@@ -22,7 +22,7 @@ struct Response {
         , func(f)
     {}
 
-    const QJsonObject toJsonObject() {
+    const QJsonObject toJsonObject() const {
         QJsonObject obj;
         obj["err"] = err;
         obj["return"] = return_value;
@@ -30,13 +30,13 @@ struct Response {
         return obj;
     }
 
-    const QString toJson() {
+    const QString toJson() const {
         QJsonDocument doc;
         doc.setObject(toJsonObject());
         return doc.toJson();
     }
 
-    const QByteArray toByteArray() {
+    const QByteArray toByteArray() const {
         return QByteArray(toJson().toStdString().c_str());
     }
 };

@@ -248,6 +248,11 @@ bool Tile::isActivated() const
     return is_activated_;
 }
 
+const QString Tile::getClassName() const
+{
+    return QString("Tile");
+}
+
 void Tile::onActivate()
 {
     is_activated_ = !is_activated_;

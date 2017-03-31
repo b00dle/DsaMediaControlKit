@@ -30,7 +30,7 @@ HttpConnectionHandlerPool::~HttpConnectionHandlerPool()
        delete handler;
     }
     delete sslConfiguration;
-    qDebug("HttpConnectionHandlerPool (%p): destroyed", this);
+    // qDebug("HttpConnectionHandlerPool (%p): destroyed", this);
 }
 
 
@@ -77,7 +77,7 @@ void HttpConnectionHandlerPool::cleanup()
             {
                 delete handler;
                 pool.removeOne(handler);
-                qDebug("HttpConnectionHandlerPool: Removed connection handler (%p), pool size is now %i",handler,pool.size());
+                //qDebug("HttpConnectionHandlerPool: Removed connection handler (%p), pool size is now %i",handler,pool.size());
                 break; // remove only one handler in each interval
             }
         }

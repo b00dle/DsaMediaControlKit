@@ -173,6 +173,12 @@ public:
     */
     bool isActivated() const;
 
+    /**
+     * @brief getClassName
+     * @return string identifying class
+     */
+    virtual const QString getClassName() const;
+
 signals:
     void mousePressed(QGraphicsSceneMouseEvent* e);
     void mouseReleased(QGraphicsSceneMouseEvent* e);

@@ -223,6 +223,11 @@ bool PlaylistPlayerTile::setFromJsonObject(const QJsonObject &obj)
     return true;
 }
 
+const QString PlaylistPlayerTile::getClassName() const
+{
+    return "PlaylistPlayerTile";
+}
+
 
 void PlaylistPlayerTile::setMedia(const QMediaContent &c)
 {
@@ -255,6 +260,16 @@ void PlaylistPlayerTile::onActivate()
         play();
 
     Tile::onActivate();
+}
+
+void PlaylistPlayerTile::setVolume(int volume)
+{
+    player_->setVolume(volume);
+}
+
+int PlaylistPlayerTile::getVolume() const
+{
+    return player_->volume();
 }
 
 void PlaylistPlayerTile::changePlayerState(QMediaPlayer::State state)

@@ -40,6 +40,11 @@ void PlayerTile::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidg
         painter->drawText(QPointF(p_rect.x(), p_rect.y()-5), name_);
 }
 
+const QString PlayerTile::getClassName() const
+{
+    return "PlayerTile";
+}
+
 void PlayerTile::setMedia(const QMediaContent &c)
 {
     player_->setMedia(c);

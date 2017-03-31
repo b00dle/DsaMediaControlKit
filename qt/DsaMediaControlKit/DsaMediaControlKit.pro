@@ -55,7 +55,9 @@ SOURCES += main.cpp \
     resources/sound_file.cpp \
     playlist/media_playlist.cpp \
     web/request_handler.cpp \
-    web/controllers/preset_controller.cpp
+    web/controllers/preset_controller.cpp \
+    log/file_logger.cpp \
+    web/app/chat.cpp
 
 HEADERS  += main_window.h \
     _TEST/audio_widget.h \
@@ -95,7 +97,9 @@ HEADERS  += main_window.h \
     playlist/media_playlist.h \
     web/request_handler.h \
     web/controllers/preset_controller.h \
-    web/response.h
+    web/response.h \
+    log/file_logger.h \
+    web/app/chat.h
 
 RESOURCES += \
     _RES/resources.qrc

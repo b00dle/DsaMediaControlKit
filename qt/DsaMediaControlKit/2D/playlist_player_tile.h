@@ -45,12 +45,17 @@ public:
     */
     virtual bool setFromJsonObject(const QJsonObject& obj);
 
-
+    /**
+     * @brief see BC
+     */
+    QString const getClassName() const;
 public slots:
     virtual void setMedia(const QMediaContent& c);
     virtual void play();
     virtual void stop();
     virtual void onActivate();
+    void setVolume(int volume);
+    int getVolume() const;
 
     /** adjust playing icon when the player stops playing */
     void changePlayerState(QMediaPlayer::State state);

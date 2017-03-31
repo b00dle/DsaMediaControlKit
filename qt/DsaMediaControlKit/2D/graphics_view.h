@@ -61,6 +61,20 @@ public:
     */
     bool isActivated(const QUuid &tile_id);
 
+    /**
+     * @brief returns volume of tile or -1 if tile not found
+     * @param tile_id: id of tile to receive volume of.
+     * @return volume of tile.
+     */
+    int getVolume(const QUuid &tile_id) const;
+
+    /**
+     * @brief set volume of tile (range 0-100)
+     * @param tile_id: id of tile to receive volume of.
+     * @return success of setting volume.
+     */
+    bool setVolume(const QUuid& tile_id, int volume);
+
 private:
     /**
      * Handle scene size when widget resizes.

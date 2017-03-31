@@ -24,7 +24,7 @@ HttpRequest::HttpRequest(QSettings* settings)
 void HttpRequest::readRequest(QTcpSocket* socket)
 {
     #ifdef SUPERVERBOSE
-        qDebug("HttpRequest: read request");
+        //qDebug("HttpRequest: read request");
     #endif
     int toRead=maxSize-currentSize+1; // allow one byte more to be able to detect overflow
     lineBuffer.append(socket->readLine(toRead));

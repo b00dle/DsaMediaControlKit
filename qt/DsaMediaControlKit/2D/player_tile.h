@@ -20,6 +20,10 @@ public:
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
+    /**
+     * @brief see BC
+     */
+    QString const getClassName() const;
 public slots:
     virtual void setMedia(const QMediaContent& c);
     virtual void play();

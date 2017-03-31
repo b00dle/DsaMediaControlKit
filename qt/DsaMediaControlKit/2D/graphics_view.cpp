@@ -132,7 +132,7 @@ bool GraphicsView::activate(const QUuid &tile_id)
         QObject* o = dynamic_cast<QObject*>(it);
         if(o) {
             Tile* t = qobject_cast<Tile*>(o);
-            if(t->getUuid() == tile_id && !t->isActivated()) {
+            if(t && t->getUuid() == tile_id && !t->isActivated()) {
                 t->onActivate();
                 return true;
             }
@@ -147,7 +147,7 @@ bool GraphicsView::deactivate(const QUuid &tile_id)
         QObject* o = dynamic_cast<QObject*>(it);
         if(o) {
             Tile* t = qobject_cast<Tile*>(o);
-            if(t->getUuid() == tile_id && t->isActivated()) {
+            if(t && t->getUuid() == tile_id && t->isActivated()) {
                 t->onActivate();
                 return true;
             }
@@ -162,8 +162,43 @@ bool GraphicsView::isActivated(const QUuid &tile_id)
         QObject* o = dynamic_cast<QObject*>(it);
         if(o) {
             Tile* t = qobject_cast<Tile*>(o);
-            if(t->getUuid() == tile_id && t->isActivated()) {
+            if(t && t->getUuid() == tile_id && t->isActivated()) {
                 return t->isActivated();
+            }
+        }
+    }
+    return false;
+}
+
+int GraphicsView::getVolume(const QUuid &tile_id) const
+{
+    foreach(QGraphicsItem* it, scene()->items()) {
+        QObject* o = dynamic_cast<QObject*>(it);
+        if(o) {
+            Tile* t = qobject_cast<Tile*>(o);
+            if(t && t->getUuid() == tile_id && t->isActivated()) {
+                if(t->getClassName().compare("PlaylistPlayerTile") == 0) {
+                    PlaylistPlayerTile* p = (PlaylistPlayerTile*) t;
+                    return p->getVolume();
+                }
+            }
+        }
+    }
+    return -1;
+}
+
+bool GraphicsView::setVolume(const QUuid &tile_id, int volume)
+{
+    foreach(QGraphicsItem* it, scene()->items()) {
+        QObject* o = dynamic_cast<QObject*>(it);
+        if(o) {
+            Tile* t = qobject_cast<Tile*>(o);
+            if(t && t->getUuid() == tile_id && t->isActivated()) {
+                if(t->getClassName().compare("PlaylistPlayerTile") == 0) {
+                    PlaylistPlayerTile* p = (PlaylistPlayerTile*) t;
+                    p->setVolume(volume);
+                    return true;
+                }
             }
         }
     }

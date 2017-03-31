@@ -49,7 +49,6 @@ void CustomMediaPlayer::play()
             delay_flag_ = true;
             if (activated_){
                 QMediaPlayer::play();
-                qDebug() << "Playing Index: "<<playlist->currentIndex();
                 playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
             }
         } else {
@@ -57,7 +56,6 @@ void CustomMediaPlayer::play()
             delay_ = 0;
             if (activated_){
                 QMediaPlayer::play();
-                qDebug() << "Playing Index: "<<playlist->currentIndex();
             }
         }
     }

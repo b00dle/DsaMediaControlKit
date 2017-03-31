@@ -7,6 +7,7 @@
 #include "httplistener.h"
 #include "request_handler.h"
 #include "2D/graphics_view.h"
+#include "app/chat.h"
 
 namespace Web {
 
@@ -34,6 +35,7 @@ private:
     QString address_;
 
     QLineEdit* line_edit_;
+    App::Chat* chat_app_;
 };
 
 } // namespace Web
