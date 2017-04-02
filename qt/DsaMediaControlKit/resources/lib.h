@@ -5,6 +5,7 @@
 #include <QPixmap>
 #include <QMap>
 #include <QSettings>
+#include <QFile>
 
 namespace Resources {
 
@@ -124,7 +125,12 @@ struct Lib
     * WEB HOSTING CONFIG
     */
     static QString WEB_CONFIG;
-    static QString WEB_INDEX;
+
+    /*
+    * LOG FILE CONFIG
+    */
+    static QFile LOG_FILE;
+
 };
 
 } // namespace Resources

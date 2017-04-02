@@ -8,6 +8,7 @@
 #include "request_handler.h"
 #include "2D/graphics_view.h"
 #include "app/chat.h"
+#include "log/file_logger.h"
 
 namespace Web {
 
@@ -36,6 +37,7 @@ private:
 
     QLineEdit* line_edit_;
     App::Chat* chat_app_;
+    Log::FileLogger logger_;
 };
 
 } // namespace Web

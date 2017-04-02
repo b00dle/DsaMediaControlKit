@@ -6,6 +6,7 @@
 #include <QSettings>
 
 #include "resources/lib.h"
+#include "log/file_logger.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,6 +14,8 @@ int main(int argc, char *argv[])
 
     Resources::Lib::init();
     a.setStyleSheet(Resources::Lib::DARK_STYLE);
+
+    Log::FileLogger::clearLogFile();
 
     MainWindow w;
     w.showMaximized();

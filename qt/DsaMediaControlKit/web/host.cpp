@@ -16,6 +16,7 @@ Host::Host(QWidget *parent)
     , address_()
     , line_edit_(0)
     , chat_app_(0)
+    , logger_("Web::Host")
 {
     initListener();
     initWidgets();
@@ -59,18 +60,19 @@ void Host::initListener()
 
 void Host::initWidgets()
 {
+    // server listens on any
     foreach (const QHostAddress &address, QNetworkInterface::allAddresses()) {
-        if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost))
-             address_ = address.toString();
+        if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost)) {
+            address_ = address.toString();
+            if(address_.startsWith("192.168."))
+                break;
+        }
     }
     address_ = "http://" + address_ + ":8080/";
-    Resources::Lib::WEB_INDEX.replace(
-        QRegExp::escape("KOT_BRO_SHIT"),
-        QRegExp::escape("http://192.168.1.108:8080/")
-    );
-    qDebug() << address_;
     line_edit_ = new QLineEdit(address_, this);
     line_edit_->setReadOnly(true);
+
+    logger_.write("Starting web service at " + address_ + ".");
 
     chat_app_ = new App::Chat(request_handler_->getChatMessageModel(), this);
 }

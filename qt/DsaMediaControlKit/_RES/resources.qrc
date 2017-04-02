@@ -52,7 +52,4 @@
         <file>Y_key.png</file>
         <file>Z_key.png</file>
     </qresource>
-    <qresource prefix="/web">
-        <file alias="index.html">web_server_dist/index.html</file>
-    </qresource>
 </RCC>

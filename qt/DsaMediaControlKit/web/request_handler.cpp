@@ -23,9 +23,6 @@ void RequestHandler::service(stefanfrings::HttpRequest &request, stefanfrings::H
         preset_controller_->service(request, response);
     } else if(path.compare("/chat") == 0) {
         chat_controller_->service(request, response);
-    } else if(path.compare("/") == 0) {
-        QByteArray index = Resources::Lib::WEB_INDEX.toStdString().c_str();
-        response.write(index, true);
     } else {
         response.write("NOT FOUND",true);
     }

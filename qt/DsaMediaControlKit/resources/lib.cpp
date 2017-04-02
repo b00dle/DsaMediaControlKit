@@ -94,7 +94,7 @@ void Lib::init()
     if(PX_Y_KEY == 0)
         PX_Y_KEY = new QPixmap(IMG_KEY_Y_PATH);
     if(PX_Z_KEY == 0)
-        PX_Z_KEY = new QPixmap(IMG_KEY_Z_PATH);
+        PX_Z_KEY = new QPixmap(IMG_KEY_Z_PATH);   
 }
 
 void Lib::cleanup()
@@ -428,6 +428,10 @@ QString Lib::DARK_STYLE = Lib::loadFileToString(":/styles/dark_style.css");
 * WEB HOSTING CONFIG
 */
 QString Lib::WEB_CONFIG = "../DsaMediaControlKit/_Res/webapp1.ini";
-QString Lib::WEB_INDEX = Lib::loadFileToString("../DsaMediaControlKit/_RES/web_server_dist/index.html");
+
+/*
+* LOG FILE CONFIG
+*/
+QFile Lib::LOG_FILE("../DsaMediaControlKit/_RES/log.txt");
 
 } // namespace Resources
