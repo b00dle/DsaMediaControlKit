@@ -3,6 +3,8 @@
 
 #include "httprequesthandler.h"
 #include "controllers/preset_controller.h"
+#include "controllers/chat_controller.h"
+#include "app/chat_message_model.h"
 #include "2D/graphics_view.h"
 
 namespace Web {
@@ -13,8 +15,12 @@ public:
     RequestHandler(QObject* parent=0);
     void service(stefanfrings::HttpRequest& request, stefanfrings::HttpResponse& response);
     void setPresetView(TwoD::GraphicsView* preset_view);
+
+    App::ChatMessageModel* getChatMessageModel();
+
 private:
     PresetController* preset_controller_;
+    ChatController* chat_controller_;
 };
 
 } // namespace Web

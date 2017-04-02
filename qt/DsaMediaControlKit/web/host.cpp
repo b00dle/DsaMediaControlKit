@@ -72,7 +72,7 @@ void Host::initWidgets()
     line_edit_ = new QLineEdit(address_, this);
     line_edit_->setReadOnly(true);
 
-    chat_app_ = new App::Chat(this);
+    chat_app_ = new App::Chat(request_handler_->getChatMessageModel(), this);
 }
 
 void Host::initLayout()

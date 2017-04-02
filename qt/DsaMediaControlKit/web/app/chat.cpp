@@ -1,14 +1,16 @@
 #include "chat.h"
 
 #include <QHBoxLayout>
+#include <QDebug>
 
 namespace Web {
 namespace App {
 
-Chat::Chat(QWidget *parent)
+Chat::Chat(ChatMessageModel* model, QWidget *parent)
     : QWidget(parent)
     , text_edit_(0)
     , line_edit_(0)
+    , model_(model)
 {
     initWidgets();
     initLayout();
@@ -16,9 +18,17 @@ Chat::Chat(QWidget *parent)
 
 void Chat::onReturnPressed()
 {
-    text_edit_->moveCursor(QTextCursor::End);
-    text_edit_->insertPlainText(line_edit_->text() + "\n");
+    ChatMessage cm("Master", line_edit_->text());
+    model_->addMessage(cm);
     line_edit_->clear();
+}
+
+void Chat::onModelMessageAdded(const ChatMessage msg)
+{
+    QString str = "";
+    str += "<html><b>" + msg.from + "</b>: " + msg.content + "<br></html>";
+    text_edit_->moveCursor(QTextCursor::End);
+    text_edit_->insertHtml(str);
 }
 
 void Chat::initWidgets()
@@ -30,6 +40,10 @@ void Chat::initWidgets()
 
     connect(line_edit_, SIGNAL(returnPressed()),
             this, SLOT(onReturnPressed()));
+    qRegisterMetaType<Web::App::ChatMessage>("Web::App::ChatMessage");
+    connect(model_, SIGNAL(messageAdded(const Web::App::ChatMessage)),
+            this, SLOT(onModelMessageAdded(const Web::App::ChatMessage)),
+            Qt::QueuedConnection);
 }
 
 void Chat::initLayout()

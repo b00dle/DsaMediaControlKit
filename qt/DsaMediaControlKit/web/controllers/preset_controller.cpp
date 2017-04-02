@@ -2,7 +2,6 @@
 
 #include <QDebug>
 #include <QList>
-
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QUuid>
@@ -103,7 +102,7 @@ void PresetController::respondProject(stefanfrings::HttpResponse &response)
 
 void PresetController::respondNotImplemented(stefanfrings::HttpResponse &response)
 {
-    Response r("NOT IMPLEMENTED", QJsonValue(""), "");
+    Response r("NOT IMPLEMENTED (PRESET CONTROLLER)", QJsonValue(""), "");
     writeAndLog(r, response, true);
 }
 

@@ -14,7 +14,8 @@ namespace Web {
  * @brief The PresetController class parses and handles incoming preset requests
  * forwarded by an instance of Web::RequestHandler (see request_handler.h)
  */
-class PresetController : public stefanfrings::HttpRequestHandler {
+class PresetController : public stefanfrings::HttpRequestHandler
+{
     Q_OBJECT
 private:
     /**
