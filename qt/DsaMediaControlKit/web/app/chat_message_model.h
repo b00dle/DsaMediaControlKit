@@ -4,6 +4,8 @@
 #include <QAbstractTableModel>
 
 #include <QList>
+#include <QMap>
+#include <QColor>
 
 #include "chat_message.h"
 
@@ -25,6 +27,8 @@ public:
     QVariant headerData(int section,
                         Qt::Orientation orientation = Qt::Horizontal,
                         int role = Qt::DisplayRole) const;
+
+    const QColor getSenderColor(const ChatMessage& msg) const;
 signals:
     void messageAdded(const Web::App::ChatMessage message);
 
@@ -33,8 +37,11 @@ public slots:
 
 private:
     bool indexIsValid(const QModelIndex& idx) const;
+    const QColor getRandomColor();
 
     QList<ChatMessage*> messages_;
+    QMap<QString, QColor> sender_colors_;
+    QList<QColor> random_color_list_;
 };
 
 } // namespace App

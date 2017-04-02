@@ -25,8 +25,11 @@ void Chat::onReturnPressed()
 
 void Chat::onModelMessageAdded(const ChatMessage msg)
 {
+    QColor clr = model_->getSenderColor(msg);
     QString str = "";
-    str += "<html><b>" + msg.from + "</b>: " + msg.content + "<br></html>";
+    str += "<html><b><big><font color=\"" + clr.name() + "\">" + msg.from + "</font></big></b>";
+    str += " <small>[" + msg.time_stamp.toString() + "]</small>: ";
+    str += "<big>" + msg.content + "</big><br></html>";
     text_edit_->moveCursor(QTextCursor::End);
     text_edit_->insertHtml(str);
 }
