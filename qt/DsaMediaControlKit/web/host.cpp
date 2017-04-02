@@ -56,36 +56,54 @@ void Host::initListener()
         settings,
         request_handler_
     );
+
+    logger_.write("SUCCESS, Started Web host.");
 }
 
 void Host::initWidgets()
 {
-    // server listens on any
-    foreach (const QHostAddress &address, QNetworkInterface::allAddresses()) {
-        if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress(QHostAddress::LocalHost)) {
-            address_ = address.toString();
-            if(address_.startsWith("192.168."))
-                break;
-        }
-    }
-    address_ = "http://" + address_ + ":8080/";
+    address_ = generateWebHostLinks();
+
     line_edit_ = new QLineEdit(address_, this);
     line_edit_->setReadOnly(true);
 
-    logger_.write("Starting web service at " + address_ + ".");
-
     chat_app_ = new App::Chat(request_handler_->getChatMessageModel(), this);
+    image_app_ = new App::ImageLoader(this);
+
+    connect(image_app_, SIGNAL(newImageLoaded(QString)),
+            request_handler_, SLOT(onNewImageLoaded(QString)));
 }
 
 void Host::initLayout()
 {
-    setMinimumSize(400, 200);
+    setMinimumSize(600, 400);
 
     QVBoxLayout* layout = new QVBoxLayout;
     layout->addWidget(line_edit_, 0);
     layout->addWidget(chat_app_, 10);
+    layout->addWidget(image_app_, 1);
 
     setLayout(layout);
+}
+
+const QString Host::generateWebHostLinks()
+{
+    QString links = "";
+    foreach(const QNetworkInterface& interface, QNetworkInterface::allInterfaces()) {
+        if(!(interface.flags() & QNetworkInterface::IsLoopBack) && interface.flags() & QNetworkInterface::IsUp) {
+            foreach(QNetworkAddressEntry entry, interface.addressEntries()) {
+                if(entry.ip().protocol() == QAbstractSocket::IPv4Protocol) {
+                    if(links.size() != 0)
+                        links += ", ";
+                    QString ip_formatted = entry.ip().toString();
+                    ip_formatted.replace(".", "-");
+                    links += Resources::Lib::WEB_URL_PREFIX;
+                    links += ip_formatted;
+                }
+            }
+        }
+    }
+    return links;
 }
 
 } // namespace Web

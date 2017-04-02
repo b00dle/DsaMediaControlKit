@@ -125,6 +125,7 @@ struct Lib
     * WEB HOSTING CONFIG
     */
     static QString WEB_CONFIG;
+    static QString WEB_URL_PREFIX;
 
     /*
     * LOG FILE CONFIG

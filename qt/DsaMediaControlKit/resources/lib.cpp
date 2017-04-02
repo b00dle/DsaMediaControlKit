@@ -428,6 +428,7 @@ QString Lib::DARK_STYLE = Lib::loadFileToString(":/styles/dark_style.css");
 * WEB HOSTING CONFIG
 */
 QString Lib::WEB_CONFIG = "../DsaMediaControlKit/_Res/webapp1.ini";
+QString Lib::WEB_URL_PREFIX = "http://remote.hg3n.com/init/ipcheck/";
 
 /*
 * LOG FILE CONFIG

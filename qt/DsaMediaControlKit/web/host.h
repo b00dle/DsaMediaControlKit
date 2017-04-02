@@ -8,6 +8,7 @@
 #include "request_handler.h"
 #include "2D/graphics_view.h"
 #include "app/chat.h"
+#include "app/image_loader.h"
 #include "log/file_logger.h"
 
 namespace Web {
@@ -29,6 +30,7 @@ private:
     void initListener();
     void initWidgets();
     void initLayout();
+    const QString generateWebHostLinks();
 
     // Start the HTTP server
     stefanfrings::HttpListener* listener_;
@@ -37,6 +39,7 @@ private:
 
     QLineEdit* line_edit_;
     App::Chat* chat_app_;
+    App::ImageLoader* image_app_;
     Log::FileLogger logger_;
 };
 
