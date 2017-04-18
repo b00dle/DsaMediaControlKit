@@ -1,6 +1,7 @@
 *.Debug
 *.Release
 *.db
+*.pyc
 dsamediacontrolkit.db
 
 *.o
