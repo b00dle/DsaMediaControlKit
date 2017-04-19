@@ -14,8 +14,8 @@ enum TableIndex {
     CATEGORY,
     SOUND_FILE_CATEGORY,
     RESOURCE_DIRECTORY,
-    IMAGE_TAG,
-    IMAGE_FILE_IMAGE_TAG
+    TAG,
+    IMAGE_FILE_TAG
 };
 
 /* data transfer object encapsulating one row in a db table **/
@@ -197,20 +197,20 @@ struct ResourceDirRecord : TableRecord {
 };
 
 /* Row in ImageTag table */
-struct ImageTagRecord : TableRecord {
-    ImageTagRecord(int i, QString const& n)
-        : TableRecord(IMAGE_TAG, i, n)
+struct TagRecord : TableRecord {
+    TagRecord(int i, QString const& n)
+        : TableRecord(TAG, i, n)
     {}
 
-    ImageTagRecord()
-        : TableRecord(IMAGE_TAG, -1, "")
+    TagRecord()
+        : TableRecord(TAG, -1, "")
     {}
 
-    ImageTagRecord(const ImageTagRecord& rec)
-        : TableRecord(IMAGE_TAG, rec.id, rec.name)
+    TagRecord(const TagRecord& rec)
+        : TableRecord(TAG, rec.id, rec.name)
     {}
 
-    virtual ~ImageTagRecord() {}
+    virtual ~TagRecord() {}
 };
 
 /*

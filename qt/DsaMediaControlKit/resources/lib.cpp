@@ -324,7 +324,7 @@ QPixmap *Lib::getKeyPixmap(const QChar &k)
 /*
 * DATABASE
 */
-QString Lib::DATABASE_PATH = "../../db/dsamediacontrolkit.db";
+QString Lib::DATABASE_PATH = "../../db/sqlalchemy/dsa_media_control_kit.db";
 
 /*
 * ICONS

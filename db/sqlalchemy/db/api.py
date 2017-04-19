@@ -91,15 +91,8 @@ class Api(object):
             self._db.expunge(obj)
             return False
         return True
-        
-    def select_sound_file_by_id(self, id):
-        self.ensure_open()
-        return self._db.query(tables.SoundFile).filter(
-            tables.SoundFile.id == id
-        ).first()
     
-    def select_test_by_id(self, id):
+    def query(self,*args):
+        ''' universal function for querying the database connection. '''
         self.ensure_open()
-        return self._db.query(tables.Test).filter(
-            tables.Test.id == id
-        ).first()
+        return self._db.query(*args)

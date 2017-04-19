@@ -28,7 +28,7 @@ void RequestHandler::service(stefanfrings::HttpRequest &request, stefanfrings::H
     } else if(path.compare("/image") == 0) {
         image_controller_->service(request, response);
     } else {
-        response.write("NOT FOUND",true);
+        response.write("NOT IMPLEMENTED",true);
     }
 }
 

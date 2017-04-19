@@ -15,33 +15,35 @@ def set_database_to_default(recreate=True):
     a = None
 
 if __name__ == "__main__":
-	#set_database_to_default()
+	import random
+	set_database_to_default()
 	a = Api()
 	a.open()
+
+	rand_name = "foo"+str(random.randint(0,100000))+".mp3"
+
+	s = tables.SoundFile()
+	s.name = rand_name
+	s.path = "path/to/" + rand_name
+	s.relative_path = "to/" + rand_name
 	
-	'''
-	new_sf = tables.SoundFile()
-	new_sf.name = "bar_file.mp3"
-	new_sf.path = "path/to/bar_file.mp3"
-	new_sf.relative_path = "to/bar_file.mp3"
+	c = tables.Category()
+	c.name = "my first cat"
+
+	sf_c = tables.SoundFileCategory()
+	sf_c.sound_file = s
+	sf_c.category = c
 	
-	new_test = tables.Test()
-	new_test.sound_file = new_sf	
+	a.insert_all([s,c,sf_c])
 	
-	a.insert_all([new_sf, new_test])
-	if a.commit():
-		print "added sound_file and test... WOHOOO!"
-		print " > SoundFile", new_sf
-		print " > Test", new_test
-	'''
-	#test = a.select_test_by_id(1)
-	#print "test record:", test
-	#print "test > sound_file:", test.sound_file	
+	if not a.commit():
+		print "Failure: Could not add SoundFile."
 	
-	res = a._db.query(tables.Test)
-	print res.first()
-	
+	res = a.query(tables.SoundFileCategory)
+	print res
 	for row in res:
 		print row.sound_file
-	
+		
 	a.close()
+	
+	set_database_to_default()
