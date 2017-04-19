@@ -186,6 +186,7 @@ void PresetController::writeAndLog(const Response &response_msg, stefanfrings::H
     /*qDebug() << "=========================";
     qDebug() << "RESPONSE SENT.";
     qDebug() << " > " << reply;*/
+    response.setHeader("Access-Control-Allow-Origin", "*");
     response.write(reply, reply_state);
 }
 

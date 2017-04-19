@@ -92,6 +92,7 @@ void ChatController::writeAndLog(const Response &response_msg, stefanfrings::Htt
     /*qDebug() << "=========================";
     qDebug() << "RESPONSE SENT.";
     qDebug() << " > " << reply;*/
+    response.setHeader("Access-Control-Allow-Origin", "*");
     response.write(reply, reply_state);
 }
 

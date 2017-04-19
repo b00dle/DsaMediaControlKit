@@ -90,6 +90,7 @@ void ImageController::writeAndLog(const Response &response_msg, stefanfrings::Ht
     /*qDebug() << "=========================";
     qDebug() << "RESPONSE SENT.";
     qDebug() << " > " << reply;*/
+    response.setHeader("Access-Control-Allow-Origin", "*");
     response.write(reply, reply_state);
 }
 
