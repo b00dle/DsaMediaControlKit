@@ -6,9 +6,9 @@ def set_database_to_default(recreate=True):
     a = None
     if recreate:
         db.base.recreate_database()
-        a = Api()
+        a = Api(bind=db.base.engine)
     else:
-        a = Api()
+        a = Api(bind=db.base.engine)
         a._clear()
     a.close()
     del a
@@ -16,8 +16,8 @@ def set_database_to_default(recreate=True):
 
 if __name__ == "__main__":
 	import random
-	set_database_to_default()
-	a = Api()
+	set_database_to_default(False)
+	a = Api(bind=db.base.engine)
 	a.open()
 
 	rand_name = "foo"+str(random.randint(0,100000))+".mp3"

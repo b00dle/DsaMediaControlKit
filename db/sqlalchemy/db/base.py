@@ -1,12 +1,7 @@
 ﻿from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.declarative import declared_attr
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import exc
-from sqlalchemy import event
-
 from config import dev
-
 from datetime import datetime
 
 ##
@@ -15,39 +10,11 @@ from datetime import datetime
 
 engine = create_engine(dev.SQLALCHEMY_DATABASE_DEBUG_URI, echo=dev.SQLALCHEMY_ECHO)
 
-num_connections = 0
-
-verbose = False
-
-##
-# Session pool logging
-##
-@event.listens_for(engine.pool, 'checkin')
-def receive_checkin(connection, connection_record):
-	''' called when session returns to pool. '''
-	global num_connections
-	global verbose
-	num_connections -= 1
-	if verbose:
-		print "SQLALCHEMY: Session returned to pool.\n > num sessions used:" + str(num_connections)
-
-@event.listens_for(engine.pool, 'checkout')
-def receive_checkout(connection, connection_record, connection_proxy):
-	''' called when session retrieved from pool. '''
-	global num_connections
-	num_connections += 1
-	if verbose:
-		print "SQLALCHEMY: Session retrieved from pool.\n > num sessions used:" + str(num_connections)
-
-##
-# Session factory to gain access to database
-##
-Session = sessionmaker(bind = engine)
-
 ##
 # Declarative base extension
 # to make each derived class dict serializable.
 ##
+
 class _TableExt(object):
 	@declared_attr
 	def __tablename__(cls):
@@ -78,12 +45,8 @@ class _TableExt(object):
 ##
 # Base class for all table objects
 ##
-TableBase = declarative_base(cls=_TableExt)
 
-##
-# base class for errors produced by sqlalchemy
-##
-Error = exc.SQLAlchemyError
+TableBase = declarative_base(cls=_TableExt)
 
 ##
 # Functions for creating and dropping the database

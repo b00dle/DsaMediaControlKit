@@ -3,6 +3,8 @@
 *.db
 *.pyc
 dsamediacontrolkit.db
+dsa_media_control_kit.db
+pip-selfcheck.json
 
 *.o
 *.exe
@@ -17,3 +19,5 @@ TestProjects/
 
 # exclude version dependent qt build dirs (e.g. build-DsaMediaControlKit-Desktop_Qt_5_6_0_MinGW_32bit-Debug)
 build*/
+
+env/

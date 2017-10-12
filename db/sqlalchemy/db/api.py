@@ -1,14 +1,20 @@
 ﻿import db.base
 from db.models import tables
+from sqlalchemy import exc
+from sqlalchemy.orm import sessionmaker
+
+Session = sessionmaker()
 
 class Api(object):
-    def __init__(self):
+    def __init__(self, bind):
         self._db = None
+        self.bind = bind
 
     def open(self):
         ''' creates a session for database transaction if none is active. '''
         if not self.is_open():
-            self._db = db.base.Session()
+            self._db = Session(bind=self.bind)
+            
 
     def close(self):
         ''' closes the current database session if open. '''
@@ -34,7 +40,7 @@ class Api(object):
             try:
                 self._db.commit()
                 return True
-            except db.base.Error as e:
+            except exc.SQLAlchemyError as e:
                 print "FAILURE:", e
                 self._db.rollback()
                 return False
@@ -96,3 +102,11 @@ class Api(object):
         ''' universal function for querying the database connection. '''
         self.ensure_open()
         return self._db.query(*args)
+    
+    def select(self, table, filter):
+        ''' helper function for performing simple select operations. '''
+        return self.query(table).filter(filter)
+
+    def select_all(self, table):
+        ''' helper function for performing select operations with no filter. '''
+        return self.query(table).filter(filter)
