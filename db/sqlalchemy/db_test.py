@@ -45,5 +45,4 @@ if __name__ == "__main__":
 		print row.sound_file
 		
 	a.close()
-	
 	set_database_to_default()
